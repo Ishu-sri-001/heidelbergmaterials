@@ -1,9 +1,14 @@
 import React from "react";
 import gsap from "gsap";
 
-export default function IntroBox({ setCameraPos, setCameraRotation }) {
+export default function IntroBox({
+  setCameraPos,
+  setCameraRotation,
+  ActiveProperties,
+  SetActiveProperties,
+}) {
   const handleEnter = () => {
-    const tl = gsap.timeline()
+    const tl = gsap.timeline();
     tl.to(".enter-container", {
       opacity: 0,
       duration: 1,
@@ -11,34 +16,48 @@ export default function IntroBox({ setCameraPos, setCameraRotation }) {
         document.querySelector(".enter-container").style.display = "none";
       },
     });
-    
+
     const position = { x: 0, y: -0.1, z: 2.3 };
     const rotationProxy = { x: 0, y: 0, z: 0 };
     tl.to(position, {
       z: 0.6,
-      y: 0.,
+      y: 0,
       x: -0.5,
       duration: 1,
       onUpdate: () => {
         setCameraPos({ ...position });
       },
     });
-    tl.to(rotationProxy, {
-      x: -90,
-      duration: 1,
-      onUpdate: () => {
-        setCameraRotation({ ...rotationProxy });
+    tl.to(
+      rotationProxy,
+      {
+        x: -90,
+        duration: 1,
+        onUpdate: () => {
+          setCameraRotation({ ...rotationProxy });
+        },
+        onComplete: () => {
+          SetActiveProperties([{
+            name: "Earth", 
+            repeal: true,
+            dispersion: false
+          }, ...ActiveProperties.slice(1)]);
+        },
       },
-    },"<");
-    tl.to(rotationProxy, {
-      x: -90,
-      z:45,
-      duration: 1,
-      onUpdate: () => {
-        setCameraRotation({ ...rotationProxy });
+      "<"
+    );
+    tl.to(
+      rotationProxy,
+      {
+        x: -90,
+        z: 45,
+        duration: 1,
+        onUpdate: () => {
+          setCameraRotation({ ...rotationProxy });
+        },
       },
-    },"<");
-    
+      "<"
+    );
   };
 
   return (
@@ -46,7 +65,7 @@ export default function IntroBox({ setCameraPos, setCameraRotation }) {
       <div className="h-full flex flex-col items-center justify-center text-center gap-[.5vw]   w-full pb-[2vw]  text-green-800 border-zinc-200 border rounded-bl-[5vw]">
         <div className="h-[10vw] mb-[2vw]  flex border-b border-zinc-200 w-full ">
           <div className="w-1/2 h-full border-r border-zinc-200"></div>
-          <div className="w-1/2 h-full"></div>
+          <div className="w-1/2 h-full">{/* <EnterSVG2/> */}</div>
         </div>
         <p className="font-black text-[1.1vw] tracking-tight w-full text-green-800">
           {" "}

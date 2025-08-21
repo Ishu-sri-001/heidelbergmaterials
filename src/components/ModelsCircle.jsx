@@ -11,11 +11,11 @@ import LightTube from "./meshes/LightTube";
 import { degToRad } from "three/src/math/MathUtils";
 
 export default function ModelsCircle({ url, cameraRotation, groupRotation, setGroupRotation}) {
-  console.log(cameraRotation)
+  // console.log(cameraRotation)
   const { nodes } = useGLTF(url);
 
   useEffect(() => {
-    console.log("🔹 GLTF Nodes:", nodes);
+    // console.log("🔹 GLTF Nodes:", nodes);
   }, [nodes]);
 
   const names = ["Bottle", "Chain", "Flask", "NetZero", "GlobeHigh", "LightTube"];
