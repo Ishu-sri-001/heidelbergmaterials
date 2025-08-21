@@ -69,7 +69,7 @@ export default function App() {
       style={{ background: "black", width: "100vw", height: "100vh" }}
     >
       <ambientLight intensity={0.5} />
-      <ParticleFromModel url="/models/model.glb" meshName="GlobeHigh" scale={2} />
+      <ParticleFromModel url="/models/model.glb" meshName="Chain" scale={2} />
     </Canvas>
   );
 }
