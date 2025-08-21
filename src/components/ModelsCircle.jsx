@@ -21,7 +21,7 @@ export default function ModelsCircle({ url }) {
   const total = names.length;
 
   return (
-    <group rotation={[0,0,0]}>
+    <group scale={.15} rotation={[degToRad(-90),degToRad(0),0]}>
       <Bottle geometry={nodes.Bottle?.geometry} index={4} total={total} />
       <GlobeHigh geometry={nodes.GlobeHigh?.geometry} index={2} total={total} />
        <NetZero geometry={nodes.NetZero?.geometry} index={1} total={total} />
