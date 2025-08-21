@@ -1,12 +1,12 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, forwardRef } from "react";
 import * as THREE from "three";
 import { MeshSurfaceSampler } from "three/examples/jsm/math/MeshSurfaceSampler.js";
 
 const circleTexture = new THREE.TextureLoader().load("/assets/circlee.jpg");
 
-export default function PointsMesh({ geometry, position, rotation }) {
+const PointsMesh = forwardRef(function PointsMesh({ geometry, position, rotation }, ref) {
   const pointsGeo = useMemo(() => {
     if (!geometry) return null;
 
@@ -31,6 +31,7 @@ export default function PointsMesh({ geometry, position, rotation }) {
 
   return (
     <points
+      ref={ref}
       geometry={pointsGeo}
       position={position}
       scale={[2.7, 2.7, 2.7]}
@@ -47,4 +48,6 @@ export default function PointsMesh({ geometry, position, rotation }) {
       />
     </points>
   );
-}
+})
+
+export default PointsMesh

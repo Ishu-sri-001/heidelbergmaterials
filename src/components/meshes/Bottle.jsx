@@ -21,15 +21,17 @@ export default function Bottle({ geometry, index, total }) {
   const rotatedX = x * Math.cos(rotation) - y * Math.sin(rotation);
   const rotatedY = x * Math.sin(rotation) + y * Math.cos(rotation)-0.5;
 
-   useFrame((state) => {
-    if (ref.current) {
-      ref.current.rotation.z = Math.sin(state.clock.elapsedTime * 2) * 0.3;
-      // 2 = speed, 0.3 = max angle (radians ~17°)
-    }
-  });
+useFrame((state) => {
+  if (ref.current) {
+    ref.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.4) * 0.2;
+  }
+});
+
+
 
   return (
     <PointsMesh
+      ref={ref}
       geometry={geometry}
        position={[rotatedX, rotatedY, 0]}
       rotation={[0, -angle, 0]}
