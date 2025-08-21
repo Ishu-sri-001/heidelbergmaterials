@@ -4,7 +4,7 @@ import { Canvas, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import ModelsCircle from "./ModelsCircle";
 import BGParticles from "./Particles";
-import { EffectComposer, GodRays, Vignette } from "@react-three/postprocessing";
+// import { EffectComposer, GodRays, Vignette } from "@react-three/postprocessing";
 import { degToRad } from "three/src/math/MathUtils";
 
 
