@@ -4,7 +4,10 @@ import { useMemo, forwardRef } from "react";
 import * as THREE from "three";
 import { MeshSurfaceSampler } from "three/examples/jsm/math/MeshSurfaceSampler.js";
 
-const circleTexture = new THREE.TextureLoader().load("/assets/circlee.jpg");
+let circleTexture;
+if (typeof window !== 'undefined') {
+  circleTexture = new THREE.TextureLoader().load("/assets/circlee.jpg");
+}
 
 const PointsMesh = forwardRef(function PointsMesh({ geometry, position, rotation }, ref) {
   const pointsGeo = useMemo(() => {
@@ -13,7 +16,7 @@ const PointsMesh = forwardRef(function PointsMesh({ geometry, position, rotation
     const mesh = new THREE.Mesh(geometry);
     const sampler = new MeshSurfaceSampler(mesh).build();
 
-    const numPoints = 5000;
+    const numPoints = 8000;
     const positions = new Float32Array(numPoints * 3);
     const tempPosition = new THREE.Vector3();
 
