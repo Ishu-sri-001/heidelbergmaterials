@@ -13,7 +13,7 @@ const PointsMesh = forwardRef(function PointsMesh({ geometry, position, rotation
     const mesh = new THREE.Mesh(geometry);
     const sampler = new MeshSurfaceSampler(mesh).build();
 
-    const numPoints = 3000;
+    const numPoints = 5000;
     const positions = new Float32Array(numPoints * 3);
     const tempPosition = new THREE.Vector3();
 

@@ -10,7 +10,8 @@ import GlobeHigh from "./meshes/GlobeHigh";
 import LightTube from "./meshes/LightTube";
 import { degToRad } from "three/src/math/MathUtils";
 
-export default function ModelsCircle({ url }) {
+export default function ModelsCircle({ url, cameraRotation, groupRotation, setGroupRotation}) {
+  console.log(cameraRotation)
   const { nodes } = useGLTF(url);
 
   useEffect(() => {
@@ -21,7 +22,7 @@ export default function ModelsCircle({ url }) {
   const total = names.length;
 
   return (
-    <group scale={.15} rotation={[degToRad(-90),degToRad(0),0]}>
+    <group scale={.15} rotation={[degToRad(cameraRotation.x),degToRad(cameraRotation.y),degToRad(cameraRotation.z)]}>
       <Bottle geometry={nodes.Bottle?.geometry} index={4} total={total} />
       <GlobeHigh geometry={nodes.GlobeHigh?.geometry} index={2} total={total} />
        <NetZero geometry={nodes.NetZero?.geometry} index={1} total={total} />

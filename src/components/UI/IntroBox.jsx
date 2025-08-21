@@ -1,12 +1,44 @@
 import React from "react";
 import gsap from "gsap";
 
-export default function IntroBox({ setCameraPos }) {
+export default function IntroBox({ setCameraPos, setCameraRotation }) {
   const handleEnter = () => {
-    gsap.to(".enter-container", {
+    const tl = gsap.timeline()
+    tl.to(".enter-container", {
       opacity: 0,
       duration: 1,
+      onComplete: () => {
+        document.querySelector(".enter-container").style.display = "none";
+      },
     });
+    
+    const position = { x: 0, y: -0.1, z: 2.3 };
+    const rotationProxy = { x: 0, y: 0, z: 0 };
+    tl.to(position, {
+      z: 0.6,
+      y: 0.,
+      x: -0.5,
+      duration: 1,
+      onUpdate: () => {
+        setCameraPos({ ...position });
+      },
+    });
+    tl.to(rotationProxy, {
+      x: -90,
+      duration: 1,
+      onUpdate: () => {
+        setCameraRotation({ ...rotationProxy });
+      },
+    },"<");
+    tl.to(rotationProxy, {
+      x: -90,
+      z:45,
+      duration: 1,
+      onUpdate: () => {
+        setCameraRotation({ ...rotationProxy });
+      },
+    },"<");
+    
   };
 
   return (
