@@ -3,6 +3,7 @@
 import PointsMesh from "../PointsMesh";
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
+import useCursorRepel from "@/components/hooks/cursor-repel";
 
 export default function Bottle({ geometry, index, total }) {
   const ref = useRef();
@@ -21,13 +22,13 @@ export default function Bottle({ geometry, index, total }) {
   const rotatedX = x * Math.cos(rotation) - y * Math.sin(rotation);
   const rotatedY = x * Math.sin(rotation) + y * Math.cos(rotation)-0.5;
 
+   useCursorRepel(ref, 0.3, 0.25);
+
 useFrame((state) => {
   if (ref.current) {
     ref.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.4) * 0.2;
   }
 });
-
-
 
   return (
     <PointsMesh

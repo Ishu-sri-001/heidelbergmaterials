@@ -1,7 +1,125 @@
 import { gsap } from "gsap";
 import * as THREE from "three";
+import { useEffect, useState } from "react";
 
-export function useParticleFormation(pointsRef, targetPositions) {
+// Global controls manager
+let globalControlsContainer = null;
+let controlsCounter = 0;
+
+function createControlsContainer() {
+  if (!globalControlsContainer) {
+    globalControlsContainer = document.createElement('div');
+    globalControlsContainer.style.cssText = `
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    `;
+    document.body.appendChild(globalControlsContainer);
+  }
+  return globalControlsContainer;
+}
+
+function createControlButtons(id, label, animateToMesh, disperseParticles) {
+  const container = createControlsContainer();
+  
+  const buttonGroup = document.createElement('div');
+  buttonGroup.id = `controls-${id}`;
+  buttonGroup.style.cssText = `
+    display: flex;
+    gap: 8px;
+    flex-direction: row;
+    pointer-events: auto;
+  `;
+  
+  const formButton = document.createElement('button');
+  formButton.textContent = `Form ${label}`;
+  formButton.style.cssText = `
+    padding: 8px 16px;
+    background-color: #00ff88;
+    border: none;
+    border-radius: 6px;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 12px;
+    box-shadow: 0 2px 4px rgba(0,255,136,0.3);
+    transition: all 0.3s ease;
+  `;
+  
+  const disperseButton = document.createElement('button');
+  disperseButton.textContent = `Disperse ${label}`;
+  disperseButton.style.cssText = `
+    padding: 8px 16px;
+    background-color: #ff4757;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 12px;
+    box-shadow: 0 2px 4px rgba(255,71,87,0.3);
+    transition: all 0.3s ease;
+  `;
+  
+  // Add hover effects
+  formButton.addEventListener('mouseenter', () => {
+    formButton.style.backgroundColor = '#00cc6a';
+    formButton.style.transform = 'translateY(-1px)';
+  });
+  
+  formButton.addEventListener('mouseleave', () => {
+    formButton.style.backgroundColor = '#00ff88';
+    formButton.style.transform = 'translateY(0)';
+  });
+  
+  disperseButton.addEventListener('mouseenter', () => {
+    disperseButton.style.backgroundColor = '#ff3742';
+    disperseButton.style.transform = 'translateY(-1px)';
+  });
+  
+  disperseButton.addEventListener('mouseleave', () => {
+    disperseButton.style.backgroundColor = '#ff4757';
+    disperseButton.style.transform = 'translateY(0)';
+  });
+  
+  // Add click handlers
+  formButton.addEventListener('click', animateToMesh);
+  disperseButton.addEventListener('click', disperseParticles);
+  
+  buttonGroup.appendChild(formButton);
+  buttonGroup.appendChild(disperseButton);
+  container.appendChild(buttonGroup);
+  
+  return buttonGroup;
+}
+
+function removeControlButtons(id) {
+  const buttonGroup = document.getElementById(`controls-${id}`);
+  if (buttonGroup) {
+    buttonGroup.remove();
+  }
+  
+  // Clean up container if no more controls
+  if (globalControlsContainer && globalControlsContainer.children.length === 0) {
+    globalControlsContainer.remove();
+    globalControlsContainer = null;
+  }
+}
+
+export function useParticleFormation(pointsRef, targetPositions, options = {}) {
+  const { 
+    showControls = false, 
+    controlLabel = 'Mesh',
+    controlId = null 
+  } = options;
+  
+  const [uniqueId] = useState(() => controlId || `particle-${++controlsCounter}`);
+
   const animateToMesh = () => {
     if (!pointsRef.current || !targetPositions) return;
 
@@ -113,6 +231,21 @@ export function useParticleFormation(pointsRef, targetPositions) {
       ease: "power2.out"
     });
   };
+
+  // Create and cleanup controls
+  useEffect(() => {
+    let controlsElement = null;
+    
+    if (showControls) {
+      controlsElement = createControlButtons(uniqueId, controlLabel, animateToMesh, disperseParticles);
+    }
+    
+    return () => {
+      if (showControls) {
+        removeControlButtons(uniqueId);
+      }
+    };
+  }, [showControls, controlLabel, uniqueId]);
 
   return { animateToMesh, disperseParticles };
 }

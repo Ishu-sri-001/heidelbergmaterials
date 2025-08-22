@@ -167,7 +167,7 @@ export default function BGParticles() {
       <ParticleField
         count={1000}
         radius={3.8}
-        color="black"
+        color="#04390A"
         size={0.02}
         opacity={0.8}
         rotationX={30}
