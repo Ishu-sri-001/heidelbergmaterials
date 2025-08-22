@@ -6,6 +6,8 @@ export default function IntroBox({
   setCameraRotation,
   ActiveProperties,
   SetActiveProperties,
+   setShowIntroBox,
+  setShowSidebar,
 }) {
   const handleEnter = () => {
     const tl = gsap.timeline();
@@ -13,6 +15,8 @@ export default function IntroBox({
       opacity: 0,
       duration: 1,
       onComplete: () => {
+        setShowIntroBox(false);   
+        setShowSidebar(true);
         document.querySelector(".enter-container").style.display = "none";
         SetActiveProperties(prev =>
         prev.map((item, i) =>

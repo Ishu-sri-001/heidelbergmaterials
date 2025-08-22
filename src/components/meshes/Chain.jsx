@@ -65,7 +65,7 @@ export default function Chain({ geometry, index, total, ActiveProperties, SetAct
       dispersion,
     );
     
-    console.log(dispersion , 'dispersion')
+    // console.log(dispersion , 'dispersion')
       // Store animation functions for external access (optional)
       useEffect(() => {
         setAnimationFunctions({ animateToMesh, disperseParticles });

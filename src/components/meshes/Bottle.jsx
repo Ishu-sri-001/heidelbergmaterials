@@ -66,7 +66,7 @@ export default function Bottle({ geometry, index, total, ActiveProperties, SetAc
       dispersion,
     );
     
-    console.log(dispersion , 'dispersion')
+    // console.log(dispersion , 'dispersion')
       // Store animation functions for external access (optional)
       useEffect(() => {
         setAnimationFunctions({ animateToMesh, disperseParticles });

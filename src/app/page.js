@@ -2,8 +2,11 @@
 import ModelViewer from "@/components/ModelViewer";
 import IntroBox from "@/components/UI/IntroBox";
 import { useEffect, useState } from "react";
+import Sidebar from "@/components/UI/Sidebar";
 
 export default function Home() {
+  const [showIntroBox, setShowIntroBox] = useState(true);
+  const [showSidebar, setShowSidebar] = useState(false);
   const [cameraPos, setCameraPos] = useState({
     x: 0,
     y: -0.1,
@@ -55,7 +58,7 @@ export default function Home() {
   ])
 
   useEffect(() => {
-    console.log(ActiveProperties)
+    // console.log(ActiveProperties)
   }, [ActiveProperties])
 
   return (
@@ -63,7 +66,17 @@ export default function Home() {
       <ModelViewer cameraPos={cameraPos} setCameraPos={setCameraPos} cameraRotation={cameraRotation} setCameraRotation={setCameraRotation}
         groupRotation={groupRotation} ActiveProperties={ActiveProperties} SetActiveProperties={SetActiveProperties} setGroupRotation={setGroupRotation} />
 
-      <IntroBox groupRotation={groupRotation} setGroupRotation={setGroupRotation} setCameraRotation={setCameraRotation} setCameraPos={setCameraPos} ActiveProperties={ActiveProperties} SetActiveProperties={SetActiveProperties} />
+      {showIntroBox && (
+
+      <IntroBox groupRotation={groupRotation} setGroupRotation={setGroupRotation} setCameraRotation={setCameraRotation} setCameraPos={setCameraPos} ActiveProperties={ActiveProperties} SetActiveProperties={SetActiveProperties} setShowIntroBox={setShowIntroBox}
+          setShowSidebar={setShowSidebar} />
+      )}
+
+      {showSidebar && (
+        <Sidebar />
+      )}
+
+
     </>
   );
 }

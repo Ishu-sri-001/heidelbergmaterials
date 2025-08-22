@@ -15,7 +15,7 @@ function ParticleFromModel({ url, meshName, scale = 1 }) {
     let mesh = null;
     scene.traverse((child) => {
       if (child.isMesh) {
-        console.log("Mesh found:", child.name);
+        // console.log("Mesh found:", child.name);
         if (child.name === meshName) mesh = child;
       }
     });

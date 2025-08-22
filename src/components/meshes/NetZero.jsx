@@ -65,7 +65,7 @@ export default function NetZero({ geometry, index, total, ActiveProperties, SetA
     dispersion,
   );
   
-  console.log(dispersion , 'dispersion')
+  // console.log(dispersion , 'dispersion')
     // Store animation functions for external access (optional)
     useEffect(() => {
       setAnimationFunctions({ animateToMesh, disperseParticles });
