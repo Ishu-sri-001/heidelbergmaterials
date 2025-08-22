@@ -55,27 +55,30 @@ export default function Home() {
       repeal: false,
       dispersion: false,
     },
-
   ])
 
- 
-
   const handleCameraRotation = (prev) => {
-    SetActiveProperties({
-      ...ActiveProperties,
-      1: {
-        ...ActiveProperties[1],
-        repeal: true,
-        dispersion: false,
-      }
-    })
+    // First update the properties to form the NetZero mesh
+    SetActiveProperties(prevProps => 
+      prevProps.map((item, i) => {
+        if (i === 1) { // NetZero (circle)
+          return {
+            ...item,
+            repeal: false,    // Turn off repeal
+            dispersion: false // Turn off dispersion to form the mesh
+          };
+        }
+        return item;
+      })
+    );
+
+    // Then animate camera
     const prevValue = prev + 150;
     gsap.to(cameraRotation, {
       z: prevValue,
       duration: 1,
       ease: "power2.inOut",
       onUpdate: () => setCameraRotation({ ...cameraRotation })
-    
     });
   }
 
@@ -85,7 +88,6 @@ export default function Home() {
 
   return (
     <>
-
       <ModelViewer
         cameraPos={cameraPos}
         setCameraPos={setCameraPos}
@@ -98,21 +100,25 @@ export default function Home() {
       />
 
       {showIntroBox && (
-
-      <IntroBox groupRotation={groupRotation} setGroupRotation={setGroupRotation} setCameraRotation={setCameraRotation} setCameraPos={setCameraPos} ActiveProperties={ActiveProperties} SetActiveProperties={SetActiveProperties} setShowIntroBox={setShowIntroBox}
-          setShowSidebar={setShowSidebar} />
+        <IntroBox 
+          groupRotation={groupRotation} 
+          setGroupRotation={setGroupRotation} 
+          setCameraRotation={setCameraRotation} 
+          setCameraPos={setCameraPos} 
+          ActiveProperties={ActiveProperties} 
+          SetActiveProperties={SetActiveProperties} 
+          setShowIntroBox={setShowIntroBox}
+          setShowSidebar={setShowSidebar} 
+        />
       )}
 
       {showSidebar && (
         <Sidebar />
       )}
 
-      <div onClick={()=>handleCameraRotation(0)} className="absolute bottom-[10%] right-[20%] z-[999] bg-white text-black p-[2vw]">
+      <div onClick={() => handleCameraRotation(0)} className="absolute bottom-[10%] right-[20%] z-[999] bg-white text-black p-[2vw]">
         <p onClick={() => handleCameraRotation(0)}>GhumJA</p>
       </div>
-
-
     </>
   );
 }
-

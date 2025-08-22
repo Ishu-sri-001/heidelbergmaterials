@@ -1,21 +1,31 @@
 import { gsap } from "gsap";
 import * as THREE from "three";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useCallback } from "react";
 
-export function useParticleFormation(pointsRef, targetPositions, options = {}, toggle ) {
+export function useParticleFormation(pointsRef, targetPositions, options = {}, toggle) {
   const {
     controlLabel = 'Mesh',
     controlId = null
   } = options;
 
-  const animateToMesh = () => {
-    if (!pointsRef.current || !targetPositions) return;
+  // Store the previous toggle state and animation state
+  const prevToggleRef = useRef(toggle);
+  const isAnimatingRef = useRef(false);
+  const timelineRef = useRef(null);
 
+  const animateToMesh = useCallback(() => {
+    if (!pointsRef.current || !targetPositions || isAnimatingRef.current) return;
+    
+    // Kill any existing animations
+    if (timelineRef.current) {
+      timelineRef.current.kill();
+    }
+    gsap.killTweensOf(pointsRef.current.geometry.attributes.position.array);
+    gsap.killTweensOf(pointsRef.current.material);
+    
+    isAnimatingRef.current = true;
     const positions = pointsRef.current.geometry.attributes.position.array;
     const material = pointsRef.current.material;
-
-    // Set initial opacity to 0
-    material.opacity = 0;
 
     // Create scattered positions away from target positions for animation start
     const startPositions = new Float32Array(positions.length);
@@ -28,7 +38,7 @@ export function useParticleFormation(pointsRef, targetPositions, options = {}, t
       ).normalize();
 
       // Scale the direction to create distance from target
-      const distance = 2 + Math.random() * 0.1; // Distance between 2-4 units
+      const distance = 2 + Math.random() * 0.1;
       direction.multiplyScalar(distance);
 
       // Set start positions away from target
@@ -43,8 +53,16 @@ export function useParticleFormation(pointsRef, targetPositions, options = {}, t
 
     pointsRef.current.geometry.attributes.position.needsUpdate = true;
 
-    // Animate to exact target positions with opacity fade in
-    gsap.to(positions, {
+    // Create timeline for synchronized animations
+    const tl = gsap.timeline({
+      onComplete: () => {
+        isAnimatingRef.current = false;
+        timelineRef.current = null;
+      }
+    });
+
+    // Animate positions
+    tl.to(positions, {
       duration: 1.2,
       ease: "power2.out",
       onUpdate: function () {
@@ -56,20 +74,35 @@ export function useParticleFormation(pointsRef, targetPositions, options = {}, t
           positions[i + 2] = THREE.MathUtils.lerp(startPositions[i + 2], targetPositions[i + 2], progress);
         }
 
-        pointsRef.current.geometry.attributes.position.needsUpdate = true;
+        if (pointsRef.current) {
+          pointsRef.current.geometry.attributes.position.needsUpdate = true;
+        }
       }
     });
 
-    gsap.to(material, {
+    // Animate opacity simultaneously
+    tl.fromTo(material, {
+      opacity: 0
+    }, {
       duration: 1.2,
       opacity: 1,
       ease: "power2.out"
-    });
-  };
+    }, 0); // Start at the same time as position animation
 
-  const disperseParticles = () => {
-    if (!pointsRef.current) return;
+    timelineRef.current = tl;
+  }, [targetPositions]);
 
+  const disperseParticles = useCallback(() => {
+    if (!pointsRef.current || isAnimatingRef.current) return;
+    
+    // Kill any existing animations
+    if (timelineRef.current) {
+      timelineRef.current.kill();
+    }
+    gsap.killTweensOf(pointsRef.current.geometry.attributes.position.array);
+    gsap.killTweensOf(pointsRef.current.material);
+    
+    isAnimatingRef.current = true;
     const positions = pointsRef.current.geometry.attributes.position.array;
     const material = pointsRef.current.material;
 
@@ -87,7 +120,7 @@ export function useParticleFormation(pointsRef, targetPositions, options = {}, t
       ).normalize();
 
       // Scale the direction to create distance from initial position
-      const distance = 2 + Math.random() * 2; // Distance between 2-4 units
+      const distance = 2 + Math.random() * 2;
       direction.multiplyScalar(distance);
 
       // Set end positions away from initial positions
@@ -96,7 +129,16 @@ export function useParticleFormation(pointsRef, targetPositions, options = {}, t
       endPositions[i + 2] = initialPositions[i + 2] + direction.z;
     }
 
-    gsap.to(positions, {
+    // Create timeline for synchronized animations
+    const tl = gsap.timeline({
+      onComplete: () => {
+        isAnimatingRef.current = false;
+        timelineRef.current = null;
+      }
+    });
+
+    // Animate positions
+    tl.to(positions, {
       duration: 2.5,
       ease: "power2.out",
       onUpdate: function () {
@@ -108,25 +150,52 @@ export function useParticleFormation(pointsRef, targetPositions, options = {}, t
           positions[i + 2] = THREE.MathUtils.lerp(initialPositions[i + 2], endPositions[i + 2], progress);
         }
 
-        pointsRef.current.geometry.attributes.position.needsUpdate = true;
+        if (pointsRef.current) {
+          pointsRef.current.geometry.attributes.position.needsUpdate = true;
+        }
       }
     });
 
-    // Animate opacity from 1 to 0
-    gsap.to(material, {
+    // Animate opacity simultaneously
+    tl.to(material, {
       duration: 2.5,
       opacity: 0,
       ease: "power2.out"
-    });
-  };
+    }, 0); // Start at the same time as position animation
+
+    timelineRef.current = tl;
+  }, []);
 
   useEffect(() => {
-    if (toggle) {
-      disperseParticles();
-    } else {
-      animateToMesh();
+    // Only run animation if toggle state actually changed
+    if (prevToggleRef.current !== toggle) {
+      prevToggleRef.current = toggle;
+      
+      // Add a small delay to ensure state is settled
+      const timeout = setTimeout(() => {
+        if (toggle) {
+          disperseParticles();
+        } else {
+          animateToMesh();
+        }
+      }, 50);
+
+      return () => clearTimeout(timeout);
     }
-  }, [toggle]);
+  }, [toggle, animateToMesh, disperseParticles]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (timelineRef.current) {
+        timelineRef.current.kill();
+      }
+      if (pointsRef.current) {
+        gsap.killTweensOf(pointsRef.current.geometry.attributes.position.array);
+        gsap.killTweensOf(pointsRef.current.material);
+      }
+    };
+  }, []);
 
   return { animateToMesh, disperseParticles };
 }
