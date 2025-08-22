@@ -2,7 +2,7 @@ import { gsap } from "gsap";
 import * as THREE from "three";
 import { useEffect, useState } from "react";
 
-export function useParticleFormation(pointsRef, targetPositions, options = {}, toggle = false) {
+export function useParticleFormation(pointsRef, targetPositions, options = {}, toggle ) {
   const {
     controlLabel = 'Mesh',
     controlId = null
