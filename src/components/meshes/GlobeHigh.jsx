@@ -14,7 +14,8 @@ if (typeof window !== 'undefined') {
 }
 
 
-export default function GlobeHigh({ geometry, index, total }) {
+export default function GlobeHigh({ geometry, index, total, ActiveProperties, SetActiveProperties}) {
+  const {repeal, dispersion} = ActiveProperties[0]
   const ref = useRef();
   const [animationFunctions, setAnimationFunctions] = useState(null);
   
@@ -56,18 +57,22 @@ export default function GlobeHigh({ geometry, index, total }) {
     };
   }, [geometry]);
 
-  const { animateToMesh, disperseParticles } = useParticleFormation(ref, targetPositions, {
+  const { animateToMesh, disperseParticles } = useParticleFormation(ref, 
+    targetPositions, {
     showControls: true,
     controlLabel: 'Globe',
     controlId: `globe-${index}`
-  });
+  },
+  dispersion,
+);
 
+console.log(dispersion , 'dispersion')
   // Store animation functions for external access (optional)
   useEffect(() => {
     setAnimationFunctions({ animateToMesh, disperseParticles });
   }, [animateToMesh, disperseParticles]);
 
-  useCursorRepel(ref, 0.3, 0.1);
+  useCursorRepel(ref, 0.3, 0.1, repeal);
 
   useFrame((state) => {
     if (ref.current) {

@@ -24,32 +24,32 @@ export default function Home() {
     {
       name: "Earth",
       repeal: false,
-      dispersion: true,
+      dispersion: false,
     },
     {
       name: "circle",
       repeal: false,
-      dispersion: true,
+      dispersion: false,
     },
     {
       name: "bulb",
       repeal: false,
-      dispersion: true,
+      dispersion: false,
     },
     {
       name: "pin",
       repeal: false,
-      dispersion: true,
+      dispersion: false,
     },
     {
       name: "bottle",
       repeal: false,
-      dispersion: true,
+      dispersion: false,
     },
     {
       name: "flask",
       repeal: false,
-      dispersion: true,
+      dispersion: false,
     },
 
   ])
@@ -61,7 +61,8 @@ export default function Home() {
   return (
     <>
       <ModelViewer cameraPos={cameraPos} setCameraPos={setCameraPos} cameraRotation={cameraRotation} setCameraRotation={setCameraRotation}
-        groupRotation={groupRotation} setGroupRotation={setGroupRotation} />
+        groupRotation={groupRotation} ActiveProperties={ActiveProperties} SetActiveProperties={SetActiveProperties} setGroupRotation={setGroupRotation} />
+
       <IntroBox groupRotation={groupRotation} setGroupRotation={setGroupRotation} setCameraRotation={setCameraRotation} setCameraPos={setCameraPos} ActiveProperties={ActiveProperties} SetActiveProperties={SetActiveProperties} />
     </>
   );

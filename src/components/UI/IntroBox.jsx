@@ -14,6 +14,12 @@ export default function IntroBox({
       duration: 1,
       onComplete: () => {
         document.querySelector(".enter-container").style.display = "none";
+        SetActiveProperties([
+          ...ActiveProperties.slice(1).map((item) => ({
+            ...item,
+            dispersion: true,
+          })),
+        ]);
       },
     });
 
@@ -37,11 +43,14 @@ export default function IntroBox({
           setCameraRotation({ ...rotationProxy });
         },
         onComplete: () => {
-          SetActiveProperties([{
-            name: "Earth", 
-            repeal: true,
-            dispersion: false
-          }, ...ActiveProperties.slice(1)]);
+          SetActiveProperties([
+            {
+              name: "Earth",
+              repeal: true,
+              dispersion: true,
+            },
+            ...ActiveProperties.slice(1),
+          ]);
         },
       },
       "<"
