@@ -100,7 +100,6 @@ export default function ModelViewer({
                 blur={true}
               />
             }
-            {/* <Vignette offset={0.8} darkness={0.5} eskil={false} /> */}
           </EffectComposer>
         </Suspense>
       </Canvas>

@@ -3,6 +3,7 @@ import ModelViewer from "@/components/ModelViewer";
 import IntroBox from "@/components/UI/IntroBox";
 import { useEffect, useState } from "react";
 import Sidebar from "@/components/UI/Sidebar";
+import gsap from 'gsap'
 
 export default function Home() {
   const [showIntroBox, setShowIntroBox] = useState(true);
@@ -57,14 +58,44 @@ export default function Home() {
 
   ])
 
+ 
+
+  const handleCameraRotation = (prev) => {
+    SetActiveProperties({
+      ...ActiveProperties,
+      1: {
+        ...ActiveProperties[1],
+        repeal: true,
+        dispersion: false,
+      }
+    })
+    const prevValue = prev + 150;
+    gsap.to(cameraRotation, {
+      z: prevValue,
+      duration: 1,
+      ease: "power2.inOut",
+      onUpdate: () => setCameraRotation({ ...cameraRotation })
+    
+    });
+  }
+
   useEffect(() => {
-    // console.log(ActiveProperties)
+    console.log(ActiveProperties)
   }, [ActiveProperties])
 
   return (
     <>
-      <ModelViewer cameraPos={cameraPos} setCameraPos={setCameraPos} cameraRotation={cameraRotation} setCameraRotation={setCameraRotation}
-        groupRotation={groupRotation} ActiveProperties={ActiveProperties} SetActiveProperties={SetActiveProperties} setGroupRotation={setGroupRotation} />
+
+      <ModelViewer
+        cameraPos={cameraPos}
+        setCameraPos={setCameraPos}
+        cameraRotation={cameraRotation}
+        setCameraRotation={setCameraRotation}
+        groupRotation={groupRotation}
+        ActiveProperties={ActiveProperties}
+        SetActiveProperties={SetActiveProperties}
+        setGroupRotation={setGroupRotation}
+      />
 
       {showIntroBox && (
 
@@ -76,7 +107,12 @@ export default function Home() {
         <Sidebar />
       )}
 
+      <div onClick={()=>handleCameraRotation(0)} className="absolute bottom-[10%] right-[20%] z-[999] bg-white text-black p-[2vw]">
+        <p onClick={() => handleCameraRotation(0)}>GhumJA</p>
+      </div>
+
 
     </>
   );
 }
+

@@ -66,11 +66,6 @@ export default function GlobeHigh({ geometry, index, total, ActiveProperties, Se
   dispersion,
 );
 
-// console.log(dispersion , 'dispersion')
-  // Store animation functions for external access (optional)
-  useEffect(() => {
-    setAnimationFunctions({ animateToMesh, disperseParticles });
-  }, [animateToMesh, disperseParticles]);
 
   useCursorRepel(ref, 0.3, 0.1, repeal);
 

@@ -15,9 +15,8 @@ if (typeof window !== 'undefined') {
 
 export default function Bottle({ geometry, index, total, ActiveProperties, SetActiveProperties }) {
   
-   const {repeal, dispersion} = ActiveProperties[4]
+  const {repeal, dispersion} = ActiveProperties[4]
   const ref = useRef();
-  const [animationFunctions, setAnimationFunctions] = useState(null);
 
   const angle = (index / total) * Math.PI * 2;
   const radiusX = 8; 
@@ -34,53 +33,47 @@ export default function Bottle({ geometry, index, total, ActiveProperties, SetAc
   const rotatedY = x * Math.sin(rotation) + y * Math.cos(rotation)-0.5;
 
   const { pointsGeo, targetPositions } = useMemo(() => {
-        if (!geometry) return { pointsGeo: null, targetPositions: null };
-    
-        const mesh = new THREE.Mesh(geometry);
-        const sampler = new MeshSurfaceSampler(mesh).build();
-    
-        const numPoints = 8000;
-        const positions = new Float32Array(numPoints * 3);
-        const tempPosition = new THREE.Vector3();
-    
-        for (let j = 0; j < numPoints; j++) {
-          sampler.sample(tempPosition);
-          positions.set([tempPosition.x, tempPosition.y, tempPosition.z], j * 3);
-        }
-    
-        const geo = new THREE.BufferGeometry();
-        geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-        
-        return { 
-          pointsGeo: geo, 
-          targetPositions: new Float32Array(positions) 
-        };
-      }, [geometry]);
-    
-      const { animateToMesh, disperseParticles } = useParticleFormation(ref, 
-        targetPositions, {
-        showControls: true,
-        controlLabel: 'Globe',
-        controlId: `globe-${index}`
-      },
-      dispersion,
-    );
-    
-    // console.log(dispersion , 'dispersion')
-      // Store animation functions for external access (optional)
-      useEffect(() => {
-        setAnimationFunctions({ animateToMesh, disperseParticles });
-      }, [animateToMesh, disperseParticles]);
-    
-      useCursorRepel(ref, 0.3, 0.1, repeal);
+    if (!geometry) return { pointsGeo: null, targetPositions: null };
 
-useFrame((state) => {
-  if (ref.current) {
-    ref.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.4) * 0.2;
-  }
-});
+    const mesh = new THREE.Mesh(geometry);
+    const sampler = new MeshSurfaceSampler(mesh).build();
 
-   if (!pointsGeo) return null;
+    const numPoints = 8000;
+    const positions = new Float32Array(numPoints * 3);
+    const tempPosition = new THREE.Vector3();
+
+    for (let j = 0; j < numPoints; j++) {
+      sampler.sample(tempPosition);
+      positions.set([tempPosition.x, tempPosition.y, tempPosition.z], j * 3);
+    }
+
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    
+    return { 
+      pointsGeo: geo, 
+      targetPositions: new Float32Array(positions) 
+    };
+  }, [geometry]);
+
+  const { animateToMesh, disperseParticles } = useParticleFormation(ref, 
+    targetPositions, {
+      showControls: true,
+      controlLabel: 'Globe',
+      controlId: `globe-${index}`
+    },
+    dispersion,
+  );
+
+  useCursorRepel(ref, 0.3, 0.1, repeal);
+
+  useFrame((state) => {
+    if (ref.current) {
+      ref.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.4) * 0.2;
+    }
+  });
+
+  if (!pointsGeo) return null;
 
   return (
     <points
