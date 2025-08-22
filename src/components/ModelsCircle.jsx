@@ -29,8 +29,7 @@ export default function ModelsCircle({ url, cameraRotation, groupRotation, setGr
       <Chain geometry={nodes.Chain?.geometry} index={5} total={total} ActiveProperties={ActiveProperties} SetActiveProperties={SetActiveProperties} />
       <Flask geometry={nodes.Flask?.geometry} index={3} total={total} ActiveProperties={ActiveProperties} SetActiveProperties={SetActiveProperties} />
      
-      
-      <LightTube geometry={nodes.LightTube?.geometry} index={0} total={total} />
+      <LightTube geometry={nodes.LightTube?.geometry} index={0} total={total} ActiveProperties={ActiveProperties} SetActiveProperties={SetActiveProperties} />
     </group>
   );
 }

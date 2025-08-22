@@ -14,12 +14,13 @@ export default function IntroBox({
       duration: 1,
       onComplete: () => {
         document.querySelector(".enter-container").style.display = "none";
-        SetActiveProperties([
-          ...ActiveProperties.slice(1).map((item) => ({
-            ...item,
-            dispersion: true,
-          })),
-        ]);
+        SetActiveProperties(prev =>
+        prev.map((item, i) =>
+          i === 0
+            ? { ...item, repeal: true, dispersion: false } // Earth: repel ON, dispersion OFF
+            : { ...item, dispersion: true } // Others: disperse
+        )
+      );
       },
     });
 
@@ -42,16 +43,16 @@ export default function IntroBox({
         onUpdate: () => {
           setCameraRotation({ ...rotationProxy });
         },
-        onComplete: () => {
-          SetActiveProperties([
-            {
-              name: "Earth",
-              repeal: true,
-              dispersion: true,
-            },
-            ...ActiveProperties.slice(1),
-          ]);
-        },
+        // onComplete: () => {
+        //   SetActiveProperties([
+        //     {
+        //       name: "Earth",
+        //       repeal: true,
+        //       dispersion: true,
+        //     },
+        //     ...ActiveProperties.slice(1),
+        //   ]);
+        // },
       },
       "<"
     );
