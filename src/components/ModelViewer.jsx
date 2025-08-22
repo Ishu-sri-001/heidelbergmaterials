@@ -81,7 +81,7 @@ export default function ModelViewer({
             ActiveProperties={ActiveProperties}
             SetActiveProperties={SetActiveProperties}
           />
-          <EffectComposer>
+          {/* <EffectComposer>
             {
               lightRef.current &&
               <GodRays
@@ -100,7 +100,7 @@ export default function ModelViewer({
                 blur={true}
               />
             }
-          </EffectComposer>
+          </EffectComposer> */}
         </Suspense>
       </Canvas>
     </div>

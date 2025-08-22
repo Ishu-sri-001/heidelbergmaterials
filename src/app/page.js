@@ -57,34 +57,43 @@ export default function Home() {
     },
   ])
 
-  const handleCameraRotation = (prev) => {
-    // First update the properties to form the NetZero mesh
-    SetActiveProperties(prevProps => 
-      prevProps.map((item, i) => {
-        if (i === 1) { // NetZero (circle)
-          return {
-            ...item,
-            repeal: false,    // Turn off repeal
-            dispersion: false // Turn off dispersion to form the mesh
-          };
-        }
-        return item;
-      })
-    );
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const handleCameraRotation = () => {
+    // Update active properties first
+    SetActiveProperties((prevProps) => {
+      const newProps = [...prevProps];
+      newProps.forEach(prop => prop.repeal = false);
+      
+      const nextIndex = currentIndex >= 5 ? 0 : currentIndex + 1;
+      const prevIndex = currentIndex >= 5 ? 0 : currentIndex + 1;
+      
+      newProps[prevIndex].repeal = true;
+      newProps[prevIndex].dispersion = false;
 
-    // Then animate camera
-    const prevValue = prev + 150;
-    gsap.to(cameraRotation, {
-      z: prevValue,
+      newProps[currentIndex].dispersion = true;
+      
+      setCurrentIndex(nextIndex);
+      return newProps;
+    });
+
+    // Create a local copy of rotation to update properly
+    const newRotation = { ...cameraRotation };
+    gsap.to(newRotation, {
+      z: newRotation.z + 55,
       duration: 1,
       ease: "power2.inOut",
-      onUpdate: () => setCameraRotation({ ...cameraRotation })
+      onUpdate: () => {
+        setCameraRotation({ ...newRotation });
+      },
     });
-  }
+  };
 
   useEffect(() => {
-    console.log(ActiveProperties)
-  }, [ActiveProperties])
+   console.log(ActiveProperties)
+   console.log(currentIndex)
+  }, [ActiveProperties, currentIndex])
+  
+
 
   return (
     <>
@@ -100,15 +109,15 @@ export default function Home() {
       />
 
       {showIntroBox && (
-        <IntroBox 
-          groupRotation={groupRotation} 
-          setGroupRotation={setGroupRotation} 
-          setCameraRotation={setCameraRotation} 
-          setCameraPos={setCameraPos} 
-          ActiveProperties={ActiveProperties} 
-          SetActiveProperties={SetActiveProperties} 
+        <IntroBox
+          groupRotation={groupRotation}
+          setGroupRotation={setGroupRotation}
+          setCameraRotation={setCameraRotation}
+          setCameraPos={setCameraPos}
+          ActiveProperties={ActiveProperties}
+          SetActiveProperties={SetActiveProperties}
           setShowIntroBox={setShowIntroBox}
-          setShowSidebar={setShowSidebar} 
+          setShowSidebar={setShowSidebar}
         />
       )}
 
@@ -116,8 +125,8 @@ export default function Home() {
         <Sidebar />
       )}
 
-      <div onClick={() => handleCameraRotation(0)} className="absolute bottom-[10%] right-[20%] z-[999] bg-white text-black p-[2vw]">
-        <p onClick={() => handleCameraRotation(0)}>GhumJA</p>
+      <div onClick={() => handleCameraRotation(0)} className="absolute bottom-[5%] right-[5%] z-[999] bg-green-800 text-white p-[1vw] px-[2vw] rounded-full">
+        <p onClick={() => handleCameraRotation(0)}>Rotate</p>
       </div>
     </>
   );

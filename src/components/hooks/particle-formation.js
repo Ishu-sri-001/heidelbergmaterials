@@ -167,8 +167,8 @@ export function useParticleFormation(pointsRef, targetPositions, options = {}, t
   }, []);
 
   useEffect(() => {
-    // Only run animation if toggle state actually changed
-    if (prevToggleRef.current !== toggle) {
+    // Only run animation if toggle state changed and pointsRef exists
+    if (prevToggleRef.current !== toggle && pointsRef.current && !isAnimatingRef.current && targetPositions) {
       prevToggleRef.current = toggle;
       
       // Add a small delay to ensure state is settled
@@ -182,7 +182,7 @@ export function useParticleFormation(pointsRef, targetPositions, options = {}, t
 
       return () => clearTimeout(timeout);
     }
-  }, [toggle, animateToMesh, disperseParticles]);
+  }, [toggle, animateToMesh, disperseParticles, targetPositions]);
 
   // Cleanup on unmount
   useEffect(() => {
