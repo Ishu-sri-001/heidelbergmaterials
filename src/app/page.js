@@ -107,7 +107,7 @@ export default function Home() {
         SetActiveProperties={SetActiveProperties}
         setGroupRotation={setGroupRotation}
       />
-
+      
       {showIntroBox && (
         <IntroBox
           groupRotation={groupRotation}
