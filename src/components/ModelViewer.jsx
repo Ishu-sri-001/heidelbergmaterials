@@ -68,6 +68,7 @@ export default function ModelViewer({
   return (
     <div className="h-screen w-full relative bg-gradient-to-l from-[#05381D] to-[#145030]">
       <Canvas
+        dpr={[1.2]}
         gl={{ antialias: true }}
         camera={{ position: [0, 0, 5], rotation: [0, 0, 0], fov: 50 }}
       >
