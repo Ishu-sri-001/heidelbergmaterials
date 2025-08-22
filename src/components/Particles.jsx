@@ -3,33 +3,39 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 import { random } from "maath";
-// import {
-//   Bloom,
-//   EffectComposer,
-//   GodRays,
-//   Vignette,
-// } from "@react-three/postprocessing";
 
 function ParticleField({
   count = 5000,
   radius = 4,
-  color = "green",
+  color = "green", 
   size = 0.02,
   opacity = 0.5,
   rotationX = 25,
   rotationY = 30,
 }) {
   const ref = useRef();
-  const [sphere] = useState(() =>
-    random.inSphere(new Float32Array(count), { radius: radius })
-  );
+  
+  // Use useMemo to ensure sphere data is valid and cached
+  const sphere = useMemo(() => {
+    const positions = random.inSphere(new Float32Array(count * 3), { radius: radius });
+    // Validate positions
+    for(let i = 0; i < positions.length; i++) {
+      if(isNaN(positions[i])) {
+        positions[i] = 0;
+      }
+    }
+    return positions;
+  }, [count, radius]);
 
   useFrame((state, delta) => {
     ref.current.rotation.x -= delta / rotationX;
     ref.current.rotation.y -= delta / rotationY;
   });
+
+  // Pre-load textures
+  const circleTexture = useMemo(() => new THREE.TextureLoader().load("/circles.webp"), []);
 
   return (
     <group rotation={[0, 0, Math.PI / 4]}>
@@ -42,8 +48,8 @@ function ParticleField({
           sizeAttenuation={true}
           depthWrite={false}
           vertexColors={false}
-          alphaMap={new THREE.TextureLoader().load("/circles.webp")}
-          map={new THREE.TextureLoader().load("/circles.webp")}
+          alphaMap={circleTexture}
+          map={circleTexture}
         />
       </Points>
     </group>
@@ -51,12 +57,12 @@ function ParticleField({
 }
 
 function ClusterParticleField({
-  count = 500, // number of main particles
-  mainRadius = 5, // spread of the main cloud
-  subParticleCount = 50, // how many subs around each main
-  subParticleRadius = 0.009, // radius of cluster around each main
-  color = "darkgreen", // main color
-  subColor = "limegreen", // sub cluster color
+  count = 500,
+  mainRadius = 5,
+  subParticleCount = 50,
+  subParticleRadius = 0.009,
+  color = "darkgreen",
+  subColor = "limegreen",
   mainSize = 0.08,
   subSize = 0.005,
   opacity = 0.3,
@@ -66,32 +72,43 @@ function ClusterParticleField({
   const mainRef = useRef();
   const subRef = useRef();
 
-  // Main particle positions
-  const [mainPositions] = useState(() =>
-    random.inSphere(new Float32Array(count * 3), { radius: mainRadius })
-  );
+  // Use useMemo for main positions
+  const mainPositions = useMemo(() => {
+    const positions = random.inSphere(new Float32Array(count * 3), { radius: mainRadius });
+    // Validate positions
+    for(let i = 0; i < positions.length; i++) {
+      if(isNaN(positions[i])) {
+        positions[i] = 0;
+      }
+    }
+    return positions;
+  }, [count, mainRadius]);
 
-  // Generate sub-particles around each main
-  const [subPositions] = useState(() => {
+  // Generate sub-particles with validation
+  const subPositions = useMemo(() => {
     const particles = new Float32Array(count * subParticleCount * 3);
     let ptr = 0;
+    
     for (let i = 0; i < count; i++) {
-      const x = mainPositions[i * 3];
-      const y = mainPositions[i * 3 + 1];
-      const z = mainPositions[i * 3 + 2];
+      const x = mainPositions[i * 3] || 0;
+      const y = mainPositions[i * 3 + 1] || 0;
+      const z = mainPositions[i * 3 + 2] || 0;
 
       const subs = random.inSphere(new Float32Array(subParticleCount * 3), {
         radius: subParticleRadius,
       });
 
       for (let j = 0; j < subParticleCount * 3; j += 3) {
-        particles[ptr++] = subs[j] + x;
-        particles[ptr++] = subs[j + 1] + y;
-        particles[ptr++] = subs[j + 2] + z;
+        particles[ptr++] = (subs[j] || 0) + x;
+        particles[ptr++] = (subs[j + 1] || 0) + y;
+        particles[ptr++] = (subs[j + 2] || 0) + z;
       }
     }
     return particles;
-  });
+  }, [count, subParticleCount, subParticleRadius, mainPositions]);
+
+  // Pre-load texture
+  const darkCircleTexture = useMemo(() => new THREE.TextureLoader().load("/darkCircle.png"), []);
 
   useFrame((_, delta) => {
     mainRef.current.rotation.x -= delta / rotationX;
@@ -102,7 +119,6 @@ function ClusterParticleField({
 
   return (
     <group rotation={[0, 0, Math.PI / 4]}>
-      {/* Main Particles */}
       <Points
         ref={mainRef}
         positions={mainPositions}
@@ -119,7 +135,6 @@ function ClusterParticleField({
         />
       </Points>
 
-      {/* Sub Particles */}
       <Points
         ref={subRef}
         positions={subPositions}
@@ -127,15 +142,15 @@ function ClusterParticleField({
         frustumCulled={false}
       >
         <PointMaterial
-          // transparent
+          transparent
           color={subColor}
           size={subSize}
           opacity={0.8}
           sizeAttenuation
           depthWrite={false}
           vertexColors={false}
-          alphaMap={new THREE.TextureLoader().load("/darkCircle.png")}
-          map={new THREE.TextureLoader().load("/darkCircle.png")}
+          alphaMap={darkCircleTexture}
+          map={darkCircleTexture}
         />
       </Points>
     </group>
