@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import localFont from "next/font/local";
+import LenisSmoothScroll from "@/components/LenisScroll";
 
 const Font1 = localFont({
   src: [
@@ -28,6 +29,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <LenisSmoothScroll />
       <body
         className={`${Font1.variable} ${Font2.variable} antialiased`}
       >

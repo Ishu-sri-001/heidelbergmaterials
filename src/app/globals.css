@@ -26,3 +26,19 @@ body {
 .font-display {
   font-family: var(--font-display)
 }
+
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+  width: 2px;
+  background: #000;
+}
+
+::-webkit-scrollbar-track {
+  display: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background: white;
+  border-radius: 5px;
+}
+

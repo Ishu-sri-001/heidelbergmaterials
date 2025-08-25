@@ -1,9 +1,11 @@
 'use client'
-import ModelViewer from "@/components/ModelViewer";
-import IntroBox from "@/components/UI/IntroBox";
 import { useEffect, useState } from "react";
-import Sidebar from "@/components/UI/Sidebar";
 import gsap from 'gsap'
+import WholeExperience from "@/components/WholeExperience";
+import { activePropertiesArray } from "./Utils/data";
+import ScrollTrigger from "gsap/dist/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
+
 
 export default function Home() {
   const [showIntroBox, setShowIntroBox] = useState(true);
@@ -13,6 +15,7 @@ export default function Home() {
     y: -0.1,
     z: 2.3
   })
+  
   const [cameraRotation, setCameraRotation] = useState({
     x: 0,
     y: 0,
@@ -24,110 +27,96 @@ export default function Home() {
     z: 0,
   })
 
-  const [ActiveProperties, SetActiveProperties] = useState([
-    {
-      name: "Earth",
-      repeal: false,
-      dispersion: false,
-    },
-    {
-      name: "circle",
-      repeal: false,
-      dispersion: false,
-    },
-    {
-      name: "bulb",
-      repeal: false,
-      dispersion: false,
-    },
-    {
-      name: "pin",
-      repeal: false,
-      dispersion: false,
-    },
-    {
-      name: "bottle",
-      repeal: false,
-      dispersion: false,
-    },
-    {
-      name: "flask",
-      repeal: false,
-      dispersion: false,
-    },
-  ])
+  const [ActiveProperties, SetActiveProperties] = useState(activePropertiesArray)
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const handleCameraRotation = () => {
-    // Update active properties first
-    SetActiveProperties((prevProps) => {
-      const newProps = [...prevProps];
-      newProps.forEach(prop => prop.repeal = false);
-      
-      const nextIndex = currentIndex >= 5 ? 0 : currentIndex + 1;
-      const prevIndex = currentIndex >= 5 ? 0 : currentIndex + 1;
-      
-      newProps[prevIndex].repeal = true;
-      newProps[prevIndex].dispersion = false;
 
-      newProps[currentIndex].dispersion = true;
-      
-      setCurrentIndex(nextIndex);
-      return newProps;
-    });
+  // const handleCameraRotation = () => {
+  //   SetActiveProperties((prevProps) => {
+  //     const newProps = [...prevProps];
+  //     newProps.forEach(prop => prop.repeal = false);
 
-    // Create a local copy of rotation to update properly
-    const newRotation = { ...cameraRotation };
-    gsap.to(newRotation, {
-      z: newRotation.z + 55,
-      duration: 1,
-      ease: "power2.inOut",
-      onUpdate: () => {
-        setCameraRotation({ ...newRotation });
-      },
-    });
-  };
+  //     const nextIndex = currentIndex >= 5 ? 0 : currentIndex + 1;
+  //     const prevIndex = currentIndex >= 5 ? 0 : currentIndex + 1;
+
+  //     newProps[prevIndex].repeal = true;
+  //     newProps[prevIndex].dispersion = false;
+
+  //     newProps[currentIndex].dispersion = true;
+
+  //     setCurrentIndex(nextIndex);
+  //     return newProps;
+  //   });
+
+  //   const newRotation = { ...cameraRotation };
+  //   gsap.to(newRotation, {
+  //     z: newRotation.z + 55,
+  //     duration: 1,
+  //     ease: "power2.inOut",
+  //     onUpdate: () => {
+  //       setCameraRotation({ ...newRotation });
+  //     },
+  //   });
+  // };
+
 
   useEffect(() => {
-   console.log(ActiveProperties)
-   console.log(currentIndex)
-  }, [ActiveProperties, currentIndex])
-  
+    const sections = ['earth', 'circle', 'bulb', 'pin', 'bottle', 'flask'];
+    let newRotation = { ...cameraRotation };
+    let rotationValue = 0;
 
+    sections.forEach((section, index) => {
+      rotationValue += 55;
+      
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: `.${section}Section`,
+          start: 'top top',
+          end: 'bottom',
+          scrub: true,
+          markers: true
+        }
+      });
 
+      tl.to(newRotation, {
+        z: rotationValue,
+        duration: 1,
+        ease: "power2.inOut",
+        onUpdate: () => {
+          setCameraRotation({ ...newRotation });
+        },
+        onStart: () => {
+          console.log(section, 'Rotation:', rotationValue);
+        }
+      });
+    });
+  }, []);
   return (
     <>
-      <ModelViewer
+      <WholeExperience
         cameraPos={cameraPos}
         setCameraPos={setCameraPos}
         cameraRotation={cameraRotation}
         setCameraRotation={setCameraRotation}
         groupRotation={groupRotation}
+        setGroupRotation={setGroupRotation}
         ActiveProperties={ActiveProperties}
         SetActiveProperties={SetActiveProperties}
-        setGroupRotation={setGroupRotation}
+        showIntroBox={showIntroBox}
+        setShowIntroBox={setShowIntroBox}
+        showSidebar={showSidebar}
+        setShowSidebar={setShowSidebar}
+        isZoomed={showSidebar}
+      // handleCameraRotation={handleCameraRotation}
       />
-      
-      {showIntroBox && (
-        <IntroBox
-          groupRotation={groupRotation}
-          setGroupRotation={setGroupRotation}
-          setCameraRotation={setCameraRotation}
-          setCameraPos={setCameraPos}
-          ActiveProperties={ActiveProperties}
-          SetActiveProperties={SetActiveProperties}
-          setShowIntroBox={setShowIntroBox}
-          setShowSidebar={setShowSidebar}
-        />
-      )}
-
-      {showSidebar && (
-        <Sidebar />
-      )}
-
-      <div onClick={() => handleCameraRotation(0)} className="absolute bottom-[5%] right-[5%] z-[999] bg-green-800 text-white p-[1vw] px-[2vw] rounded-full">
-        <p onClick={() => handleCameraRotation(0)}>Rotate</p>
-      </div>
+      {/* SCROLLABLE SECTIONS */}
+      <div className="h-screen bg-red-300 w-full earthSection " />
+      <div className="h-screen bg-red-500 w-full circleSection" />
+      <div className="h-screen bg-red-600 w-full bulbSection" />
+      <div className="h-screen bg-red-700 w-full pinSection" />
+      <div className="h-screen bg-red-800 w-full bottleSection" />
+      <div className="h-screen bg-red-900 w-full flaskSection" />
     </>
+
   );
 }
