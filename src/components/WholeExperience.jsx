@@ -4,7 +4,7 @@ import IntroBox from "./UI/IntroBox";
 import Sidebar from "./UI/Sidebar";
 
 export default function WholeExperience(props) {
-    const {
+  const {
     cameraPos,
     setCameraPos,
     cameraRotation,
@@ -17,10 +17,8 @@ export default function WholeExperience(props) {
     setShowIntroBox,
     showSidebar,
     setShowSidebar,
-    handleCameraRotation,
     isZoomed,
-
-    } = props
+  } = props;
   return (
     <div className="fixed inset-0 z-[100]">
       <ModelViewer
@@ -33,7 +31,6 @@ export default function WholeExperience(props) {
         SetActiveProperties={SetActiveProperties}
         setGroupRotation={setGroupRotation}
         isZoomed={isZoomed}
-
       />
 
       {showIntroBox && (
@@ -50,13 +47,6 @@ export default function WholeExperience(props) {
       )}
 
       {showSidebar && <Sidebar />}
-
-      <div
-        onClick={() => handleCameraRotation(0)}
-        className="absolute bottom-[5%] right-[5%] z-[999] bg-green-800 text-white p-[1vw] px-[2vw] rounded-full"
-      >
-        <p onClick={() => handleCameraRotation(0)}>Rotate</p>
-      </div>
     </div>
   );
 }

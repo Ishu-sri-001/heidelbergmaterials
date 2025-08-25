@@ -1,69 +1,94 @@
-import Image from 'next/image'
-import React from 'react'
+import Image from "next/image";
+import React from "react";
 
 const Sidebar = () => {
+  const menuItems = [
+    {
+      icon: "/assets/svg/earth-logo.svg",
+      text: "CCUS around the world",
+      height: "1.7vw",
+      width: "fit",
+      gap: "1vw",
+    },
+    {
+      icon: "/assets/svg/flask-logo.svg",
+      text: "Capture technologies lab",
+      height: "2vw",
+      width: "2vw",
+      gap: "1vw",
+    },
+    {
+      icon: "/assets/svg/bottle-logo.svg",
+      text: "CO2 Utilization",
+      height: "1.9vw",
+      width: "1.9vw",
+      gap: "1vw",
+    },
+    {
+      icon: "/assets/svg/bulb-logo.svg",
+      text: "Stakeholder engagement",
+      height: "2.5vw",
+      width: "2vw",
+      gap: "1.5vw",
+    },
+    {
+      icon: "/assets/svg/chain-logo.svg",
+      text: "Value chains & business cases",
+      height: "1.7vw",
+      width: "1.7vw",
+      gap: "1.5vw",
+    },
+    {
+      icon: "/assets/svg/netzero-logo.svg",
+      text: "Net zero",
+      height: "2vw",
+      width: "2vw",
+      gap: "1.5vw",
+    },
+  ];
+
   return (
-    <div className='absolute inset-0  w-fit text-white'>
-        <div className='flex flex-col p-[1.5vw] gap-[1.5vw]'>
-            <div className='w-[4.3vw] h-[4.3vw]'>
-                <Image src='/assets/svg/logoo.svg' width={100} height={100} className='w-full h-full object-cover' alt='logo' />
-            </div>
-           
-            <div className='flex flex-col group pt-[7vw] pl-[2vw] gap-[2.2vw]'>  
-
-                  <div className='flex gap-[1vw] items-center opacity-50 hover:opacity-100 cursor-pointer'>           
-            <div className='h-[1.7vw] w-fit items-center'>
-                <Image src='/assets/svg/earth-logo.svg' width={100} height={100} className='w-full h-full object-contain' alt='logo' />
-            </div>
-            <p className='font-display text-[0.9vw] hidden group-hover:block'>CCUS around the world</p>
-            </div>
-
-            <div className='flex opacity-50 hover:opacity-100 gap-[1vw] items-center cursor-pointer'>
-
-            <div className='h-[2vw] w-[2vw]'>
-                <Image src='/assets/svg/flask-logo.svg' width={100} height={100} className='w-full h-full object-contain' alt='logo' />
-            </div>
-             <p className='font-display hidden group-hover:block text-[0.9vw]'>Capture technologies lab</p>
-            </div>
-
-            <div className='flex opacity-50 hover:opacity-100 gap-[1vw] items-center cursor-pointer'>
-
-            <div className='h-[1.9vw] w-[1.9vw]'>
-                <Image src='/assets/svg/bottle-logo.svg' width={100} height={100} className='w-full h-full object-contain' alt='logo' />
-            </div>
-             <p className='font-display hidden group-hover:block text-[0.9vw]'>CO2 Utilization</p>
-            </div>
-
-            <div className='flex gap-[1.5vw] opacity-50 hover:opacity-100 items-center cursor-pointer'>
-
-            <div className='h-[2.5vw] w-[2vw]'>
-                <Image src='/assets/svg/bulb-logo.svg' width={100} height={100} className='w-full h-full object-contain' alt='logo' />
-            </div>
-             <p className='font-display hidden group-hover:block text-[0.9vw]'>Stakeholder engagement</p>
-            </div>
-
-            <div className='flex gap-[1.5vw] opacity-50 hover:opacity-100 items-center cursor-pointer'>
-
-            <div className='h-[1.7vw] w-[1.7vw]'>
-                <Image src='/assets/svg/chain-logo.svg' width={100} height={100} className='w-full h-full object-contain' alt='logo' />
-            </div>
-             <p className='font-display hidden group-hover:block text-[0.9vw]'>Value chains & business cases</p>
-            </div>
-
-            <div className='flex gap-[1.5vw] opacity-50 hover:opacity-100 items-center cursor-pointer'>
- 
-            <div className='h-[2vw] w-[2vw]'>
-                <Image src='/assets/svg/netzero-logo.svg' width={100} height={100} className='w-full h-full object-contain' alt='logo' />
-            </div>
-             <p className='font-display text-[0.9vw] hidden group-hover:block'>Net zero</p>
-            </div>
-
-            </div>
+    <div className="absolute inset-0  w-fit text-white">
+      <div className="flex flex-col p-[1.5vw] relative gap-[1.5vw]">
+        <div className="absolute top-0 left-0  w-[10vw] h-[100vh] z-[0] bg-gradient-to-r from-[#028541] opacity-50 blur-3xl to-[#133b24]">
+          <div className=""></div>
         </div>
-        
-      
-    </div>
-  )
-}
+        <div className="w-[4vw] z-[10] h-[4vw]">
+          <Image
+            src="/assets/svg/logoo.svg"
+            width={100}
+            height={100}
+            className="w-full h-full object-cover"
+            alt="logo"
+          />
+        </div>
 
-export default Sidebar
+        <div className="flex flex-col z-[10] group pt-[7vw] pl-[2vw] gap-[2.2vw]">
+          {menuItems.map((item, index) => (
+            <div
+              key={index}
+              className="flex gap-[1vw] items-center opacity-50 hover:opacity-100 cursor-pointer"
+            >
+              <div
+                className={`h-[${item.height}] w-[${item.width}] items-center`}
+              >
+                <Image
+                  src={item.icon}
+                  width={100}
+                  height={100}
+                  className="w-full h-full object-contain"
+                  alt="logo"
+                />
+              </div>
+              <p className="font-display text-[0.9vw] hidden group-hover:block">
+                {item.text}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Sidebar;

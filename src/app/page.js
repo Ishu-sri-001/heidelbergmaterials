@@ -4,16 +4,18 @@ import gsap from 'gsap'
 import WholeExperience from "@/components/WholeExperience";
 import { activePropertiesArray } from "./Utils/data";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
+import { OnReloadScrollTop } from "@/components/UI/OnReloadScrollTop";
 gsap.registerPlugin(ScrollTrigger);
 
-
 export default function Home() {
+
   const [showIntroBox, setShowIntroBox] = useState(true);
   const [showSidebar, setShowSidebar] = useState(false);
+  OnReloadScrollTop()
   const [cameraPos, setCameraPos] = useState({
     x: 0,
     y: -0.1,
-    z: 3
+    z: 2.2
   })
 
   const [cameraRotation, setCameraRotation] = useState({
@@ -21,6 +23,12 @@ export default function Home() {
     y: 0,
     z: 0
   })
+  const [groupPosn, setGroupPosn] = useState({
+    x: 0,
+    y: 0,
+    z: 0
+  })
+
   const [groupRotation, setGroupRotation] = useState({
     x: 0,
     y: 0,
@@ -29,48 +37,20 @@ export default function Home() {
 
   const [ActiveProperties, SetActiveProperties] = useState(activePropertiesArray)
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  // const handleCameraRotation = () => {
-  //   SetActiveProperties((prevProps) => {
-  //     const newProps = [...prevProps];
-  //     newProps.forEach(prop => prop.repeal = false);
-
-  //     const nextIndex = currentIndex >= 5 ? 0 : currentIndex + 1;
-  //     const prevIndex = currentIndex >= 5 ? 0 : currentIndex + 1;
-
-  //     newProps[prevIndex].repeal = true;
-  //     newProps[prevIndex].dispersion = false;
-
-  //     newProps[currentIndex].dispersion = true;
-
-  //     setCurrentIndex(nextIndex);
-  //     return newProps;
-  //   });
-
-  //   const newRotation = { ...cameraRotation };
-  //   gsap.to(newRotation, {
-  //     z: newRotation.z + 55,
-  //     duration: 1,
-  //     ease: "power2.inOut",
-  //     onUpdate: () => {
-  //       setCameraRotation({ ...newRotation });
-  //     },
-  //   });
-  // };
 
   useEffect(() => {
     const sections = [
-      { id: 'earth', rotation: 98 },
-      { id: 'circle', rotation: 153 },
-      { id: 'bulb', rotation: 208 },
-      { id: 'pin', rotation: 263 },
-      { id: 'bottle', rotation: 318 },
-      { id: 'flask', rotation: 373 },
-      { id: 'flask1', rotation: 395 }
+      { id: 'earth', rotation: 98, position: { x: 0, y: 0, z: 0 } },
+      { id: 'circle', rotation: 153, position: { x: 0.3, y: 0, z: 0 } },
+      { id: 'bulb', rotation: 208, position: { x: 0.5, y: 0, z: 0 } },
+      { id: 'pin', rotation: 263, position: { x: 0.3, y: 0, z: 0 } },
+      { id: 'bottle', rotation: 318, position: { x: 0.5, y: 0, z: 0 } },
+      { id: 'flask', rotation: 373, position: { x: 0.6, y: -0.2, z: 0 } },
+      { id: 'flask1', rotation: 395, position: { x: 0.6, y: 0, z: 0 } }
     ];
 
     let newRotation = { ...cameraRotation, x: -90, y: 0, z: 43 };
+    let newPosition = { ...groupPosn };
 
     sections.forEach((section) => {
       const tl = gsap.timeline({
@@ -100,6 +80,7 @@ export default function Home() {
             }
             return newProps;
           });
+
         },
         onComplete: () => {
           setTimeout(() => {
@@ -114,9 +95,25 @@ export default function Home() {
             });
           }, -1500);
         }
-      }); 
+      });
+      tl.to(newPosition, {
+        x: section.position.x,
+        y: section.position.y,
+        z: section.position.z,
+        duration: 2,
+        ease: "linear",
+        onUpdate: () => {
+          setGroupPosn({ ...newPosition });
+        },
+        onStart: () => {
+          console.log(`📍 Position animation started for ${section.id}:`, section.position);
+        },
+        onComplete: () => {
+          console.log(`✅ Position animation completed for ${section.id}. Final position:`, newPosition);
+        }
+      }, 0);
     });
-  }, []);
+  }, [showIntroBox]);
   return (
     <>
       <WholeExperience
@@ -133,18 +130,24 @@ export default function Home() {
         showSidebar={showSidebar}
         setShowSidebar={setShowSidebar}
         isZoomed={showSidebar}
-      // handleCameraRotation={handleCameraRotation}
+        groupPosn={groupPosn}
+        setGroupPosn={setGroupPosn}
+
       />
       {/* SCROLLABLE SECTIONS */}
-      {/* <div className="h-screen bg-red-300 w-full mainSection " /> */}
-      <div className="h-screen bg-red-300 w-full earthSection " />
-      <div className="h-screen bg-red-500 w-full circleSection" />
-      <div className="h-screen bg-red-600 w-full bulbSection" />
-      <div className="h-screen bg-red-700 w-full pinSection" />
-      <div className="h-screen bg-red-800 w-full bottleSection" />
-      <div className="h-screen bg-red-900 w-full flaskSection" />
-      <div className="h-screen bg-red-900 w-full flask1Section" />
-      <div className="h-screen bg-red-900 w-full flask2Section" />
+      {
+        !showIntroBox && <>
+          <div className="h-screen bg-red-300 w-full earthSection " />
+          <div className="h-screen bg-red-500 w-full circleSection" />
+          <div className="h-screen bg-red-600 w-full bulbSection" />
+          <div className="h-screen bg-red-700 w-full pinSection" />
+          <div className="h-screen bg-red-800 w-full bottleSection" />
+          <div className="h-screen bg-red-900 w-full flaskSection" />
+          <div className="h-screen bg-red-900 w-full flask1Section" />
+          <div className="h-screen bg-red-900 w-full flask2Section" />
+        </>
+      }
+
     </>
 
   );
