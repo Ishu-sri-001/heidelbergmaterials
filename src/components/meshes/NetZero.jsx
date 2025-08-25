@@ -13,18 +13,16 @@ if (typeof window !== 'undefined') {
   circleTexture = new THREE.TextureLoader().load("/assets/circlee.jpg");
 }
 
-export default function NetZero({ geometry, index, total, ActiveProperties, SetActiveProperties }) {
+export default function NetZero({ geometry, index, total, ActiveProperties, SetActiveProperties, isZoomed }) {
 
    const {repeal, dispersion} = ActiveProperties[1]
   const ref = useRef();
-  const [animationFunctions, setAnimationFunctions] = useState(null);
 
   const angle = (index / total) * Math.PI * 2;
   const radiusX = 8; 
   const radiusY = 5; 
-    const yOffset = -2;   // move oval down a bit
+    const yOffset = -2;   
 
-  // base oval position
   let x = Math.cos(angle) * radiusX;
   let y = Math.sin(angle) * radiusY + yOffset;
 
@@ -57,15 +55,6 @@ export default function NetZero({ geometry, index, total, ActiveProperties, SetA
       };
     }, [geometry]);
   
-    const { animateToMesh, disperseParticles } = useParticleFormation(ref, 
-      targetPositions, {
-      showControls: true,
-      controlLabel: 'Globe',
-      controlId: `globe-${index}`
-    },
-    dispersion,
-  );
-  
     useCursorRepel(ref, 0.3, 0.1, repeal);
 
     const baseRotation = {
@@ -74,17 +63,34 @@ export default function NetZero({ geometry, index, total, ActiveProperties, SetA
   z: degToRad(0),
 };
 
+const zoomedBaseRotation = {
+  x: degToRad(0),
+  y: degToRad(-30),
+  z: degToRad(0),
+};
+
  let tiltDir = 1;
 
 useFrame(() => {
-  if (ref.current) {
+  if(!ref.current) return;
+
+  if (!isZoomed) {
     ref.current.rotation.x += 0.001 * tiltDir;
+    ref.current.rotation.z=baseRotation.z;
     ref.current.rotation.y=baseRotation.y;
 
-    if (ref.current.rotation.x > baseRotation.x + 0.08) tiltDir = -1;
-    if (ref.current.rotation.x < baseRotation.x - 0.08) tiltDir = 1;
-    // if (ref.current.rotation.y > baseRotation.y + 0.08) tiltDir = -1;
-    // if (ref.current.rotation.y < baseRotation.y - 0.08) tiltDir = 1;
+    if (ref.current.rotation.x > baseRotation.x + 0.09) tiltDir = -1;
+    if (ref.current.rotation.x < baseRotation.x - 0.09) tiltDir = 1;
+  }
+  else {
+    ref.current.rotation.x= zoomedBaseRotation.x;
+ 
+    ref.current.rotation.y= zoomedBaseRotation.y;
+
+    ref.current.rotation.z += 0.002 * tiltDir;
+
+    if (ref.current.rotation.z > zoomedBaseRotation.z + 0.1) tiltDir = -1;
+    if (ref.current.rotation.z < zoomedBaseRotation.z - 0.1) tiltDir = 1;
   }
 });
 
