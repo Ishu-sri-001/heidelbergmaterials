@@ -11,6 +11,8 @@ export default function WholeExperience(props) {
     setCameraRotation,
     groupRotation,
     setGroupRotation,
+    groupPosn, 
+    setGroupPosn,
     ActiveProperties,
     SetActiveProperties,
     showIntroBox,
@@ -31,6 +33,8 @@ export default function WholeExperience(props) {
         SetActiveProperties={SetActiveProperties}
         setGroupRotation={setGroupRotation}
         isZoomed={isZoomed}
+        groupPosn={groupPosn} 
+        setGroupPosn={setGroupPosn}
       />
 
       {showIntroBox && (

@@ -15,6 +15,8 @@ function Scene({
   cameraPos,
   cameraRotation,
   setCameraRotation,
+  groupPosn, 
+  setGroupPosn,
   ActiveProperties,
   SetActiveProperties,
   lightRef,
@@ -37,6 +39,8 @@ function Scene({
         ActiveProperties={ActiveProperties}
         SetActiveProperties={SetActiveProperties}
         isZoomed={isZoomed}
+        groupPosn={groupPosn} 
+        setGroupPosn={setGroupPosn}
       />
       <mesh
         ref={lightRef}
@@ -62,6 +66,8 @@ export default function ModelViewer({
   cameraRotation,
   groupRotation,
   setGroupRotation,
+  groupPosn, 
+  setGroupPosn,
   ActiveProperties,
   SetActiveProperties,
   isZoomed,
@@ -85,6 +91,8 @@ export default function ModelViewer({
             ActiveProperties={ActiveProperties}
             SetActiveProperties={SetActiveProperties}
             isZoomed={isZoomed}
+            groupPosn={groupPosn} 
+            setGroupPosn={setGroupPosn}
           />
           {/* <EffectComposer>
             {

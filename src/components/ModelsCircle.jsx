@@ -10,19 +10,20 @@ import GlobeHigh from "./meshes/GlobeHigh";
 import LightTube from "./meshes/LightTube";
 import { degToRad } from "three/src/math/MathUtils";
 
-export default function ModelsCircle({ url, cameraRotation, groupRotation, setGroupRotation, ActiveProperties, SetActiveProperties,isZoomed}) {
-  // console.log(cameraRotation)
+export default function ModelsCircle({ url, cameraRotation, groupRotation, setGroupRotation, ActiveProperties, SetActiveProperties,isZoomed, groupPosn, setGroupPosn}) {
+
   const { nodes } = useGLTF(url);
 
   useEffect(() => {
-    // console.log("🔹 GLTF Nodes:", nodes);
   }, [nodes]);
 
   const names = ["Bottle", "Chain", "Flask", "NetZero", "GlobeHigh", "LightTube"];
   const total = names.length;
 
   return (
-    <group scale={.15} rotation={[degToRad(cameraRotation.x),degToRad(cameraRotation.y),degToRad(cameraRotation.z)]}>
+    <group scale={.15} rotation={[degToRad(cameraRotation.x),degToRad(cameraRotation.y),degToRad(cameraRotation.z)]}
+      position={[groupPosn.x, groupPosn.y, groupPosn.z]}
+    >
       <Bottle geometry={nodes.Bottle?.geometry} index={4} total={total} ActiveProperties={ActiveProperties} SetActiveProperties={SetActiveProperties} isZoomed={isZoomed} />
       <GlobeHigh geometry={nodes.GlobeHigh?.geometry} index={2} total={total} ActiveProperties={ActiveProperties} SetActiveProperties={SetActiveProperties} isZoomed={isZoomed} />
        <NetZero geometry={nodes.NetZero?.geometry} index={1} total={total} ActiveProperties={ActiveProperties} SetActiveProperties={SetActiveProperties} isZoomed={isZoomed} />
