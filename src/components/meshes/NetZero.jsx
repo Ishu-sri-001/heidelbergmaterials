@@ -31,6 +31,7 @@ export default function NetZero({ geometry, index, total, ActiveProperties, SetA
   const rotatedX = x * Math.cos(rotation) - y * Math.sin(rotation);
   const rotatedY = x * Math.sin(rotation) + y * Math.cos(rotation) +2.8;
 
+
   const { pointsGeo, targetPositions } = useMemo(() => {
       if (!geometry) return { pointsGeo: null, targetPositions: null };
   
@@ -95,6 +96,16 @@ useFrame(() => {
 });
 
     if (!pointsGeo) return null;
+
+    const { animateToMesh, disperseParticles } = useParticleFormation(ref, 
+      targetPositions, {
+      showControls: true,
+      controlLabel: 'NetZero',
+      controlId: `globe-${index}`
+    },
+    dispersion,
+  );
+  
 
   return (
      <points

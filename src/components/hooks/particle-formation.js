@@ -134,6 +134,7 @@ export function useParticleFormation(pointsRef, targetPositions, options = {}, t
       onComplete: () => {
         isAnimatingRef.current = false;
         timelineRef.current = null;
+       
       }
     });
 
@@ -141,6 +142,7 @@ export function useParticleFormation(pointsRef, targetPositions, options = {}, t
     tl.to(positions, {
       duration: 2.5,
       ease: "power2.out",
+    
       onUpdate: function () {
         const progress = this.progress();
 

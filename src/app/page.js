@@ -82,6 +82,20 @@ export default function Home() {
           });
 
         },
+        onReverseComplete: () => {
+          setTimeout(() => {
+            SetActiveProperties(prevProps => {
+              const newProps = [...prevProps];
+              const sectionIndex = sections.findIndex(s => s.id === section.id);
+              if (sectionIndex !== -1 && newProps[sectionIndex]) {
+                newProps[sectionIndex].dispersion = false;
+                newProps[sectionIndex].repeal = false;
+              }
+              return newProps;
+            });
+          }, -1500);
+
+        },
         onComplete: () => {
           setTimeout(() => {
             SetActiveProperties(prevProps => {
