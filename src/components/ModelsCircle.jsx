@@ -10,7 +10,7 @@ import GlobeHigh from "./meshes/GlobeHigh";
 import LightTube from "./meshes/LightTube";
 import { degToRad } from "three/src/math/MathUtils";
 
-export default function ModelsCircle({ url, cameraRotation, groupRotation, setGroupRotation, ActiveProperties, SetActiveProperties}) {
+export default function ModelsCircle({ url, cameraRotation, groupRotation, setGroupRotation, ActiveProperties, SetActiveProperties,isZoomed}) {
   // console.log(cameraRotation)
   const { nodes } = useGLTF(url);
 
@@ -23,13 +23,13 @@ export default function ModelsCircle({ url, cameraRotation, groupRotation, setGr
 
   return (
     <group scale={.15} rotation={[degToRad(cameraRotation.x),degToRad(cameraRotation.y),degToRad(cameraRotation.z)]}>
-      <Bottle geometry={nodes.Bottle?.geometry} index={4} total={total} ActiveProperties={ActiveProperties} SetActiveProperties={SetActiveProperties} />
-      <GlobeHigh geometry={nodes.GlobeHigh?.geometry} index={2} total={total} ActiveProperties={ActiveProperties} SetActiveProperties={SetActiveProperties} />
-       <NetZero geometry={nodes.NetZero?.geometry} index={1} total={total} ActiveProperties={ActiveProperties} SetActiveProperties={SetActiveProperties} />
-      <Chain geometry={nodes.Chain?.geometry} index={5} total={total} ActiveProperties={ActiveProperties} SetActiveProperties={SetActiveProperties} />
-      <Flask geometry={nodes.Flask?.geometry} index={3} total={total} ActiveProperties={ActiveProperties} SetActiveProperties={SetActiveProperties} />
+      <Bottle geometry={nodes.Bottle?.geometry} index={4} total={total} ActiveProperties={ActiveProperties} SetActiveProperties={SetActiveProperties} isZoomed={isZoomed} />
+      <GlobeHigh geometry={nodes.GlobeHigh?.geometry} index={2} total={total} ActiveProperties={ActiveProperties} SetActiveProperties={SetActiveProperties} isZoomed={isZoomed} />
+       <NetZero geometry={nodes.NetZero?.geometry} index={1} total={total} ActiveProperties={ActiveProperties} SetActiveProperties={SetActiveProperties} isZoomed={isZoomed} />
+      <Chain geometry={nodes.Chain?.geometry} index={5} total={total} ActiveProperties={ActiveProperties} SetActiveProperties={SetActiveProperties} isZoomed={isZoomed} />
+      <Flask geometry={nodes.Flask?.geometry} index={3} total={total} ActiveProperties={ActiveProperties} SetActiveProperties={SetActiveProperties} isZoomed={isZoomed} />
      
-      <LightTube geometry={nodes.LightTube?.geometry} index={0} total={total} ActiveProperties={ActiveProperties} SetActiveProperties={SetActiveProperties} />
+      <LightTube geometry={nodes.LightTube?.geometry} index={0} total={total} ActiveProperties={ActiveProperties} SetActiveProperties={SetActiveProperties} isZoomed={isZoomed} />
     </group>
   );
 }

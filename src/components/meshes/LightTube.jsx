@@ -6,18 +6,18 @@ import * as THREE from "three";
 import { MeshSurfaceSampler } from "three/examples/jsm/math/MeshSurfaceSampler.js";
 import useCursorRepel from "@/components/hooks/cursor-repel";
 import { useParticleFormation } from "@/components/hooks/particle-formation";
+import { degToRad } from "three/src/math/MathUtils";
 
 let circleTexture;
 if (typeof window !== 'undefined') {
   circleTexture = new THREE.TextureLoader().load("/assets/circlee.jpg");
 }
 
-export default function LightTube({ geometry, index, total, ActiveProperties, SetActiveProperties }) {
+export default function LightTube({ geometry, index, total, ActiveProperties, SetActiveProperties, isZoomed }) {
 
    const {repeal, dispersion} = ActiveProperties[2] || { repeal: false, dispersion: false };
   const ref = useRef();
-  const [animationFunctions, setAnimationFunctions] = useState(null);
-
+  
   const angle = (index / total) * Math.PI * 2;
   const radiusX = 8; 
   const radiusY = 5; 
@@ -67,12 +67,48 @@ export default function LightTube({ geometry, index, total, ActiveProperties, Se
 
     
       useCursorRepel(ref, 0.3, 0.1, repeal);
+
+        const baseRotation = {
+  x: degToRad(0),
+  y: degToRad(0),
+  z: degToRad(-60),
+};
+
+const zoomedBaseRotation = {
+  x: degToRad(90),
+  y: degToRad(0),
+  z: degToRad(-55),
+};
+
+ let tiltDir = 1;
+
+useFrame(() => {
+  if(!ref.current) return;
+
+  if (!isZoomed) {
+    ref.current.rotation.x = baseRotation.x;
+    ref.current.rotation.y = baseRotation.y;
+
+    ref.current.rotation.z += 0.001 * tiltDir;
+
+    if (ref.current.rotation.z > baseRotation.z + 0.08) tiltDir = -1;
+    if (ref.current.rotation.z < baseRotation.z - 0.08) tiltDir = 1;
+ 
+  }
+
+  else {
+
+      ref.current.rotation.x = zoomedBaseRotation.x;
+    ref.current.rotation.z = zoomedBaseRotation.z;
+    // ref.current.rotation.y = zoomedBaseRotation.y;
+
+    ref.current.rotation.y += 0.002 * tiltDir;
+
+    if (ref.current.rotation.y > zoomedBaseRotation.y + 0.08) tiltDir = -1;
+    if (ref.current.rotation.y < zoomedBaseRotation.y - 0.08) tiltDir = 1;
+  }
+});
   
-    useFrame((state) => {
-      if (ref.current) {
-        ref.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.4) * 0.2;
-      }
-    });
   
       if (!pointsGeo) return null;
 
@@ -82,7 +118,7 @@ export default function LightTube({ geometry, index, total, ActiveProperties, Se
       geometry={pointsGeo}
       position={[rotatedX, rotatedY, 0]}
       scale={[2.7, 2.7, 2.7]}
-      rotation={[0, -angle, 0]}
+      rotation={[degToRad(0), degToRad(0), degToRad(-60)]}
     >
       <pointsMaterial
         color="white"

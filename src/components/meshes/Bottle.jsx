@@ -6,31 +6,35 @@ import * as THREE from "three";
 import { MeshSurfaceSampler } from "three/examples/jsm/math/MeshSurfaceSampler.js";
 import useCursorRepel from "@/components/hooks/cursor-repel";
 import { useParticleFormation } from "@/components/hooks/particle-formation";
-// import PointsMesh from "../PointsMesh";
+import { degToRad } from "three/src/math/MathUtils";
 
 let circleTexture;
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   circleTexture = new THREE.TextureLoader().load("/assets/circlee.jpg");
 }
 
-export default function Bottle({ geometry, index, total, ActiveProperties, SetActiveProperties }) {
-  
-  const {repeal, dispersion} = ActiveProperties[4]
+export default function Bottle({
+  geometry,
+  index,
+  total,
+  ActiveProperties,
+  SetActiveProperties,
+  isZoomed,
+}) {
+  const { repeal, dispersion } = ActiveProperties[4];
   const ref = useRef();
 
   const angle = (index / total) * Math.PI * 2;
-  const radiusX = 8; 
-  const radiusY = 5;    // vertical stretch
-  const yOffset = -2;   // move oval down a bit
+  const radiusX = 8;
+  const radiusY = 5;
+  const yOffset = -2;
 
-  // base oval position
   let x = Math.cos(angle) * radiusX;
   let y = Math.sin(angle) * radiusY + yOffset;
 
-  // rotate whole oval in XY plane (clockwise)
-  const rotation = -Math.PI / 6; // -30 degrees
+  const rotation = -Math.PI / 6; // oval tilt
   const rotatedX = x * Math.cos(rotation) - y * Math.sin(rotation);
-  const rotatedY = x * Math.sin(rotation) + y * Math.cos(rotation)-0.5;
+  const rotatedY = x * Math.sin(rotation) + y * Math.cos(rotation) - 0.5;
 
   const { pointsGeo, targetPositions } = useMemo(() => {
     if (!geometry) return { pointsGeo: null, targetPositions: null };
@@ -49,27 +53,53 @@ export default function Bottle({ geometry, index, total, ActiveProperties, SetAc
 
     const geo = new THREE.BufferGeometry();
     geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    
-    return { 
-      pointsGeo: geo, 
-      targetPositions: new Float32Array(positions) 
+
+    return {
+      pointsGeo: geo,
+      targetPositions: new Float32Array(positions),
     };
   }, [geometry]);
 
-  const { animateToMesh, disperseParticles } = useParticleFormation(ref, 
-    targetPositions, {
+  const { animateToMesh, disperseParticles } = useParticleFormation(
+    ref,
+    targetPositions,
+    {
       showControls: true,
-      controlLabel: 'Globe',
-      controlId: `globe-${index}`
+      controlLabel: "Globe",
+      controlId: `globe-${index}`,
     },
-    dispersion,
+    dispersion
   );
 
   useCursorRepel(ref, 0.3, 0.1, repeal);
 
-  useFrame((state) => {
-    if (ref.current) {
-      ref.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.4) * 0.2;
+  let tiltDir = 1;
+
+  // Base rotation reference
+  const baseRotation = useRef({
+    x: degToRad(80),
+    y: degToRad(40),
+    z: degToRad(0),
+  });
+
+  useFrame(() => {
+    if (!ref.current) return;
+
+    if (!isZoomed) {
+      ref.current.rotation.x = baseRotation.current.x;
+      ref.current.rotation.z = baseRotation.current.z;
+
+      ref.current.rotation.y += 0.0009 * tiltDir;
+
+      if (ref.current.rotation.y > baseRotation.current.y + 0.08) tiltDir = -1;
+      if (ref.current.rotation.y < baseRotation.current.y - 0.08) tiltDir = 1;
+    } else {
+      ref.current.rotation.x = degToRad(20);
+      ref.current.rotation.y = degToRad(200);
+      ref.current.rotation.z += 0.001 * tiltDir;
+
+      if (ref.current.rotation.z > baseRotation.current.z + 0.09) tiltDir = -1;
+      if (ref.current.rotation.z < baseRotation.current.z - 0.09) tiltDir = 1;
     }
   });
 
@@ -80,8 +110,7 @@ export default function Bottle({ geometry, index, total, ActiveProperties, SetAc
       ref={ref}
       geometry={pointsGeo}
       position={[rotatedX, rotatedY, 0]}
-      scale={[2.7, 2.7, 2.7]}
-      rotation={[0, -angle, 0]}
+      scale={2.7}
     >
       <pointsMaterial
         color="white"

@@ -17,7 +17,7 @@ export default function WholeExperience(props) {
     setShowIntroBox,
     showSidebar,
     setShowSidebar,
-    // handleCameraRotation
+    handleCameraRotation,
     isZoomed,
 
     } = props
@@ -52,7 +52,7 @@ export default function WholeExperience(props) {
       {showSidebar && <Sidebar />}
 
       <div
-        // onClick={() => handleCameraRotation(0)}
+        onClick={() => handleCameraRotation(0)}
         className="absolute bottom-[5%] right-[5%] z-[999] bg-green-800 text-white p-[1vw] px-[2vw] rounded-full"
       >
         <p onClick={() => handleCameraRotation(0)}>Rotate</p>

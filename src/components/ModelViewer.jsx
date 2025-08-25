@@ -18,6 +18,7 @@ function Scene({
   ActiveProperties,
   SetActiveProperties,
   lightRef,
+  isZoomed,
 }) {
   const { camera } = useThree();
 
@@ -35,6 +36,7 @@ function Scene({
         url="/models/model.glb"
         ActiveProperties={ActiveProperties}
         SetActiveProperties={SetActiveProperties}
+        isZoomed={isZoomed}
       />
       <mesh
         ref={lightRef}
@@ -62,6 +64,7 @@ export default function ModelViewer({
   setGroupRotation,
   ActiveProperties,
   SetActiveProperties,
+  isZoomed,
 }) {
   const lightRef = useRef(null);
 
@@ -81,6 +84,7 @@ export default function ModelViewer({
             setCameraPos={setCameraPos}
             ActiveProperties={ActiveProperties}
             SetActiveProperties={SetActiveProperties}
+            isZoomed={isZoomed}
           />
           {/* <EffectComposer>
             {

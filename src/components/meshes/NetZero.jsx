@@ -6,6 +6,7 @@ import * as THREE from "three";
 import { MeshSurfaceSampler } from "three/examples/jsm/math/MeshSurfaceSampler.js";
 import useCursorRepel from "@/components/hooks/cursor-repel";
 import { useParticleFormation } from "@/components/hooks/particle-formation";
+import { degToRad } from "three/src/math/MathUtils";
 
 let circleTexture;
 if (typeof window !== 'undefined') {
@@ -67,11 +68,25 @@ export default function NetZero({ geometry, index, total, ActiveProperties, SetA
   
     useCursorRepel(ref, 0.3, 0.1, repeal);
 
-  useFrame((state) => {
-    if (ref.current) {
-      ref.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.4) * 0.2;
-    }
-  });
+    const baseRotation = {
+  x: degToRad(70),
+  y: degToRad(30),
+  z: degToRad(0),
+};
+
+ let tiltDir = 1;
+
+useFrame(() => {
+  if (ref.current) {
+    ref.current.rotation.x += 0.001 * tiltDir;
+    ref.current.rotation.y=baseRotation.y;
+
+    if (ref.current.rotation.x > baseRotation.x + 0.08) tiltDir = -1;
+    if (ref.current.rotation.x < baseRotation.x - 0.08) tiltDir = 1;
+    // if (ref.current.rotation.y > baseRotation.y + 0.08) tiltDir = -1;
+    // if (ref.current.rotation.y < baseRotation.y - 0.08) tiltDir = 1;
+  }
+});
 
     if (!pointsGeo) return null;
 
@@ -81,7 +96,7 @@ export default function NetZero({ geometry, index, total, ActiveProperties, SetA
       geometry={pointsGeo}
       position={[rotatedX, rotatedY, 0]}
       scale={[2.7, 2.7, 2.7]}
-      rotation={[0, -angle, 0]}
+      rotation={[degToRad(0), degToRad(0), degToRad(0)]}
     >
       <pointsMaterial
         color="white"
