@@ -37,6 +37,7 @@ export default function Home() {
 
   const [ActiveProperties, SetActiveProperties] = useState(activePropertiesArray)
 
+  const [activeSectionId, setActiveSectionId] = useState(null);
 
   useEffect(() => {
     const sections = [
@@ -73,6 +74,22 @@ export default function Home() {
           end: 'bottom',
           scrub: true,
           // markers: true, 
+          onEnter: () => {
+        setActiveSectionId(section.id);
+        console.log(`Entered section: ${section.id}`);
+      },
+      onEnterBack: () => {
+        setActiveSectionId(section.id);
+        console.log(`Entered back into section: ${section.id}`);
+      },
+      onLeave: () => {
+        setActiveSectionId(null);
+        console.log(`Left section: ${section.id}`);
+      },
+      onLeaveBack: () => {
+        setActiveSectionId(null);
+        console.log(`Left back from section: ${section.id}`);
+      },
         }
       });
 
@@ -87,21 +104,30 @@ export default function Home() {
           SetActiveProperties(prevProps => {
             const newProps = [...prevProps];
             const sectionIndex = sections.findIndex(s => s.id === section.id);
+
+             if (showSidebar) {
+              // If zoomed (sidebar is open), set dispersion=false only for active section
+              newProps.forEach((prop, index) => {
+                if (index === sectionIndex) {
+                  newProps[index].repeal = true;
+                  newProps[index].dispersion = false;
+                  newProps[index].animate = true;
+                } else {
+                  newProps[index].repeal = false;
+                  newProps[index].dispersion = true;
+                  newProps[index].animate = false;
+                }
+              });
+            } else {
+
             if (sectionIndex !== -1 && newProps[sectionIndex]) {
               newProps[sectionIndex].repeal = true;
               newProps[sectionIndex].dispersion = false;
+              newProps[sectionIndex].animate = true;
             }
+          }
               
             return newProps;
-            // newProps.forEach((prop, index) => {
-            //   if (index === currentIndex) {
-            //     newProps[index].repeal = true;
-            //     newProps[index].dispersion = false;
-            //   } else {
-            //     newProps[index].repeal = false;
-            //     newProps[index].dispersion = true;
-            //   }
-            // });
           });
 
         },
@@ -111,8 +137,9 @@ export default function Home() {
               const newProps = [...prevProps];
               const sectionIndex = sections.findIndex(s => s.id === section.id);
               if (sectionIndex !== -1 && newProps[sectionIndex]) {
-                newProps[sectionIndex].dispersion = false;
+                newProps[sectionIndex].dispersion = true;
                 newProps[sectionIndex].repeal = false;
+                newProps[sectionIndex].animate = false;
               }
               return newProps;
             });
@@ -127,6 +154,7 @@ export default function Home() {
               if (sectionIndex !== -1 && newProps[sectionIndex]) {
                 newProps[sectionIndex].dispersion = true;
                 newProps[sectionIndex].repeal = false;
+                newProps[sectionIndex].animate = false;
               }
               return newProps;
             });
@@ -141,16 +169,26 @@ export default function Home() {
         ease: "linear",
         onUpdate: () => {
           setGroupPosn({ ...newPosition });
-        },
-        onStart: () => {
-          console.log(`📍 Position animation started for ${section.id}:`, section.position);
-        },
-        onComplete: () => {
-          console.log(`✅ Position animation completed for ${section.id}. Final position:`, newPosition);
         }
       }, 0);
     });
   }, [showIntroBox]);
+
+
+useEffect(() => {
+  if (!showIntroBox) {
+    SetActiveProperties(prevProps => {
+      const newProps = prevProps.map((prop, index) => ({
+        ...prop,
+        dispersion: index === 0 ? false : true,
+        animate: index === 0 ? true : false
+      }));
+      return newProps;
+    });
+  }
+}, [showIntroBox]);
+
+
   return (
     <>
       <WholeExperience
@@ -169,6 +207,7 @@ export default function Home() {
         isZoomed={showSidebar}
         groupPosn={groupPosn}
         setGroupPosn={setGroupPosn}
+        activeSectionId={activeSectionId}
 
       />
       {/* SCROLLABLE SECTIONS */}

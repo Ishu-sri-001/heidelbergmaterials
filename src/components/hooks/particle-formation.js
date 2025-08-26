@@ -2,19 +2,19 @@ import { gsap } from "gsap";
 import * as THREE from "three";
 import { useEffect, useRef, useCallback } from "react";
 
-export function useParticleFormation(pointsRef, targetPositions, options = {}, toggle) {
+export function useParticleFormation(pointsRef, targetPositions, options = {}, dispersion) {
   const {
     controlLabel = 'Mesh',
     controlId = null
   } = options;
 
-  // Store the previous toggle state and animation state
-  const prevToggleRef = useRef(toggle);
+  // Store the previous dispersion state and animation state
+  const prevDispersionRef = useRef(dispersion);
   const isAnimatingRef = useRef(false);
   const timelineRef = useRef(null);
 
   const animateToMesh = useCallback(() => {
-    if (!pointsRef.current || !targetPositions || isAnimatingRef.current) return;
+    if (!pointsRef.current || !targetPositions) return;
     
     // Kill any existing animations
     if (timelineRef.current) {
@@ -93,7 +93,7 @@ export function useParticleFormation(pointsRef, targetPositions, options = {}, t
   }, [targetPositions]);
 
   const disperseParticles = useCallback(() => {
-    if (!pointsRef.current || isAnimatingRef.current) return;
+    if (!pointsRef.current) return;
     
     // Kill any existing animations
     if (timelineRef.current) {
@@ -169,13 +169,12 @@ export function useParticleFormation(pointsRef, targetPositions, options = {}, t
   }, []);
 
   useEffect(() => {
-    // Only run animation if toggle state changed and pointsRef exists
-    if (prevToggleRef.current !== toggle && pointsRef.current && !isAnimatingRef.current && targetPositions) {
-      prevToggleRef.current = toggle;
+
+    if (prevDispersionRef.current !== dispersion && pointsRef.current && !isAnimatingRef.current && targetPositions) {
+      prevDispersionRef.current = dispersion;
       
-      // Add a small delay to ensure state is settled
       const timeout = setTimeout(() => {
-        if (toggle) {
+        if (dispersion) {
           disperseParticles();
         } else {
           animateToMesh();
@@ -184,7 +183,7 @@ export function useParticleFormation(pointsRef, targetPositions, options = {}, t
 
       return () => clearTimeout(timeout);
     }
-  }, [toggle, animateToMesh, disperseParticles, targetPositions]);
+  }, [dispersion, animateToMesh, disperseParticles, targetPositions]);
 
   // Cleanup on unmount
   useEffect(() => {

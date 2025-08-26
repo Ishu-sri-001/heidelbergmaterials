@@ -1,32 +1,39 @@
 export const activePropertiesArray = [
-    {
-      name: "Earth",
-      repeal: false,
-      dispersion: false,
-    },
-    {
-      name: "circle",
-      repeal: false,
-      dispersion: false,
-    },
-    {
-      name: "bulb",
-      repeal: false,
-      dispersion: false,
-    },
-    {
-      name: "pin",
-      repeal: false,
-      dispersion: false,
-    },
-    {
-      name: "bottle",
-      repeal: false,
-      dispersion: false,
-    },
-    {
-      name: "flask",
-      repeal: false,
-      dispersion: false,
-    },
-  ]
+  {
+    name: "earth",
+    repeal: false,
+    dispersion: false, 
+    animate:true,
+  },
+  {
+    name: "circle",
+    repeal: false,
+    dispersion: true, 
+    animate:true,
+
+  },
+  {
+    name: "bulb",
+    repeal: false,
+    dispersion: true,
+    animate:true,
+  },
+  {
+    name: "pin",
+    repeal: false,
+    dispersion: true,
+    animate:true,
+  },
+  {
+    name: "bottle",
+    repeal: false,
+    dispersion: true,
+    animate:true,
+  },
+  {
+    name: "flask",
+    repeal: false,
+    dispersion: true,
+    animate:true,
+  },
+]

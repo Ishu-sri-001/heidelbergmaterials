@@ -20,6 +20,7 @@ export default function WholeExperience(props) {
     showSidebar,
     setShowSidebar,
     isZoomed,
+    activeSectionId
   } = props;
   return (
     <div className="fixed inset-0 z-[100]">
@@ -47,10 +48,11 @@ export default function WholeExperience(props) {
           SetActiveProperties={SetActiveProperties}
           setShowIntroBox={setShowIntroBox}
           setShowSidebar={setShowSidebar}
+          activeSectionId
         />
       )}
 
-      {showSidebar && <Sidebar />}
+      {showSidebar && <Sidebar activeSectionId={activeSectionId} />}
     </div>
   );
 }

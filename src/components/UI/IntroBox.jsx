@@ -73,6 +73,7 @@ export default function IntroBox({
               name: "Earth",
               repeal: true,
               dispersion: false,
+              animate:false,
             },
             ...ActiveProperties.slice(1),
           ]);

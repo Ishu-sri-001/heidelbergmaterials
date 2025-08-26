@@ -1,50 +1,56 @@
 import Image from "next/image";
 import React from "react";
 
-const Sidebar = () => {
+const Sidebar = ({activeSectionId}) => {
   const menuItems = [
     {
       icon: "/assets/svg/earth-logo.svg",
+      id:'earth',
       text: "CCUS around the world",
       height: "1.7vw",
       width: "fit",
       gap: "1vw",
     },
     {
-      icon: "/assets/svg/flask-logo.svg",
-      text: "Capture technologies lab",
+      icon: "/assets/svg/netzero-logo.svg",
+      id:'circle',
+      text: "Net zero",
       height: "2vw",
       width: "2vw",
-      gap: "1vw",
+      gap: "1.5vw",
     },
-    {
-      icon: "/assets/svg/bottle-logo.svg",
-      text: "CO2 Utilization",
-      height: "1.9vw",
-      width: "1.9vw",
-      gap: "1vw",
-    },
-    {
+     {
       icon: "/assets/svg/bulb-logo.svg",
+      id:'bulb',
       text: "Stakeholder engagement",
       height: "2.5vw",
       width: "2vw",
       gap: "1.5vw",
     },
     {
+      icon: "/assets/svg/flask-logo.svg",
+      id:'flask',
+      text: "Capture technologies lab",
+      height: "2vw",
+      width: "2vw",
+      gap: "1vw",
+    },
+    {
       icon: "/assets/svg/chain-logo.svg",
+      id:'pin',
       text: "Value chains & business cases",
       height: "1.7vw",
       width: "1.7vw",
       gap: "1.5vw",
     },
     {
-      icon: "/assets/svg/netzero-logo.svg",
-      text: "Net zero",
-      height: "2vw",
-      width: "2vw",
-      gap: "1.5vw",
-    },
+      icon: "/assets/svg/bottle-logo.svg",
+      id:'bottle',
+      text: "CO2 Utilization",
+      height: "1.9vw",
+      width: "1.9vw",
+      gap: "1vw",
+    },    
   ];
 
   return (
@@ -67,7 +73,10 @@ const Sidebar = () => {
           {menuItems.map((item, index) => (
             <div
               key={index}
-              className="flex gap-[1vw] items-center opacity-50 hover:opacity-100 cursor-pointer"
+              className={`flex gap-[1vw] items-center hover:opacity-100 cursor-pointer ${
+  item.id === activeSectionId ? "opacity-100" : "opacity-50"
+}`}
+
             >
               <div
                 className={`h-[${item.height}] w-[${item.width}] items-center`}
