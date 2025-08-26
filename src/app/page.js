@@ -43,14 +43,27 @@ export default function Home() {
       { id: 'earth', rotation: 98, position: { x: 0, y: 0, z: 0 } },
       { id: 'circle', rotation: 153, position: { x: 0.3, y: 0, z: 0 } },
       { id: 'bulb', rotation: 208, position: { x: 0.5, y: 0, z: 0 } },
-      { id: 'pin', rotation: 263, position: { x: 0.3, y: 0, z: 0 } },
-      { id: 'bottle', rotation: 318, position: { x: 0.5, y: 0, z: 0 } },
-      { id: 'flask', rotation: 373, position: { x: 0.6, y: -0.2, z: 0 } },
+      { id: 'pin', rotation: 290, position: { x: 0.3, y: -0.1, z: 0 } },
+      { id: 'bottle', rotation: 340, position: { x: 0.5, y: -0.1, z: 0 } },
+      { id: 'flask', rotation: 380, position: { x: 0.6, y: -0.2, z: 0 } },
       { id: 'flask1', rotation: 395, position: { x: 0.6, y: 0, z: 0 } }
     ];
 
     let newRotation = { ...cameraRotation, x: -90, y: 0, z: 43 };
     let newPosition = { ...groupPosn };
+
+
+    //for infinite loop
+    ScrollTrigger.create({
+  trigger: ".flask2Section",   
+  start: "20% bottom",
+  end:'top 70%',
+  // markers:true,
+  onLeave: () => {
+    window.scrollTo({ top: 0, behavior: "instant" }); 
+    }
+  });
+
 
     sections.forEach((section) => {
       const tl = gsap.timeline({
@@ -58,8 +71,8 @@ export default function Home() {
           trigger: `.${section.id}Section`,
           start: 'top top',
           end: 'bottom',
-          scrub: 1,
-          markers: true
+          scrub: true,
+          // markers: true, 
         }
       });
 
@@ -78,7 +91,17 @@ export default function Home() {
               newProps[sectionIndex].repeal = true;
               newProps[sectionIndex].dispersion = false;
             }
+              
             return newProps;
+            // newProps.forEach((prop, index) => {
+            //   if (index === currentIndex) {
+            //     newProps[index].repeal = true;
+            //     newProps[index].dispersion = false;
+            //   } else {
+            //     newProps[index].repeal = false;
+            //     newProps[index].dispersion = true;
+            //   }
+            // });
           });
 
         },
@@ -93,7 +116,7 @@ export default function Home() {
               }
               return newProps;
             });
-          }, -1500);
+          }, -150);
 
         },
         onComplete: () => {
