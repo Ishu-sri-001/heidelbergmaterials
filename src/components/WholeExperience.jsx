@@ -39,6 +39,7 @@ export default function WholeExperience(props) {
         isZoomed={isZoomed}
         groupPosn={groupPosn} 
         setGroupPosn={setGroupPosn}
+        setActiveSectionId={setActiveSectionId}
       />
 
       {showIntroBox && (
@@ -58,7 +59,7 @@ export default function WholeExperience(props) {
         />
       )}
 
-      {showSidebar && <Sidebar playSound={playSound} setPlaySound={setPlaySound} activeSectionId={activeSectionId} />}
+      {showSidebar && <Sidebar playSound={playSound} setPlaySound={setPlaySound} activeSectionId={activeSectionId} setActiveSectionId={setActiveSectionId} />}
     </div>
   );
 }
