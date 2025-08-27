@@ -17,6 +17,7 @@ export default function Home() {
     y: -0.1,
     z: 2.2
   })
+  const [playSound, setPlaySound] = useState(false);
 
   const [cameraRotation, setCameraRotation] = useState({
     x: 0,
@@ -40,6 +41,8 @@ export default function Home() {
   const [activeSectionId, setActiveSectionId] = useState(null);
 
   useEffect(() => {
+    
+
     const sections = [
       { id: 'earth', rotation: 98, position: { x: 0, y: 0, z: 0 } },
       { id: 'circle', rotation: 153, position: { x: 0.3, y: 0, z: 0 } },
@@ -152,7 +155,9 @@ export default function Home() {
               const newProps = [...prevProps];
               const sectionIndex = sections.findIndex(s => s.id === section.id);
               if (sectionIndex !== -1 && newProps[sectionIndex]) {
+                // const ageWaliIndex = sectionIndex +1;
                 newProps[sectionIndex].dispersion = true;
+                // newProps[ageWaliIndex].dispersion = false;
                 newProps[sectionIndex].repeal = false;
                 newProps[sectionIndex].animate = false;
               }
@@ -208,6 +213,9 @@ useEffect(() => {
         groupPosn={groupPosn}
         setGroupPosn={setGroupPosn}
         activeSectionId={activeSectionId}
+        playSound={playSound}
+        setPlaySound={setPlaySound}
+        setActiveSectionId={setActiveSectionId}
 
       />
       {/* SCROLLABLE SECTIONS */}
@@ -221,6 +229,7 @@ useEffect(() => {
           <div className="h-screen bg-red-900 w-full flaskSection" />
           <div className="h-screen bg-red-900 w-full flask1Section" />
           <div className="h-screen bg-red-900 w-full flask2Section" />
+          
         </>
       }
 

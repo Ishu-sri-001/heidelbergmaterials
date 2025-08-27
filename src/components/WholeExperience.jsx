@@ -20,7 +20,10 @@ export default function WholeExperience(props) {
     showSidebar,
     setShowSidebar,
     isZoomed,
-    activeSectionId
+    activeSectionId,
+    playSound,
+    setPlaySound,
+    setActiveSectionId
   } = props;
   return (
     <div className="fixed inset-0 z-[100]">
@@ -48,11 +51,14 @@ export default function WholeExperience(props) {
           SetActiveProperties={SetActiveProperties}
           setShowIntroBox={setShowIntroBox}
           setShowSidebar={setShowSidebar}
-          activeSectionId
+          activeSectionId={activeSectionId}
+          playSound={playSound}
+          setPlaySound={setPlaySound}
+          setActiveSectionId={setActiveSectionId}
         />
       )}
 
-      {showSidebar && <Sidebar activeSectionId={activeSectionId} />}
+      {showSidebar && <Sidebar playSound={playSound} setPlaySound={setPlaySound} activeSectionId={activeSectionId} />}
     </div>
   );
 }
