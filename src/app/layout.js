@@ -2,6 +2,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import localFont from "next/font/local";
 import LenisSmoothScroll from "@/components/LenisScroll";
+import Loader from "@/components/UI/Loader";
+import Token3d from "@/components/UI/Token3D";
 
 const Font1 = localFont({
   src: [
@@ -37,6 +39,8 @@ export default function RootLayout({ children }) {
       <head>
         <link rel="icon" href="/favicon.png" sizes="any" />
       </head>
+      <Loader />
+      {/* <Token3d /> */}
       <LenisSmoothScroll />
       <body
         className={`${Font1.variable} ${Font2.variable} antialiased`}

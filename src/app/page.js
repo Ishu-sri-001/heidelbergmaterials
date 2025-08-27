@@ -41,7 +41,7 @@ export default function Home() {
   const [activeSectionId, setActiveSectionId] = useState(null);
 
   useEffect(() => {
-    
+
 
     const sections = [
       { id: 'earth', rotation: 98, position: { x: 0, y: 0, z: 0 } },
@@ -59,14 +59,14 @@ export default function Home() {
 
     //for infinite loop
     ScrollTrigger.create({
-  trigger: ".flask2Section",   
-  start: "20% bottom",
-  end:'top 70%',
-  // markers:true,
-  onLeave: () => {
-    window.scrollTo({ top: 0, behavior: "instant" }); 
-    }
-  });
+      trigger: ".flask2Section",
+      start: "20% bottom",
+      end: 'top 70%',
+      // markers:true,
+      onLeave: () => {
+        window.scrollTo({ top: 0, behavior: "instant" });
+      }
+    });
 
 
     sections.forEach((section) => {
@@ -78,21 +78,21 @@ export default function Home() {
           scrub: true,
           // markers: true, 
           onEnter: () => {
-        setActiveSectionId(section.id);
-        console.log(`Entered section: ${section.id}`);
-      },
-      onEnterBack: () => {
-        setActiveSectionId(section.id);
-        console.log(`Entered back into section: ${section.id}`);
-      },
-      onLeave: () => {
-        setActiveSectionId(null);
-        console.log(`Left section: ${section.id}`);
-      },
-      onLeaveBack: () => {
-        setActiveSectionId(null);
-        console.log(`Left back from section: ${section.id}`);
-      },
+            setActiveSectionId(section.id);
+            // console.log(`Entered section: ${section.id}`);
+          },
+          onEnterBack: () => {
+            setActiveSectionId(section.id);
+            // console.log(`Entered back into section: ${section.id}`);
+          },
+          onLeave: () => {
+            setActiveSectionId(null);
+            // console.log(`Left section: ${section.id}`);
+          },
+          onLeaveBack: () => {
+            setActiveSectionId(null);
+            // console.log(`Left back from section: ${section.id}`);
+          },
         }
       });
 
@@ -108,7 +108,7 @@ export default function Home() {
             const newProps = [...prevProps];
             const sectionIndex = sections.findIndex(s => s.id === section.id);
 
-             if (showSidebar) {
+            if (showSidebar) {
               // If zoomed (sidebar is open), set dispersion=false only for active section
               newProps.forEach((prop, index) => {
                 if (index === sectionIndex) {
@@ -123,13 +123,13 @@ export default function Home() {
               });
             } else {
 
-            if (sectionIndex !== -1 && newProps[sectionIndex]) {
-              newProps[sectionIndex].repeal = true;
-              newProps[sectionIndex].dispersion = false;
-              newProps[sectionIndex].animate = true;
+              if (sectionIndex !== -1 && newProps[sectionIndex]) {
+                newProps[sectionIndex].repeal = true;
+                newProps[sectionIndex].dispersion = false;
+                newProps[sectionIndex].animate = true;
+              }
             }
-          }
-              
+
             return newProps;
           });
 
@@ -180,18 +180,18 @@ export default function Home() {
   }, [showIntroBox]);
 
 
-useEffect(() => {
-  if (!showIntroBox) {
-    SetActiveProperties(prevProps => {
-      const newProps = prevProps.map((prop, index) => ({
-        ...prop,
-        dispersion: index === 0 ? false : true,
-        animate: index === 0 ? true : false
-      }));
-      return newProps;
-    });
-  }
-}, [showIntroBox]);
+  useEffect(() => {
+    if (!showIntroBox) {
+      SetActiveProperties(prevProps => {
+        const newProps = prevProps.map((prop, index) => ({
+          ...prop,
+          dispersion: index === 0 ? false : true,
+          animate: index === 0 ? true : false
+        }));
+        return newProps;
+      });
+    }
+  }, [showIntroBox]);
 
 
   return (
@@ -216,6 +216,7 @@ useEffect(() => {
         playSound={playSound}
         setPlaySound={setPlaySound}
         setActiveSectionId={setActiveSectionId}
+        
 
       />
       {/* SCROLLABLE SECTIONS */}
@@ -229,7 +230,7 @@ useEffect(() => {
           <div className="h-screen bg-red-900 w-full flaskSection" />
           <div className="h-screen bg-red-900 w-full flask1Section" />
           <div className="h-screen bg-red-900 w-full flask2Section" />
-          
+
         </>
       }
 
