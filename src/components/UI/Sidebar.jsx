@@ -250,7 +250,7 @@ const NavBar = (playSound, activeSectionId) => {
   }, [activeSectionId]);
 
   return (
-    <div className="absolute navBar bottom-[1vw] left-1/2 translate-x-[-50%] z-[999]">
+    <div className="absolute navBar bottom-[1vw] left-1/2 translate-x-[-50%] z-[400]">
       <div className="flex items-center mt-[1.2vw] group cursor-pointer w-fit justify-center gap-[1vw] bg-white rounded-full p-[.3vw]">
         <div className="bg-[#00DD39] w-[3.5vw] h-[3.5vw] flex items-center justify-center gap-[2vw] group-hover:scale-105 duration-300 transition-all p-[1vw] rounded-full">
           <p className="font-thin text-[1.5vw] text-zinc-700">+</p>
@@ -262,3 +262,5 @@ const NavBar = (playSound, activeSectionId) => {
     </div>
   );
 };
+
+

@@ -107,16 +107,15 @@ export default function IntroBox({
           setShowIntroBox(false);
           setShowSidebar(true);
           document.querySelector(".enter-container").style.display = "none";
-          //   SetActiveProperties(prev =>
-          //   prev.map((item, i) =>
-          //     i === 0
-          //       ? { ...item, repeal: true, dispersion: false } // Earth: repel ON, dispersion OFF
-          //       : { ...item, dispersion: true } // Others: disperse
-          //   )
-          // );
+            SetActiveProperties(prev =>
+            prev.map((item, i) =>
+              i === 0
+                ? { ...item, repeal: true, dispersion: false }
+                : { ...item, dispersion: true } 
+            )
+          );
         },
       });
-
       const position = { x: 0, y: -0.1, z: 2.3 };
       const rotationProxy = { x: 0, y: 0, z: 0 };
       tl.to(position, {
@@ -142,10 +141,11 @@ export default function IntroBox({
                 name: "Earth",
                 repeal: true,
                 dispersion: false,
-                animate: false,
               },
               ...ActiveProperties.slice(1),
             ]);
+      console.log(ActiveProperties)
+
           },
         },
         "<"

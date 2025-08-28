@@ -68,7 +68,7 @@ export default function Home() {
       }
     });
 
-
+     console.log(ActiveProperties, ">>>")
     sections.forEach((section) => {
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -114,11 +114,9 @@ export default function Home() {
                 if (index === sectionIndex) {
                   newProps[index].repeal = true;
                   newProps[index].dispersion = false;
-                  newProps[index].animate = true;
                 } else {
                   newProps[index].repeal = false;
                   newProps[index].dispersion = true;
-                  newProps[index].animate = false;
                 }
               });
             } else {
@@ -126,7 +124,6 @@ export default function Home() {
               if (sectionIndex !== -1 && newProps[sectionIndex]) {
                 newProps[sectionIndex].repeal = true;
                 newProps[sectionIndex].dispersion = false;
-                newProps[sectionIndex].animate = true;
               }
             }
 
@@ -142,7 +139,6 @@ export default function Home() {
               if (sectionIndex !== -1 && newProps[sectionIndex]) {
                 newProps[sectionIndex].dispersion = true;
                 newProps[sectionIndex].repeal = false;
-                newProps[sectionIndex].animate = false;
               }
               return newProps;
             });
@@ -159,7 +155,6 @@ export default function Home() {
                 newProps[sectionIndex].dispersion = true;
                 // newProps[ageWaliIndex].dispersion = false;
                 newProps[sectionIndex].repeal = false;
-                newProps[sectionIndex].animate = false;
               }
               return newProps;
             });
@@ -178,21 +173,6 @@ export default function Home() {
       }, 0);
     });
   }, [showIntroBox]);
-
-
-  useEffect(() => {
-    if (!showIntroBox) {
-      SetActiveProperties(prevProps => {
-        const newProps = prevProps.map((prop, index) => ({
-          ...prop,
-          dispersion: index === 0 ? false : true,
-          animate: index === 0 ? true : false
-        }));
-        return newProps;
-      });
-    }
-  }, [showIntroBox]);
-
 
   return (
     <>

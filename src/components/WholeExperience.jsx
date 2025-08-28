@@ -2,6 +2,7 @@ import React from "react";
 import ModelViewer from "./ModelViewer";
 import IntroBox from "./UI/IntroBox";
 import Sidebar from "./UI/Sidebar";
+import AllTopic from "./UI/AllTopic";
 
 export default function WholeExperience(props) {
   const {
@@ -11,7 +12,7 @@ export default function WholeExperience(props) {
     setCameraRotation,
     groupRotation,
     setGroupRotation,
-    groupPosn, 
+    groupPosn,
     setGroupPosn,
     ActiveProperties,
     SetActiveProperties,
@@ -23,7 +24,7 @@ export default function WholeExperience(props) {
     activeSectionId,
     playSound,
     setPlaySound,
-    setActiveSectionId
+    setActiveSectionId,
   } = props;
   return (
     <div className="fixed inset-0 z-[100]">
@@ -37,7 +38,7 @@ export default function WholeExperience(props) {
         SetActiveProperties={SetActiveProperties}
         setGroupRotation={setGroupRotation}
         isZoomed={isZoomed}
-        groupPosn={groupPosn} 
+        groupPosn={groupPosn}
         setGroupPosn={setGroupPosn}
         setActiveSectionId={setActiveSectionId}
       />
@@ -59,7 +60,15 @@ export default function WholeExperience(props) {
         />
       )}
 
-      {showSidebar && <Sidebar playSound={playSound} setPlaySound={setPlaySound} activeSectionId={activeSectionId} setActiveSectionId={setActiveSectionId} />}
+      {showSidebar && (
+        <Sidebar
+          playSound={playSound}
+          setPlaySound={setPlaySound}
+          activeSectionId={activeSectionId}
+          setActiveSectionId={setActiveSectionId}
+        />
+      )}
+      {showSidebar && <AllTopic />}
     </div>
   );
 }
