@@ -94,7 +94,7 @@ export default function ModelViewer({
             groupPosn={groupPosn} 
             setGroupPosn={setGroupPosn}
           />
-          <EffectComposer>
+          {/* <EffectComposer>
             {
               lightRef.current &&
               <GodRays
@@ -113,7 +113,7 @@ export default function ModelViewer({
                 blur={true}
               />
             }
-          </EffectComposer>
+          </EffectComposer> */}
         </Suspense>
       </Canvas>
     </div>
