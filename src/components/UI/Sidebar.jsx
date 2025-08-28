@@ -28,7 +28,7 @@ const Sidebar = ({
   const menuItems = [
     {
       icon: "/assets/svg/earth-logo.svg",
-      id: "earth",
+      id: "earth", 
       text: "CCUS around the world",
       height: "1.7vw",
       width: "fit",
@@ -38,42 +38,32 @@ const Sidebar = ({
       icon: "/assets/svg/netzero-logo.svg",
       id: "circle",
       text: "Net zero",
-      height: "2vw",
-      width: "2vw",
-      gap: "1.5vw",
+      
     },
     {
       icon: "/assets/svg/bulb-logo.svg",
       id: "bulb",
       text: "Stakeholder engagement",
-      height: "2.5vw",
-      width: "2vw",
-      gap: "1.5vw",
+     
     },
     {
       icon: "/assets/svg/chain-logo.svg",
       id: "pin",
       text: "Value chains & business cases",
-      height: "1.7vw",
-      width: "1.7vw",
-      gap: "1.5vw",
+     
     },
 
     {
       icon: "/assets/svg/bottle-logo.svg",
       id: "bottle",
       text: "CO2 Utilization",
-      height: "1.9vw",
-      width: "1.9vw",
-      gap: "1vw",
+      
     },
     {
       icon: "/assets/svg/flask-logo.svg",
       id: "flask",
       text: "Capture technologies lab",
-      height: "2vw",
-      width: "2vw",
-      gap: "1vw",
+     
     },
   ];
 
@@ -109,12 +99,12 @@ const Sidebar = ({
 
   return (
     <>
-      <div className="absolute inset-0  w-fit text-white">
-        <div className="flex flex-col p-[1.5vw] relative gap-[1.5vw]">
-          <div className="absolute top-0 left-0  w-[10vw] h-[100vh] z-[0] bg-gradient-to-r from-[#028541] opacity-50 blur-3xl to-[#133b24]">
+      <div data-hide-cursor className="absolute inset-0 w-fit text-white">
+        <div className="flex flex-col p-[1.5vw] max-sm:p-4 relative gap-[1.5vw] max-sm:gap-4">
+          <div className="absolute top-0 left-0 w-[10vw] max-sm:w-[60px] h-[100vh] z-[0] bg-gradient-to-r from-[#028541] opacity-50 blur-3xl to-[#133b24]">
             <div className=""></div>
           </div>
-          <div className="w-[4vw] z-[10] h-[4vw]">
+          <div className="w-[4vw] max-sm:w-[12vw] z-[10] h-[4vw] max-sm:h-[12vw]">
             <Image
               src="/assets/svg/logoo.svg"
               width={100}
@@ -124,19 +114,18 @@ const Sidebar = ({
             />
           </div>
 
-          <div className="flex flex-col z-[10] group pt-[7vw] pl-[2vw] gap-[2.2vw]">
+          <div className="flex flex-col w-full items-start duration-300 transition-all justify-center z-[10] group pt-[8vw] max-sm:pt-[60px] pl-[1.5vw] max-sm:pl-4 gap-[2.2vw] max-sm:gap-[6vw]">
             {menuItems.map((item, index) => (
               <div
                 key={index}
-                // onClick={playSoundTick}
                 onClick={() => handleScrollTo(item.id)}
                 onMouseEnter={playSoundHover}
-                className={`flex gap-[1vw] items-center hover:opacity-100 cursor-pointer ${
+                className={`flex gap-[1vw] max-sm:gap-[5vw] items-center hover:opacity-100 cursor-pointer ${
                   item.id === activeSectionId ? "opacity-100" : "opacity-50"
                 }`}
               >
                 <div
-                  className={`h-[${item.height}] w-[${item.width}] items-center`}
+                  className="w-[1.6vw] max-sm:w-[8vw] h-[1.6vw] max-sm:h-[8vw] relative"
                 >
                   <Image
                     src={item.icon}
@@ -146,7 +135,7 @@ const Sidebar = ({
                     alt="logo"
                   />
                 </div>
-                <p className="font-display text-[0.9vw] hidden group-hover:block">
+                <p className="font-display text-[0.9vw] max-sm:text-sm hidden group-hover:block">
                   {item.text}
                 </p>
               </div>
@@ -156,40 +145,18 @@ const Sidebar = ({
       </div>
 
       <div
+        data-hide-cursor
         onClick={() => {
           setPlaySound((prev) => !prev);
           playSoundTick();
         }}
         onMouseEnter={playSoundHover}
-        className="soundButton rounded-tr-[1.5vw] cursor-pointer rounded-bl-[1.5vw] p-[1.5vw] z-[999] absolute bottom-[1vw] right-[1vw] bg-teal-600/20 backdrop-blur-[10px] border-white/40 border"
+        className="soundButton rounded-tr-[1.5vw] max-sm:rounded-tr-3xl cursor-pointer rounded-bl-[1.5vw] max-sm:rounded-bl-3xl p-[1.5vw] max-sm:p-4 z-[999] absolute bottom-[1vw] max-sm:bottom-4 right-[1vw] max-sm:right-4 bg-teal-600/20 backdrop-blur-[10px] border-white/40 border"
       >
         {playSound ? (
-          <svg
-            className="h-[1vw] w-[1vw] object-contain"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 10 16"
-          >
-            <path
-              stroke="#fff"
-              d="M.84 10.59V5.443h3.615l4.16-3.446v12.079l-4.16-3.486H.84Z"
-            ></path>
-          </svg>
+          <Image src="/assets/svg/sound.svg" alt="sound-on" width={100} height={100} className="h-[1.2vw] max-sm:h-5 w-[1.2vw] max-sm:w-5 text-white object-contain" />
         ) : (
-          <svg
-            className="h-[1vw] w-[1vw] object-contain"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 10 16"
-          >
-            <path
-              stroke="#fff"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1"
-              d="M.84 10.59V5.443h3.615l4.16-3.446v12.079l-4.16-3.486H.84Z M1 1l8 14"
-            />
-          </svg>
+          <Image src="/assets/svg/soundOFF.svg" alt="sound-off" width={100} height={100} className="h-[1.2vw] max-sm:h-5 w-[1.2vw] max-sm:w-5 text-white object-contain" />
         )}
       </div>
       <NavBar activeSectionId={activeSectionId} playSound={playSound} />
@@ -250,17 +217,15 @@ const NavBar = (playSound, activeSectionId) => {
   }, [activeSectionId]);
 
   return (
-    <div className="absolute navBar bottom-[1vw] left-1/2 translate-x-[-50%] z-[400]">
-      <div className="flex items-center mt-[1.2vw] group cursor-pointer w-fit justify-center gap-[1vw] bg-white rounded-full p-[.3vw]">
-        <div className="bg-[#00DD39] w-[3.5vw] h-[3.5vw] flex items-center justify-center gap-[2vw] group-hover:scale-105 duration-300 transition-all p-[1vw] rounded-full">
-          <p className="font-thin text-[1.5vw] text-zinc-700">+</p>
+    <div data-hide-cursor className="absolute navBar bottom-[1vw] max-sm:bottom-[5vw] left-1/2 translate-x-[-50%]  z-[400]">
+      <div className="flex items-center mt-[1.2vw] max-sm:mt-4 group cursor-pointer w-fit  justify-center max-sm:translate-x-[-20%] gap-[1vw] max-sm:gap-3 bg-white rounded-full p-[.3vw] max-sm:p-1">
+        <div className="bg-[#00DD39] w-[3.5vw] max-sm:w-[40px] h-[3.5vw] max-sm:h-[40px] flex items-center justify-center gap-[2vw] max-sm:gap-6 group-hover:scale-105 duration-300 transition-all p-[1vw] max-sm:p-3 rounded-full">
+          <p className="font-thin text-[1.5vw] max-sm:text-xl text-zinc-700">+</p>
         </div>
-        <p className="text-[.9vw] NavBar-text w-fit  text-zinc-700 font-display">
-          <span className="pr-[.5vw]">Capture Techlologies Labs</span>
+        <p className="text-[.9vw] max-sm:text-sm NavBar-text w-fit text-zinc-700 font-display">
+          <span className="pr-[.5vw] max-sm:pr-2">Capture Techlologies Labs</span>
         </p>
       </div>
     </div>
   );
 };
-
-

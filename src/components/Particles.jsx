@@ -162,7 +162,7 @@ export default function BGParticles() {
     <group>
       <ParticleField size={0.01} count={5000} color="#6BA32C" opacity={0.5} />
       <ParticleField
-        count={4000}
+        count={15000}
         radius={4.1}
         color="#C0EC82"
         size={0.025}
@@ -171,7 +171,7 @@ export default function BGParticles() {
         rotationY={40}
       />
       <ParticleField
-        count={3000}
+        count={8000}
         radius={3.9}
         color="green"
         size={0.01}
@@ -180,7 +180,7 @@ export default function BGParticles() {
         rotationY={40}
       />
       <ParticleField
-        count={1000}
+        count={5000}
         radius={3.8}
         color="#04390A"
         size={0.02}

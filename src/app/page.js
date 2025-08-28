@@ -5,6 +5,7 @@ import WholeExperience from "@/components/WholeExperience";
 import { activePropertiesArray } from "./Utils/data";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import { OnReloadScrollTop } from "@/components/UI/OnReloadScrollTop";
+import InitialCursor from "@/components/UI/InitialCursor";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
@@ -68,7 +69,7 @@ export default function Home() {
       }
     });
 
-     console.log(ActiveProperties, ">>>")
+    // console.log(ActiveProperties, ">>>")
     sections.forEach((section) => {
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -103,34 +104,34 @@ export default function Home() {
         onUpdate: () => {
           setCameraRotation({ ...newRotation });
         },
-        onStart: () => {
-          SetActiveProperties(prevProps => {
-            const newProps = [...prevProps];
-            const sectionIndex = sections.findIndex(s => s.id === section.id);
+        // onStart: () => {
+        //   SetActiveProperties(prevProps => {
+        //     const newProps = [...prevProps];
+        //     const sectionIndex = sections.findIndex(s => s.id === section.id);
 
-            if (showSidebar) {
-              // If zoomed (sidebar is open), set dispersion=false only for active section
-              newProps.forEach((prop, index) => {
-                if (index === sectionIndex) {
-                  newProps[index].repeal = true;
-                  newProps[index].dispersion = false;
-                } else {
-                  newProps[index].repeal = false;
-                  newProps[index].dispersion = true;
-                }
-              });
-            } else {
+        //     if (showSidebar) {
+        //       // If zoomed (sidebar is open), set dispersion=false only for active section
+        //       newProps.forEach((prop, index) => {
+        //         if (index === sectionIndex) {
+        //           newProps[index].repeal = true;
+        //           newProps[index].dispersion = false;
+        //         } else {
+        //           newProps[index].repeal = false;
+        //           newProps[index].dispersion = true;
+        //         }
+        //       });
+        //     } else {
 
-              if (sectionIndex !== -1 && newProps[sectionIndex]) {
-                newProps[sectionIndex].repeal = true;
-                newProps[sectionIndex].dispersion = false;
-              }
-            }
+        //       if (sectionIndex !== -1 && newProps[sectionIndex]) {
+        //         newProps[sectionIndex].repeal = true;
+        //         newProps[sectionIndex].dispersion = false;
+        //       }
+        //     }
 
-            return newProps;
-          });
+        //     return newProps;
+        //   });
 
-        },
+        // },
         onReverseComplete: () => {
           setTimeout(() => {
             SetActiveProperties(prevProps => {
@@ -196,20 +197,23 @@ export default function Home() {
         playSound={playSound}
         setPlaySound={setPlaySound}
         setActiveSectionId={setActiveSectionId}
-        
+
 
       />
       {/* SCROLLABLE SECTIONS */}
       {
         !showIntroBox && <>
-          <div className="h-screen bg-red-300 w-full earthSection " />
-          <div className="h-screen bg-red-500 w-full circleSection" />
-          <div className="h-screen bg-red-600 w-full bulbSection" />
-          <div className="h-screen bg-red-700 w-full pinSection" />
-          <div className="h-screen bg-red-800 w-full bottleSection" />
-          <div className="h-screen bg-red-900 w-full flaskSection" />
-          <div className="h-screen bg-red-900 w-full flask1Section" />
-          <div className="h-screen bg-red-900 w-full flask2Section" />
+          <div className="h-screen w-full earthSection ">
+            <InitialCursor />
+          </div>
+          <div className="h-screen w-full circleSection" />
+          <div className="h-screen w-full bulbSection" />
+          <div className="h-screen w-full pinSection" />
+          <div className="h-screen w-full bottleSection" />
+          <div className="h-screen w-full flaskSection" />
+          <div className="h-screen w-full flask1Section" />
+          <div className="h-screen w-full flask2Section" />
+
 
         </>
       }

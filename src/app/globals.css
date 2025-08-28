@@ -3,6 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  
 }
 
 @theme inline {
@@ -10,6 +11,8 @@
   --color-foreground: var(--foreground);
   --font-body:var(--font-body);
   --font-display:var(--font-display);
+  --breakpoint-md: 1025px;
+  --breakpoint-sm: 768px;
 }
 
 

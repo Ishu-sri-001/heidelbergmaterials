@@ -168,11 +168,11 @@ export default function IntroBox({
 
   return (
     <>
-      <div className="p-[1vw] enter-container bg-white h-fit absolute inset-1/2 translate-x-[-50%] translate-y-[-50%] w-[27vw] rounded-bl-[5vw] ">
-        <div className="h-full flex flex-col items-center justify-center text-center gap-[.5vw]  w-full pb-[2vw]  text-green-800 border-zinc-200 border rounded-bl-[5vw]">
-          <div className="h-[10vw] min-h-[10vw]   flex border-b border-zinc-200 w-full ">
+      <div className="p-[1vw] max-sm:p-4 enter-container bg-white h-fit absolute inset-1/2 translate-x-[-50%] translate-y-[-50%] w-[27vw] max-sm:w-[90vw] rounded-bl-[5vw] max-sm:rounded-bl-[20px]">
+        <div className="h-full flex flex-col items-center justify-center text-center gap-[.5vw] max-sm:gap-2 w-full pb-[2vw] max-sm:pb-4 text-green-800 border-zinc-200 border rounded-bl-[5vw] max-sm:rounded-bl-[20px]">
+          <div className="h-[10vw] max-sm:h-[100px] min-h-[10vw] max-sm:min-h-[100px] flex border-b border-zinc-200 w-full">
             <div className="w-1/2 flex items-center justify-center h-full border-r border-zinc-200">
-              <svg
+            <svg
                 className="w-2/3 h-full object-contain svg-left"
                 viewBox="0 0 204 180"
                 width="204"
@@ -424,34 +424,33 @@ export default function IntroBox({
               </svg>
             </div>
           </div>
-          <div className="flex items-center flex-col min-h-[30vh] justify-center">
-            <div className="h-[20vh] flex items-center flex-col justify-center">
-
-            <p className="font-black intro-heading text-[1.1vw] font-body tracking-tight w-full text-green-800">
-              {" "}
-              Our CCUS mission
-            </p>
-            <p className="w-[90%] text-[1.1vw] pt-[1vw] font-normal font-display intro-text tracking-tight leading-[1.1]">
-              At Heidelberg Materials we are taking the lead in decarbonising
-              our sector. We are pioneering Carbon Capture, Utilisation and
-              Storage, laying the foundation for scaling CCUS across our global
-              operations.
-            </p>
+          <div className="flex items-center flex-col min-h-[30vh] max-sm:min-h-[200px] justify-center">
+            <div className="h-[20vh] max-sm:h-[150px] flex items-center flex-col justify-center">
+              <p className="font-black intro-heading text-[1.1vw] max-sm:text-[16px] font-body tracking-tight w-full text-green-800">
+                {" "}
+                Our CCUS mission
+              </p>
+              <p className="w-[90%] text-[1.1vw] max-sm:text-[14px] pt-[1vw] max-sm:pt-4 font-normal font-display intro-text tracking-tight leading-[1.1]">
+                At Heidelberg Materials we are taking the lead in decarbonising
+                our sector. We are pioneering Carbon Capture, Utilisation and
+                Storage, laying the foundation for scaling CCUS across our global
+                operations.
+              </p>
             </div>
-            <div className="flex items-center justify-center h-[10vh] ">
+            <div className="flex items-center justify-center h-[10vh] max-sm:h-[50px]">
               <div
                 onClick={handleEnter}
                 onMouseEnter={playSoundHover}
-                className="flex items-center mt-[1.2vw] group cursor-pointer w-fit justify-center gap-[1vw] bg-[#E6E6DF] rounded-full p-[.3vw]"
+                className="flex items-center mt-[1.2vw] max-sm:mt-4 group cursor-pointer w-fit justify-center gap-[1vw] max-sm:gap-2 bg-[#E6E6DF] rounded-full p-[.3vw] max-sm:p-1"
               >
-                <div className="bg-[#00DD39] group-hover:scale-105 duration-300 transition-all p-[1vw] rounded-full">
+                <div className="bg-[#00DD39] group-hover:scale-105 duration-300 transition-all p-[1vw] max-sm:p-3 rounded-full">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="w-[1vw] h-[1vw]"
+                    className="w-[1vw] max-sm:w-4 object-contain h-[1vw] max-sm:h-4"
                   >
                     <path
                       strokeLinecap="round"
@@ -460,7 +459,7 @@ export default function IntroBox({
                     />
                   </svg>
                 </div>
-                <p className="text-[.9vw] pr-[1.2vw] text-zinc-700 font-display">
+                <p className="text-[.9vw] max-sm:text-[14px] pr-[1.2vw] max-sm:pr-4 text-zinc-700 font-display">
                   Next
                 </p>
               </div>

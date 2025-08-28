@@ -7,6 +7,7 @@ import { MeshSurfaceSampler } from "three/examples/jsm/math/MeshSurfaceSampler.j
 import useCursorRepel from "@/components/hooks/cursor-repel";
 import { useParticleFormation } from "@/components/hooks/particle-formation";
 import { degToRad } from "three/src/math/MathUtils";
+import { useGLTF } from "@react-three/drei";
 
 let circleTexture;
 if (typeof window !== "undefined") {
@@ -105,22 +106,29 @@ export default function Bottle({
 
   if (!pointsGeo) return null;
 
+  const { nodes } = useGLTF("/models/token.glb");
+  console.log(nodes);
+
   return (
-    <points
-      ref={ref}
-      geometry={pointsGeo}
-      position={[rotatedX, rotatedY, 0]}
-      scale={2.7}
-    >
-      <pointsMaterial
-        color="white"
-        size={0.008}
-        sizeAttenuation
-        transparent
-        alphaTest={0.5}
-        map={circleTexture}
-        alphaMap={circleTexture}
-      />
-    </points>
+    <group>
+      <points
+        ref={ref}
+        geometry={pointsGeo}
+        position={[rotatedX, rotatedY, 0]}
+        scale={2.7}
+      >
+        <pointsMaterial
+          color="white"
+          size={0.008}
+          sizeAttenuation
+          transparent
+          alphaTest={0.5}
+          map={circleTexture}
+          alphaMap={circleTexture}
+        />
+      </points>
+      <mesh geometry={nodes.Icon.geometry} material={nodes.Icon.material} position={[-7, -5, -1.2]} rotation={[ degToRad(90),degToRad(60), 0]} scale={0.02}>
+      </mesh>
+    </group>
   );
 }

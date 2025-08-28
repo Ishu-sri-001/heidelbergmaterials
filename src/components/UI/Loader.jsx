@@ -65,33 +65,37 @@ export default function Loader() {
       .to(boxRefs.box4.current, {
         borderColor: "rgba(144, 238, 144, .8)",
         borderWidth: "2px",
-        duration: .5,
+        duration: 0.5,
       })
       .to(logoRefs.text.current, {
         opacity: 0,
-        duration: .8,
+        duration: 0.8,
         ease: "linear",
       })
       .to(logoRefs.logo.current, {
         xPercent: -50,
-        duration: .8,
+        duration: 0.8,
         delay: 0.4,
         ease: "linear",
       });
 
     //Animation Sequence for box border coloros
 
-    tl.to(boxRefs.box3.current, {
-      borderColor: "rgba(144, 238, 144, 0.6)", // rgba(144, 238, 144, 0.7) with opacity
-      borderWidth: "1px",
-      duration: .5,
-      delay: -0.5,
-    },"<+.5")
+    tl.to(
+      boxRefs.box3.current,
+      {
+        borderColor: "rgba(144, 238, 144, 0.6)", // rgba(144, 238, 144, 0.7) with opacity
+        borderWidth: "1px",
+        duration: 0.5,
+        delay: -0.5,
+      },
+      "<+.5"
+    )
       .to(boxRefs.box2.current, {
         borderColor: "rgba(144, 238, 144, 0.4)",
         borderWidth: "1px",
         opacity: 1,
-        duration: .5,
+        duration: 0.5,
         delay: -0.5,
       })
       .to(boxRefs.box1.current, {
@@ -102,7 +106,7 @@ export default function Loader() {
         delay: -0.5,
       })
       .to(logoRefs.logo.current, {
-        scale:50,
+        scale: 50,
         duration: 4,
         ease: "power2.inOut",
       })
@@ -112,9 +116,9 @@ export default function Loader() {
           opacity: 0,
           duration: 1,
           ease: "power2.inOut",
-          onComplete:()=>{
+          onComplete: () => {
             document.querySelector(".loaderContainer").style.display = "none";
-          }
+          },
         },
         "<+1.5"
       );
@@ -125,7 +129,7 @@ export default function Loader() {
 
   // Common CSS classes
   const boxCommonClasses =
-    "h-[60vh] w-[30vw] aspect-square rounded-bl-[20%] rounded-tr-[20%] border-zinc-200 border";
+    "h-[60vh] max-sm:h-[40vh] w-[30vw] max-sm:w-[80vw] aspect-square rounded-bl-[20%] rounded-tr-[20%] border-zinc-200 border";
   const imageCommonClasses =
     "absolute inset-1/2 translate-y-[-50%] object-contain";
 
@@ -139,7 +143,7 @@ export default function Loader() {
           <div ref={boxRefs.box3} className={`${boxCommonClasses} scale-60`}>
             <div
               ref={boxRefs.box4}
-              className={`${boxCommonClasses} scale-50 flex items-center justify-center relative gap-[1vw] border-[2px]`}
+              className={`${boxCommonClasses} scale-50 flex items-center justify-center relative gap-[1vw] max-sm:gap-[3vw] border-[2px]`}
             >
               <Image
                 ref={logoRefs.logo}
@@ -147,10 +151,10 @@ export default function Loader() {
                 height={100}
                 width={100}
                 alt="Logo"
-                className={`${imageCommonClasses} h-[4vw] w-[4vw] translate-x-[-50%] opacity-0`}
+                className={`${imageCommonClasses} h-[4vw] max-sm:h-[10vw] w-[4vw] max-sm:w-[10vw] translate-x-[-50%] opacity-0`}
                 priority
               />
-              <div className="w-[10vw] relative h-full">
+              <div className="w-[10vw] max-sm:w-[25vw] relative h-full">
                 <Image
                   ref={logoRefs.text}
                   src="/assets/svg/textLogo.svg"

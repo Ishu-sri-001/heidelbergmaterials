@@ -35,16 +35,17 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">  
+    <html lang="en">
       <head>
         <link rel="icon" href="/favicon.png" sizes="any" />
       </head>
-      {/* <Loader /> */}
       {/* <Token3d /> */}
       <LenisSmoothScroll />
       <body
-        className={`${Font1.variable} ${Font2.variable} antialiased`}
+        className={`${Font1.variable} ${Font2.variable} overflow-x-hidden antialiased`}
       >
+        <Loader />
+
         {children}
       </body>
     </html>
