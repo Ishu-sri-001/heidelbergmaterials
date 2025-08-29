@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 
-export default function useCursorRepel(pointsRef, strength = 0.5, radius = 0.1, makeActive = false) {
+export default function useCursorRepel(pointsRef, strength = 2, radius = 0.5, makeActive = false) {
     const { mouse, camera } = useThree();
     const originalPositions = useRef(null);
     const raycaster = useRef(new THREE.Raycaster());
@@ -61,9 +61,9 @@ export default function useCursorRepel(pointsRef, strength = 0.5, radius = 0.1, 
                 posAttr.array[i3 + 1] += (py - closestPoint.y) * force;
                 posAttr.array[i3 + 2] += (pz - closestPoint.z) * force;
             } else {
-                posAttr.array[i3] += (ox - px) * 0.05;
-                posAttr.array[i3 + 1] += (oy - py) * 0.05;
-                posAttr.array[i3 + 2] += (oz - pz) * 0.05;
+                posAttr.array[i3] += (ox - px) * 0.1;
+                posAttr.array[i3 + 1] += (oy - py) * 0.1;
+                posAttr.array[i3 + 2] += (oz - pz) * 0.1;
             }
         }
         posAttr.needsUpdate = true;

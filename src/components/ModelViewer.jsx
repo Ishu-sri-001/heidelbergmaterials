@@ -4,7 +4,7 @@ import { Canvas, useThree } from "@react-three/fiber";
 import ModelsCircle from "./ModelsCircle";
 import BGParticles from "./Particles";
 import { Suspense, useEffect, useRef } from "react";
-import { EffectComposer, Vignette, GodRays } from "@react-three/postprocessing";
+import { EffectComposer, Vignette, GodRays, DepthOfField, Bloom } from "@react-three/postprocessing";
 import { DoubleSide, Mesh, Vector3 } from "three";
 import { BlendFunction, Resolution, KernelSize } from "postprocessing";
 import { degToRad } from "three/src/math/MathUtils";
@@ -15,7 +15,7 @@ function Scene({
   cameraPos,
   cameraRotation,
   setCameraRotation,
-  groupPosn, 
+  groupPosn,
   setGroupPosn,
   ActiveProperties,
   SetActiveProperties,
@@ -39,10 +39,10 @@ function Scene({
         ActiveProperties={ActiveProperties}
         SetActiveProperties={SetActiveProperties}
         isZoomed={isZoomed}
-        groupPosn={groupPosn} 
+        groupPosn={groupPosn}
         setGroupPosn={setGroupPosn}
       />
-      <mesh
+      {/* <mesh
         ref={lightRef}
         rotation={[degToRad(0), degToRad(0), degToRad(-60)]}
         position={[2, 2, -12]}
@@ -54,7 +54,7 @@ function Scene({
           opacity={0.0005}
           transparent={true}
         />
-      </mesh>
+      </mesh> */}
     </>
   );
 }
@@ -66,7 +66,7 @@ export default function ModelViewer({
   cameraRotation,
   groupRotation,
   setGroupRotation,
-  groupPosn, 
+  groupPosn,
   setGroupPosn,
   ActiveProperties,
   SetActiveProperties,
@@ -91,11 +91,11 @@ export default function ModelViewer({
             ActiveProperties={ActiveProperties}
             SetActiveProperties={SetActiveProperties}
             isZoomed={isZoomed}
-            groupPosn={groupPosn} 
+            groupPosn={groupPosn}
             setGroupPosn={setGroupPosn}
           />
-          {/* <EffectComposer>
-            {
+          <EffectComposer>
+            {/* {
               lightRef.current &&
               <GodRays
                 sun={lightRef.current}
@@ -112,8 +112,15 @@ export default function ModelViewer({
                 kernelSize={KernelSize.HUGE}
                 blur={true}
               />
-            }
-          </EffectComposer> */}
+            } */}
+            <DepthOfField
+              focusDistance={0.1} // how far things in focus are
+              focalLength={0.5} // lens focal length
+              bokehScale={1} // intensity of blur
+              height={480} // resolution
+            />
+            <Bloom />
+          </EffectComposer>
         </Suspense>
       </Canvas>
     </div>

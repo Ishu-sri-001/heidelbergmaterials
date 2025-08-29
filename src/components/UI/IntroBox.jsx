@@ -111,7 +111,7 @@ export default function IntroBox({
             prev.map((item, i) =>
               i === 0
                 ? { ...item, repeal: true, dispersion: false }
-                : { ...item, dispersion: true } 
+                : { ...item, dispersion: false } 
             )
           );
         },
@@ -144,7 +144,7 @@ export default function IntroBox({
               },
               ...ActiveProperties.slice(1),
             ]);
-      console.log(ActiveProperties)
+      // console.log(ActiveProperties)
 
           },
         },

@@ -65,7 +65,9 @@ export default function Home() {
       end: 'top 70%',
       // markers:true,
       onLeave: () => {
+        
         window.scrollTo({ top: 0, behavior: "instant" });
+        SetActiveProperties(activePropertiesArray)
       }
     });
 
@@ -80,19 +82,15 @@ export default function Home() {
           // markers: true, 
           onEnter: () => {
             setActiveSectionId(section.id);
-            // console.log(`Entered section: ${section.id}`);
           },
           onEnterBack: () => {
             setActiveSectionId(section.id);
-            // console.log(`Entered back into section: ${section.id}`);
           },
           onLeave: () => {
             setActiveSectionId(null);
-            // console.log(`Left section: ${section.id}`);
           },
           onLeaveBack: () => {
             setActiveSectionId(null);
-            // console.log(`Left back from section: ${section.id}`);
           },
         }
       });
@@ -104,41 +102,40 @@ export default function Home() {
         onUpdate: () => {
           setCameraRotation({ ...newRotation });
         },
-        // onStart: () => {
-        //   SetActiveProperties(prevProps => {
-        //     const newProps = [...prevProps];
-        //     const sectionIndex = sections.findIndex(s => s.id === section.id);
+        onStart: () => {
+          SetActiveProperties(prevProps => {
+            const newProps = [...prevProps];
+            const sectionIndex = sections.findIndex(s => s.id === section.id);
 
-        //     if (showSidebar) {
-        //       // If zoomed (sidebar is open), set dispersion=false only for active section
-        //       newProps.forEach((prop, index) => {
-        //         if (index === sectionIndex) {
-        //           newProps[index].repeal = true;
-        //           newProps[index].dispersion = false;
-        //         } else {
-        //           newProps[index].repeal = false;
-        //           newProps[index].dispersion = true;
-        //         }
-        //       });
-        //     } else {
+            if (showSidebar) {
+              newProps.forEach((prop, index) => {
+                if (index === sectionIndex) {
+                  newProps[index].repeal = true;
+                  newProps[index].dispersion = false;
+                } else {
+                  newProps[index].repeal = false;
+                  newProps[index].dispersion = false;
+                }
+              });
+            } else {
 
-        //       if (sectionIndex !== -1 && newProps[sectionIndex]) {
-        //         newProps[sectionIndex].repeal = true;
-        //         newProps[sectionIndex].dispersion = false;
-        //       }
-        //     }
+              if (sectionIndex !== -1 && newProps[sectionIndex]) {
+                newProps[sectionIndex].repeal = true;
+                newProps[sectionIndex].dispersion = false;
+              }
+            }
 
-        //     return newProps;
-        //   });
+            return newProps;
+          });
 
-        // },
+        },
         onReverseComplete: () => {
           setTimeout(() => {
             SetActiveProperties(prevProps => {
               const newProps = [...prevProps];
               const sectionIndex = sections.findIndex(s => s.id === section.id);
               if (sectionIndex !== -1 && newProps[sectionIndex]) {
-                newProps[sectionIndex].dispersion = true;
+                newProps[sectionIndex].dispersion = false;
                 newProps[sectionIndex].repeal = false;
               }
               return newProps;
@@ -152,14 +149,12 @@ export default function Home() {
               const newProps = [...prevProps];
               const sectionIndex = sections.findIndex(s => s.id === section.id);
               if (sectionIndex !== -1 && newProps[sectionIndex]) {
-                // const ageWaliIndex = sectionIndex +1;
                 newProps[sectionIndex].dispersion = true;
-                // newProps[ageWaliIndex].dispersion = false;
                 newProps[sectionIndex].repeal = false;
               }
               return newProps;
             });
-          }, -1500);
+          }, -1000);
         }
       });
       tl.to(newPosition, {

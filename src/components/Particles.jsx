@@ -34,9 +34,6 @@ function ParticleField({
     ref.current.rotation.y -= delta / rotationY;
   });
 
-  // Pre-load textures
-  const circleTexture = useMemo(() => new THREE.TextureLoader().load("/circles.webp"), []);
-
   return (
     <group rotation={[0, 0, Math.PI / 4]}>
       <Points ref={ref} positions={sphere} stride={3} frustumCulled={false}>
@@ -48,8 +45,48 @@ function ParticleField({
           sizeAttenuation={true}
           depthWrite={false}
           vertexColors={false}
-          alphaMap={circleTexture}
-          map={circleTexture}
+        />
+      </Points>
+    </group>
+  );
+}
+
+function SmallWhiteParticles({
+  count = 10000,
+  radius = 4,
+  size = 0.005,
+  opacity = 0.3,
+  rotationX = 35,
+  rotationY = 40,
+}) {
+  const ref = useRef();
+  
+  const sphere = useMemo(() => {
+    const positions = random.inSphere(new Float32Array(count * 3), { radius: radius });
+    for(let i = 0; i < positions.length; i++) {
+      if(isNaN(positions[i])) {
+        positions[i] = 0;
+      }
+    }
+    return positions;
+  }, [count, radius]);
+
+  useFrame((state, delta) => {
+    ref.current.rotation.x -= delta / rotationX;
+    ref.current.rotation.y -= delta / rotationY;
+  });
+
+  return (
+    <group rotation={[0, 0, Math.PI / 4]}>
+      <Points ref={ref} positions={sphere} stride={3} frustumCulled={false}>
+        <PointMaterial
+          transparent
+          color="white"
+          size={size}
+          opacity={opacity}
+          sizeAttenuation={true}
+          depthWrite={false}
+          vertexColors={false}
         />
       </Points>
     </group>
@@ -107,9 +144,6 @@ function ClusterParticleField({
     return particles;
   }, [count, subParticleCount, subParticleRadius, mainPositions]);
 
-  // Pre-load texture
-  const darkCircleTexture = useMemo(() => new THREE.TextureLoader().load("/darkCircle.png"), []);
-
   useFrame((_, delta) => {
     mainRef.current.rotation.x -= delta / rotationX;
     mainRef.current.rotation.y -= delta / rotationY;
@@ -149,8 +183,6 @@ function ClusterParticleField({
           sizeAttenuation
           depthWrite={false}
           vertexColors={false}
-          alphaMap={darkCircleTexture}
-          map={darkCircleTexture}
         />
       </Points>
     </group>
@@ -160,24 +192,22 @@ function ClusterParticleField({
 export default function BGParticles() {
   return (
     <group>
-      <ParticleField size={0.01} count={5000} color="#6BA32C" opacity={0.5} />
-      <ParticleField
-        count={15000}
-        radius={4.1}
-        color="#C0EC82"
-        size={0.025}
-        opacity={1}
-        rotationX={30}
-        rotationY={40}
-      />
+      <ParticleField size={0.01} count={5000} color="#000000" opacity={0.5} />
       <ParticleField
         count={8000}
-        radius={3.9}
-        color="green"
-        size={0.01}
-        opacity={0.8}
-        rotationX={30}
+        radius={4.1}
+        color="#C0EC82"
+        size={0.015}
+        opacity={1}
+        rotationX={80}
         rotationY={40}
+      />
+      <SmallWhiteParticles
+        count={12000}
+        radius={3.9}
+        size={0.003}
+        opacity={.8}
+        
       />
       <ParticleField
         count={5000}
@@ -188,7 +218,7 @@ export default function BGParticles() {
         rotationX={30}
         rotationY={40}
       />
-      <ClusterParticleField mainSize={0.15} count={200} subColor="white" />
+      <ClusterParticleField mainSize={0.15} count={80} subColor="white" />
     </group>
   );
 }

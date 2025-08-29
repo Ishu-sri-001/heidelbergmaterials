@@ -17,18 +17,17 @@ const Sidebar = ({
   playSound,
   setActiveSectionId,
 }) => {
-
   useEffect(() => {
-    console.log(activeSectionId, "LOG")
-  }, [activeSectionId])
-  
+    console.log(activeSectionId, "LOG");
+  }, [activeSectionId]);
+
   const { PlaySoundBackground } = useBackgroundAudio();
   const { playSoundHover } = PlayHoverSound();
   const { playSoundTick } = PlayTickSound();
   const menuItems = [
     {
       icon: "/assets/svg/earth-logo.svg",
-      id: "earth", 
+      id: "earth",
       text: "CCUS around the world",
       height: "1.7vw",
       width: "fit",
@@ -38,32 +37,27 @@ const Sidebar = ({
       icon: "/assets/svg/netzero-logo.svg",
       id: "circle",
       text: "Net zero",
-      
     },
     {
       icon: "/assets/svg/bulb-logo.svg",
       id: "bulb",
       text: "Stakeholder engagement",
-     
     },
     {
       icon: "/assets/svg/chain-logo.svg",
       id: "pin",
       text: "Value chains & business cases",
-     
     },
 
     {
       icon: "/assets/svg/bottle-logo.svg",
       id: "bottle",
       text: "CO2 Utilization",
-      
     },
     {
       icon: "/assets/svg/flask-logo.svg",
       id: "flask",
       text: "Capture technologies lab",
-     
     },
   ];
 
@@ -124,9 +118,7 @@ const Sidebar = ({
                   item.id === activeSectionId ? "opacity-100" : "opacity-50"
                 }`}
               >
-                <div
-                  className="w-[1.6vw] max-sm:w-[8vw] h-[1.6vw] max-sm:h-[8vw] relative"
-                >
+                <div className="w-[1.6vw] max-sm:w-[8vw] h-[1.6vw] max-sm:h-[8vw] relative">
                   <Image
                     src={item.icon}
                     width={100}
@@ -154,9 +146,21 @@ const Sidebar = ({
         className="soundButton rounded-tr-[1.5vw] max-sm:rounded-tr-3xl cursor-pointer rounded-bl-[1.5vw] max-sm:rounded-bl-3xl p-[1.5vw] max-sm:p-4 z-[999] absolute bottom-[1vw] max-sm:bottom-4 right-[1vw] max-sm:right-4 bg-teal-600/20 backdrop-blur-[10px] border-white/40 border"
       >
         {playSound ? (
-          <Image src="/assets/svg/sound.svg" alt="sound-on" width={100} height={100} className="h-[1.2vw] max-sm:h-5 w-[1.2vw] max-sm:w-5 text-white object-contain" />
+          <Image
+            src="/assets/svg/sound.svg"
+            alt="sound-on"
+            width={100}
+            height={100}
+            className="h-[1.2vw] max-sm:h-5 w-[1.2vw] max-sm:w-5 text-white object-contain"
+          />
         ) : (
-          <Image src="/assets/svg/soundOFF.svg" alt="sound-off" width={100} height={100} className="h-[1.2vw] max-sm:h-5 w-[1.2vw] max-sm:w-5 text-white object-contain" />
+          <Image
+            src="/assets/svg/soundOFF.svg"
+            alt="sound-off"
+            width={100}
+            height={100}
+            className="h-[1.2vw] max-sm:h-5 w-[1.2vw] max-sm:w-5 text-white object-contain"
+          />
         )}
       </div>
       <NavBar activeSectionId={activeSectionId} playSound={playSound} />
@@ -166,8 +170,10 @@ const Sidebar = ({
 
 export default Sidebar;
 
-const NavBar = (playSound, activeSectionId) => {
+const NavBar = ({ playSound, activeSectionId }) => {
+  const [navLimit, setNavLimit] = useState(false);
   const OpenNavBarAnimation = () => {
+    if (navLimit) return;
     const tl = gsap.timeline();
     tl.to(".NavBar-text", {
       opacity: 0,
@@ -193,10 +199,11 @@ const NavBar = (playSound, activeSectionId) => {
         ease: "power2.inOut",
       })
       .set(".NavBar-text", {
-        display: "block",
+        display: "flex",
       })
       .to(".NavBar-text", {
         width: "auto",
+        transformOrigin: "center",
         duration: 0.5,
         ease: "power2.inOut",
       })
@@ -204,26 +211,32 @@ const NavBar = (playSound, activeSectionId) => {
         opacity: 1,
         duration: 1,
         ease: "power2.out",
-      })
-      .to(".navBar", {
-        xPercent: -30,
-        duration: 1,
+        onComplete: () => {
+          setNavLimit(false);
+        },
       });
   };
 
   useEffect(() => {
-    OpenNavBarAnimation();
-    console.log("CHALA", activeSectionId)
+    setNavLimit(true);
+      OpenNavBarAnimation();
   }, [activeSectionId]);
 
   return (
-    <div data-hide-cursor className="absolute navBar bottom-[1vw] max-sm:bottom-[5vw] left-1/2 translate-x-[-50%]  z-[400]">
+    <div
+      data-hide-cursor
+      className="absolute  w-full  h-fit navBar bottom-[1vw] max-sm:bottom-[5vw] left-[0%] flex items-center justify-center  z-[400]"
+    >
       <div className="flex items-center mt-[1.2vw] max-sm:mt-4 group cursor-pointer w-fit  justify-center max-sm:translate-x-[-20%] gap-[1vw] max-sm:gap-3 bg-white rounded-full p-[.3vw] max-sm:p-1">
         <div className="bg-[#00DD39] w-[3.5vw] max-sm:w-[40px] h-[3.5vw] max-sm:h-[40px] flex items-center justify-center gap-[2vw] max-sm:gap-6 group-hover:scale-105 duration-300 transition-all p-[1vw] max-sm:p-3 rounded-full">
-          <p className="font-thin text-[1.5vw] max-sm:text-xl text-zinc-700">+</p>
+          <p className="font-thin text-[1.5vw] max-sm:text-xl text-zinc-700">
+            +
+          </p>
         </div>
         <p className="text-[.9vw] max-sm:text-sm NavBar-text w-fit text-zinc-700 font-display">
-          <span className="pr-[.5vw] max-sm:pr-2">Capture Techlologies Labs</span>
+          <span className="pr-[1vw] max-sm:pr-[1vw]">
+            Capture Techlologies Labs
+          </span>
         </p>
       </div>
     </div>

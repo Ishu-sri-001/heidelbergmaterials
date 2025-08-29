@@ -44,7 +44,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${Font1.variable} ${Font2.variable} overflow-x-hidden antialiased`}
       >
-        <Loader />
+        {/* <Loader /> */}
 
         {children}
       </body>
