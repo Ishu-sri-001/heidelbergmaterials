@@ -14,6 +14,9 @@ export default function Loader() {
   const logoRefs = {
     logo: useRef(null),
     text: useRef(null),
+    logoWhitePart: useRef(null),
+    logoGreenPart: useRef(null),
+    logoBG: useRef(null)
   };
 
   useEffect(() => {
@@ -52,7 +55,7 @@ export default function Loader() {
       ease: "linear",
     })
       .to(logoRefs.logo.current, {
-        xPercent: -200,
+        xPercent: 0,
         duration: 1,
         delay: -1,
         ease: "linear",
@@ -73,7 +76,7 @@ export default function Loader() {
         ease: "linear",
       })
       .to(logoRefs.logo.current, {
-        xPercent: -50,
+        xPercent: 100,
         duration: 0.8,
         delay: 0.4,
         ease: "linear",
@@ -104,12 +107,30 @@ export default function Loader() {
         opacity: 1,
         duration: 0.5,
         delay: -0.5,
-      })
-      .to(logoRefs.logo.current, {
-        scale: 50,
-        duration: 4,
-        ease: "power2.inOut",
-      })
+      });
+    tl.to(logoRefs.logoGreenPart.current, {
+      yPercent: -200,
+      duration: 0.8,
+      ease: "linear",
+    })
+      .to(
+        logoRefs.logoWhitePart.current,
+        {
+          yPercent: 200,
+          duration: 0.8,
+          ease: "linear",
+        },
+        "<"
+      )
+      .to(
+        logoRefs.logo.current,
+        {
+          scale: 50,
+          duration: 4,
+          ease: "power2.inOut",
+        },
+        "<"
+      )
       .to(
         ".loaderContainer",
         {
@@ -145,15 +166,35 @@ export default function Loader() {
               ref={boxRefs.box4}
               className={`${boxCommonClasses} scale-50 flex items-center justify-center relative gap-[1vw] max-sm:gap-[3vw] border-[2px]`}
             >
-              <Image
+              <svg
+                id="logo"
+                width="59"
+                height="57"
+                fill="none"
+                viewBox="0 0 59 57"
+                className="h-[5vw] w-[5vw] opacity-0 translate-x-[0%]"
                 ref={logoRefs.logo}
-                src="/favicon.png"
-                height={100}
-                width={100}
-                alt="Logo"
-                className={`${imageCommonClasses} h-[4vw] max-sm:h-[10vw] w-[4vw] max-sm:w-[10vw] translate-x-[-50%] opacity-0`}
-                priority
-              />
+              >
+                <path
+                  className="overflow-hidden maskingSvg"
+                  class="bg-green"
+                  ref={logoRefs.logoBG.current}
+                  d="M58.15 56.845H22.9568C9.76689 56.845 0.973633 48.1027 0.973633 34.9893V0H36.1467C49.3366 0 58.1298 8.7423 58.1298 21.8558V56.845H58.15Z"
+                  fill="#004E2B"
+                ></path>
+                <path
+                  ref={logoRefs.logoGreenPart}
+                  class="el-green"
+                  d="M31.7559 19.6733H36.1525C44.3609 19.6733 49.3424 24.646 49.3424 32.7868V48.0858H44.9458C36.8584 48.0858 31.7559 42.9527 31.7559 34.9724V19.6733Z"
+                  fill="#00DD39"
+                ></path>
+                <path
+                  ref={logoRefs.logoWhitePart}
+                  class="el-white"
+                  d="M9.77344 8.74182H27.36V48.0822H22.9633C14.7953 48.0822 9.77344 43.1697 9.77344 34.9687V8.74182Z"
+                  fill="white"
+                ></path>
+              </svg>
               <div className="w-[10vw] max-sm:w-[25vw] relative h-full">
                 <Image
                   ref={logoRefs.text}
@@ -161,7 +202,7 @@ export default function Loader() {
                   height={100}
                   width={150}
                   alt="Logo Text"
-                  className={`${imageCommonClasses} h-auto w-full translate-x-[-30%] opacity-0`}
+                  className={`${imageCommonClasses} h-auto w-full translate-x-[-40%] opacity-0`}
                   priority
                 />
               </div>
