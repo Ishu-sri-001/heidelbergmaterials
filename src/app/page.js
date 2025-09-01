@@ -45,14 +45,14 @@ export default function Home() {
   useEffect(() => {
     const sections = [
       { id: 'earth', rotation: 98, position: { x: 0, y: 0, z: 1.4 } },
-      { id: 'circle', rotation: 98, position: { x: -.2, y: 0, z: 4.2 } },
-      { id: 'bulb', rotation: 208, position: { x: -.3, y: 0, z: 8.4 } },
-      { id: 'pin', rotation: 290, position: { x: -0.6, y: -0.1, z: 12.4 } },
-      { id: 'bottle', rotation: 340, position: { x: -1.2, y: -0.1, z: 17.6 } },
-      { id: 'flask', rotation: 380, position: { x: -1.35, y: 0, z: 22.4 } },
+      { id: 'circle', rotation: 98, position: { x: -.0, y: 0, z: 4.2 } },
+      { id: 'bulb', rotation: 208, position: { x: -0, y: 0, z: 8.4 } },
+      { id: 'pin', rotation: 290, position: { x: -0.2, y: -0.1, z: 12.4 } },
+      { id: 'bottle', rotation: 340, position: { x: -0.5, y: -0.1, z: 17.6 } },
+      { id: 'flask', rotation: 380, position: { x: -0.6, y: 0, z: 22.8 } },
     ];
 
-    let newRotation = { ...cameraRotation, x: -90, y: 0, z: 43 };
+    let newRotation = { ...cameraRotation, x: -90, y: 0, z: 45 };
     let newPosition = { ...groupPosn };
 
 
