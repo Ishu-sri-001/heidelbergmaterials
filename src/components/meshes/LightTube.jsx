@@ -19,18 +19,19 @@ export default function LightTube({ geometry, index, total, ActiveProperties, Se
   const ref = useRef();
   
   const angle = (index / total) * Math.PI * 2;
-  const radiusX = 8; 
-  const radiusY = 5; 
+  const radiusX = isZoomed ? 35 : 7; 
+  const radiusY = isZoomed  ?  50 : -5; 
+
     const yOffset = -2;   // move oval down a bit
 
-  // base oval position
-  let x = Math.cos(angle) * radiusX;
-  let y = Math.sin(angle) * radiusY + yOffset;
+  // // base oval position
+  // let x = Math.cos(angle) * radiusX;
+  // let y = Math.sin(angle) * radiusY + yOffset;
 
-  // rotate whole oval in XY plane (clockwise)
-  const rotation = -Math.PI / 6; // -30 degrees
-  const rotatedX = x * Math.cos(rotation) - y * Math.sin(rotation)-0.5;
-  const rotatedY = x * Math.sin(rotation) + y * Math.cos(rotation)+2;
+  // // rotate whole oval in XY plane (clockwise)
+  // const rotation = -Math.PI / 6; // -30 degrees
+  // const rotatedX = x * Math.cos(rotation) - y * Math.sin(rotation)-0.5;
+  // const rotatedY = x * Math.sin(rotation) + y * Math.cos(rotation)+2;
 
   const { pointsGeo, targetPositions } = useMemo(() => {
         if (!geometry) return { pointsGeo: null, targetPositions: null };
@@ -116,7 +117,7 @@ useFrame(() => {
     <points
       ref={ref}
       geometry={pointsGeo}
-      position={[rotatedX, rotatedY, 0]}
+      position={[radiusX, radiusY, 0]}
       scale={[2.7, 2.7, 2.7]}
       rotation={[degToRad(0), degToRad(0), degToRad(-60)]}
     >

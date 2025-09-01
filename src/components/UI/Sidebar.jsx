@@ -75,7 +75,7 @@ const Sidebar = ({
         ease: "power2.out",
         scrollTo: {
           y: target,
-          offsetY: isScrollingDown ? 0 : 0,
+          offsetY: isScrollingDown ? -20 : 0,
         },
       });
 

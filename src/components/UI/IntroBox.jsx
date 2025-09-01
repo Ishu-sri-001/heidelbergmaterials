@@ -103,25 +103,26 @@ export default function IntroBox({
       tl.to(".enter-container", {
         opacity: 0,
         duration: 1,
-        onComplete: () => {
-          setShowIntroBox(false);
-          setShowSidebar(true);
-          document.querySelector(".enter-container").style.display = "none";
-            SetActiveProperties(prev =>
+        onStart: () => {
+        
+          SetActiveProperties((prev) =>
             prev.map((item, i) =>
               i === 0
-                ? { ...item, repeal: true, dispersion: false }
-                : { ...item, dispersion: false } 
+                ? { ...item, dispersion: false }
+                : { ...item, dispersion: false }
             )
           );
+          document.querySelector(".enter-container").style.display = "none";
+          setShowIntroBox(false);
+          setShowSidebar(true);
         },
       });
-      const position = { x: 0, y: -0.1, z: 2.3 };
+      const position = { x: -1.0, y: -0.1, z: 2.3 };
       const rotationProxy = { x: 0, y: 0, z: 0 };
       tl.to(position, {
-        z: 0.6,
+        z: -0,
         y: 0,
-        x: -0.5,
+        x: -1.65,
         duration: 1,
         onUpdate: () => {
           setCameraPos({ ...position });
@@ -139,13 +140,12 @@ export default function IntroBox({
             SetActiveProperties([
               {
                 name: "Earth",
-                repeal: true,
                 dispersion: false,
+                repeal:true,
               },
               ...ActiveProperties.slice(1),
             ]);
-      // console.log(ActiveProperties)
-
+            // console.log(ActiveProperties)
           },
         },
         "<"
@@ -166,13 +166,15 @@ export default function IntroBox({
     }
   };
 
+  
+
   return (
     <>
       <div className="p-[1vw] max-sm:p-4 enter-container bg-white h-fit absolute inset-1/2 translate-x-[-50%] translate-y-[-50%] w-[27vw] max-sm:w-[90vw] rounded-bl-[5vw] max-sm:rounded-bl-[20px]">
         <div className="h-full flex flex-col items-center justify-center text-center gap-[.5vw] max-sm:gap-2 w-full pb-[2vw] max-sm:pb-4 text-green-800 border-zinc-200 border rounded-bl-[5vw] max-sm:rounded-bl-[20px]">
           <div className="h-[10vw] max-sm:h-[100px] min-h-[10vw] max-sm:min-h-[100px] flex border-b border-zinc-200 w-full">
             <div className="w-1/2 flex items-center justify-center h-full border-r border-zinc-200">
-            <svg
+              <svg
                 className="w-2/3 h-full object-contain svg-left"
                 viewBox="0 0 204 180"
                 width="204"
@@ -433,8 +435,8 @@ export default function IntroBox({
               <p className="w-[90%] text-[1.1vw] max-sm:text-[14px] pt-[1vw] max-sm:pt-4 font-normal font-display intro-text tracking-tight leading-[1.1]">
                 At Heidelberg Materials we are taking the lead in decarbonising
                 our sector. We are pioneering Carbon Capture, Utilisation and
-                Storage, laying the foundation for scaling CCUS across our global
-                operations.
+                Storage, laying the foundation for scaling CCUS across our
+                global operations.
               </p>
             </div>
             <div className="flex items-center justify-center h-[10vh] max-sm:h-[50px]">

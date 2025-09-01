@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 
@@ -9,9 +9,18 @@ export default function useCursorRepel(pointsRef, strength = 2, radius = 0.5, ma
     const prevMouse = useRef({ x: 0, y: 0 });
     const isMoving = useRef(false);
     const stopTime = useRef(0);
+    const isReady = useRef(false);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            isReady.current = true;
+        }, 0);
+
+        return () => clearTimeout(timer);
+    }, []);
 
     useFrame(() => {
-        if (!makeActive) return;
+        if (!makeActive || !isReady.current) return;
 
         const points = pointsRef.current;
         if (!points) return;

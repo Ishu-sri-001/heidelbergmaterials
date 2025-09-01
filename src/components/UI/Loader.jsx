@@ -16,7 +16,7 @@ export default function Loader() {
     text: useRef(null),
     logoWhitePart: useRef(null),
     logoGreenPart: useRef(null),
-    logoBG: useRef(null)
+    logoBG: useRef(null),
   };
 
   useEffect(() => {
@@ -130,19 +130,19 @@ export default function Loader() {
           ease: "power2.inOut",
         },
         "<"
-      )
-      .to(
-        ".loaderContainer",
-        {
-          opacity: 0,
-          duration: 1,
-          ease: "power2.inOut",
-          onComplete: () => {
-            document.querySelector(".loaderContainer").style.display = "none";
-          },
-        },
-        "<+1.5"
       );
+    tl.to(
+      ".loaderContainer",
+      {
+        opacity: 0,
+        duration: 1,
+        ease: "power2.inOut",
+        onComplete: () => {
+          document.querySelector(".loaderContainer").style.display = "none";
+        },
+      },
+      "<+1.5"
+    );
 
     // Cleanup function
     return () => tl.kill();
@@ -155,7 +155,7 @@ export default function Loader() {
     "absolute inset-1/2 translate-y-[-50%] object-contain";
 
   return (
-    <div className="h-screen loaderContainer w-full fixed flex items-center justify-center z-[999] bg-[#F1F1F1]">
+    <div className="h-screen loaderContainer w-full fixed flex items-center justify-center z-[999]  bg-[#F1F1F1]">
       <div
         ref={boxRefs.box1}
         className={`${boxCommonClasses} scale-280 flex items-center justify-center`}
@@ -166,35 +166,49 @@ export default function Loader() {
               ref={boxRefs.box4}
               className={`${boxCommonClasses} scale-50 flex items-center justify-center relative gap-[1vw] max-sm:gap-[3vw] border-[2px]`}
             >
-              <svg
-                id="logo"
-                width="59"
-                height="57"
-                fill="none"
-                viewBox="0 0 59 57"
-                className="h-[5vw] w-[5vw] opacity-0 translate-x-[0%]"
+              <div
                 ref={logoRefs.logo}
+                className="absolute  z-[100] rounded-tr-[1vw] rounded-bl-[1vw] translate-x-[-100%]  opacity-0 h-[5vw] w-[5vw]"
               >
-                <path
-                  className="overflow-hidden maskingSvg"
-                  class="bg-green"
-                  ref={logoRefs.logoBG.current}
-                  d="M58.15 56.845H22.9568C9.76689 56.845 0.973633 48.1027 0.973633 34.9893V0H36.1467C49.3366 0 58.1298 8.7423 58.1298 21.8558V56.845H58.15Z"
-                  fill="#004E2B"
-                ></path>
-                <path
-                  ref={logoRefs.logoGreenPart}
-                  class="el-green"
-                  d="M31.7559 19.6733H36.1525C44.3609 19.6733 49.3424 24.646 49.3424 32.7868V48.0858H44.9458C36.8584 48.0858 31.7559 42.9527 31.7559 34.9724V19.6733Z"
-                  fill="#00DD39"
-                ></path>
-                <path
-                  ref={logoRefs.logoWhitePart}
-                  class="el-white"
-                  d="M9.77344 8.74182H27.36V48.0822H22.9633C14.7953 48.0822 9.77344 43.1697 9.77344 34.9687V8.74182Z"
-                  fill="white"
-                ></path>
-              </svg>
+                <svg
+                  id="logo"
+                  width="59"
+                  height="57"
+                  fill="none"
+                  viewBox="0 0 59 57"
+                  className="h-[5vw] p-[.5vw] w-[5vw] "
+                >
+                  <defs>
+                    <mask id="logoMask">
+                      <path
+                        d="M58.15 56.845H22.9568C9.76689 56.845 0.973633 48.1027 0.973633 34.9893V0H36.1467C49.3366 0 58.1298 8.7423 58.1298 21.8558V56.845H58.15Z"
+                        fill="white"
+                      />
+                    </mask>
+                  </defs>
+                  <path
+                    className="overflow-hidden maskingSvg"
+                    ref={logoRefs.logoBG.current}
+                    d="M58.15 56.845H22.9568C9.76689 56.845 0.973633 48.1027 0.973633 34.9893V0H36.1467C49.3366 0 58.1298 8.7423 58.1298 21.8558V56.845H58.15Z"
+                    fill="#004E2B"
+                    mask="url(#logoMask)"
+                  ></path>
+                  <g mask="url(#logoMask)">
+                    <path
+                      ref={logoRefs.logoGreenPart}
+                      className="el-green"
+                      d="M31.7559 19.6733H36.1525C44.3609 19.6733 49.3424 24.646 49.3424 32.7868V48.0858H44.9458C36.8584 48.0858 31.7559 42.9527 31.7559 34.9724V19.6733Z"
+                      fill="#00DD39"
+                    ></path>
+                    <path
+                      ref={logoRefs.logoWhitePart}
+                      className="el-white"
+                      d="M9.77344 8.74182H27.36V48.0822H22.9633C14.7953 48.0822 9.77344 43.1697 9.77344 34.9687V8.74182Z"
+                      fill="white"
+                    ></path>
+                  </g>
+                </svg>
+              </div>
               <div className="w-[10vw] max-sm:w-[25vw] relative h-full">
                 <Image
                   ref={logoRefs.text}
@@ -202,7 +216,7 @@ export default function Loader() {
                   height={100}
                   width={150}
                   alt="Logo Text"
-                  className={`${imageCommonClasses} h-auto w-full translate-x-[-40%] opacity-0`}
+                  className={`${imageCommonClasses} h-auto w-full translate-x-[-20%] opacity-0`}
                   priority
                 />
               </div>

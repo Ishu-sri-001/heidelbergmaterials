@@ -19,17 +19,17 @@ export default function NetZero({ geometry, index, total, ActiveProperties, SetA
   const ref = useRef();
 
   const angle = (index / total) * Math.PI * 2;
-  const radiusX = 8; 
-  const radiusY = 5; 
+  const radiusX = isZoomed ? 15 :7; 
+  const radiusY = isZoomed ? 30 : 2; 
     const yOffset = -2;   
 
-  let x = Math.cos(angle) * radiusX;
-  let y = Math.sin(angle) * radiusY + yOffset;
+  // let x = Math.cos(angle) * radiusX;
+  // let y = Math.sin(angle) * radiusY + yOffset;
 
-  // rotate whole oval in XY plane (clockwise)
-  const rotation = -Math.PI / 6; // -30 degrees
-  const rotatedX = x * Math.cos(rotation) - y * Math.sin(rotation);
-  const rotatedY = x * Math.sin(rotation) + y * Math.cos(rotation) +2.8;
+  // // rotate whole oval in XY plane (clockwise)  
+  // const rotation = -Math.PI / 6; // -30 degrees
+  // const rotatedX = x * Math.cos(rotation) - y * Math.sin(rotation);
+  // const rotatedY = x * Math.sin(rotation) + y * Math.cos(rotation) +2.8;
 
 
   const { pointsGeo, targetPositions } = useMemo(() => {
@@ -111,7 +111,7 @@ useFrame(() => {
      <points
       ref={ref}
       geometry={pointsGeo}
-      position={[rotatedX, rotatedY, 0]}
+      position={[radiusX, radiusY, 0]}
       scale={[2.7, 2.7, 2.7]}
       rotation={[degToRad(0), degToRad(0), degToRad(0)]}
     >

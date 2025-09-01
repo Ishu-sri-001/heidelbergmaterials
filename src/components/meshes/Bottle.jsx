@@ -26,16 +26,16 @@ export default function Bottle({
   const ref = useRef();
 
   const angle = (index / total) * Math.PI * 2;
-  const radiusX = 8;
-  const radiusY = 5;
+  const radiusX = isZoomed ? 80 : -7;
+  const radiusY = isZoomed ? 90 : -5;
   const yOffset = -2;
 
-  let x = Math.cos(angle) * radiusX;
-  let y = Math.sin(angle) * radiusY + yOffset;
+  // let x = Math.cos(angle) * radiusX;
+  // let y = Math.sin(angle) * radiusY + yOffset;
 
-  const rotation = -Math.PI / 6; // oval tilt
-  const rotatedX = x * Math.cos(rotation) - y * Math.sin(rotation);
-  const rotatedY = x * Math.sin(rotation) + y * Math.cos(rotation) - 0.5;
+  // const rotation = -Math.PI / 6; // oval tilt
+  // const rotatedX = x * Math.cos(rotation) - y * Math.sin(rotation);
+  // const rotatedY = x * Math.sin(rotation) + y * Math.cos(rotation) - 0.5;
 
   const { pointsGeo, targetPositions } = useMemo(() => {
     if (!geometry) return { pointsGeo: null, targetPositions: null };
@@ -113,7 +113,7 @@ export default function Bottle({
       <points
         ref={ref}
         geometry={pointsGeo}
-        position={[rotatedX, rotatedY, 0]}
+        position={[radiusX, radiusY, 0]}
         scale={2.7}
       >
         <pointsMaterial

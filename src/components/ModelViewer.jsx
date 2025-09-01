@@ -113,13 +113,13 @@ export default function ModelViewer({
                 blur={true}
               />
             } */}
-            <DepthOfField
+            {/* <DepthOfField
               focusDistance={0.1} // how far things in focus are
               focalLength={0.5} // lens focal length
               bokehScale={1} // intensity of blur
               height={480} // resolution
             />
-            <Bloom />
+            <Bloom /> */}
           </EffectComposer>
         </Suspense>
       </Canvas>

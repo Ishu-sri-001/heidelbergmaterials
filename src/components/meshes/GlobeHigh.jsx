@@ -21,8 +21,11 @@ export default function GlobeHigh({ geometry, index, total, ActiveProperties, Se
   // const [animationFunctions, setAnimationFunctions] = useState(null);
   
   const angle = (index / total) * Math.PI * 2;
-  const radiusX = 8; 
-  const radiusY = 5; 
+  // const radiusX = isZoomed ? 7 : 8; 
+  // const radiusY = 5; 
+  // const yOffset = -2;
+  const radiusX = isZoomed ? 18 : 8; 
+  const radiusY = isZoomed ?  16: 8; 
   const yOffset = -2;
 
   // base oval position
@@ -66,8 +69,6 @@ export default function GlobeHigh({ geometry, index, total, ActiveProperties, Se
   },
   dispersion,
 );
-
-
   useCursorRepel(ref, 0.3, 0.1, repeal);
 
   

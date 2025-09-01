@@ -3,11 +3,8 @@ import * as THREE from "three";
 import { useEffect, useRef, useCallback } from "react";
 
 export function useParticleFormation(pointsRef, targetPositions, options = {}, dispersion) {
-  const {
-    controlLabel = 'Mesh',
-    controlId = null
-  } = options;
 
+ 
   // Store the previous dispersion state and animation state
   const prevDispersionRef = useRef(dispersion);
   const isAnimatingRef = useRef(false);
@@ -17,9 +14,9 @@ export function useParticleFormation(pointsRef, targetPositions, options = {}, d
     if (!pointsRef.current || !targetPositions) return;
     
     // Kill any existing animations
-    if (timelineRef.current) {
-      timelineRef.current.kill();
-    }
+    // if (timelineRef.current) {
+    //   timelineRef.current.kill();
+    // }
     gsap.killTweensOf(pointsRef.current.geometry.attributes.position.array);
     gsap.killTweensOf(pointsRef.current.material);
     

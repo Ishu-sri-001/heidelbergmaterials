@@ -6,6 +6,7 @@ import { activePropertiesArray } from "./Utils/data";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import { OnReloadScrollTop } from "@/components/UI/OnReloadScrollTop";
 import InitialCursor from "@/components/UI/InitialCursor";
+
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
@@ -15,8 +16,8 @@ export default function Home() {
   OnReloadScrollTop()
   const [cameraPos, setCameraPos] = useState({
     x: 0,
-    y: -0.1,
-    z: 2.2
+    y: -0.1, 
+    z: 3
   })
   const [playSound, setPlaySound] = useState(false);
 
@@ -42,49 +43,57 @@ export default function Home() {
   const [activeSectionId, setActiveSectionId] = useState(null);
 
   useEffect(() => {
-
-
     const sections = [
-      { id: 'earth', rotation: 98, position: { x: 0, y: 0, z: 0 } },
-      { id: 'circle', rotation: 153, position: { x: 0.3, y: 0, z: 0 } },
-      { id: 'bulb', rotation: 208, position: { x: 0.5, y: 0, z: 0 } },
-      { id: 'pin', rotation: 290, position: { x: 0.3, y: -0.1, z: 0 } },
-      { id: 'bottle', rotation: 340, position: { x: 0.5, y: -0.1, z: 0 } },
-      { id: 'flask', rotation: 380, position: { x: 0.6, y: -0.2, z: 0 } },
-      { id: 'flask1', rotation: 395, position: { x: 0.6, y: 0, z: 0 } }
+      { id: 'earth', rotation: 98, position: { x: 0, y: 0, z: 1.4 } },
+      { id: 'circle', rotation: 98, position: { x: -.2, y: 0, z: 4.2 } },
+      { id: 'bulb', rotation: 208, position: { x: -.3, y: 0, z: 8.4 } },
+      { id: 'pin', rotation: 290, position: { x: -0.6, y: -0.1, z: 12.4 } },
+      { id: 'bottle', rotation: 340, position: { x: -1.2, y: -0.1, z: 17.6 } },
+      { id: 'flask', rotation: 380, position: { x: -1.35, y: 0, z: 22.4 } },
     ];
 
     let newRotation = { ...cameraRotation, x: -90, y: 0, z: 43 };
     let newPosition = { ...groupPosn };
 
 
-    //for infinite loop
     ScrollTrigger.create({
       trigger: ".flask2Section",
       start: "20% bottom",
       end: 'top 70%',
       // markers:true,
-      onLeave: () => {
-        
-        window.scrollTo({ top: 0, behavior: "instant" });
-        SetActiveProperties(activePropertiesArray)
-      }
-    });
 
-    // console.log(ActiveProperties, ">>>")
-    sections.forEach((section) => {
+    });
+    sections.forEach((section) => {      
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: `.${section.id}Section`,
           start: 'top top',
           end: 'bottom',
           scrub: true,
-          // markers: true, 
           onEnter: () => {
             setActiveSectionId(section.id);
+            SetActiveProperties(prevProps => {
+              const newProps = [...prevProps];
+              const sectionIndex = sections.findIndex(s => s.id === section.id);
+              newProps[sectionIndex].dispersion = false;
+              return newProps;
+            });
           },
           onEnterBack: () => {
             setActiveSectionId(section.id);
+            SetActiveProperties(prevProps => {
+              const newProps = [...prevProps];
+              const sectionIndex = sections.findIndex(s => s.id === section.id);
+              const upcomingIndex = sectionIndex +1;
+              if (sectionIndex !== -1 && newProps[sectionIndex]) {
+                newProps[sectionIndex].dispersion = false;
+                console.log('ON ENTER BACK!')
+              }
+              if(upcomingIndex < newProps.length) {
+                newProps[upcomingIndex].dispersion = true;
+              }
+              return newProps;
+            });
           },
           onLeave: () => {
             setActiveSectionId(null);
@@ -96,70 +105,32 @@ export default function Home() {
       });
 
       tl.to(newRotation, {
-        z: section.rotation,
+        // z: section.rotation,
         duration: 2,
         ease: "linear",
         onUpdate: () => {
           setCameraRotation({ ...newRotation });
         },
-        onStart: () => {
-          SetActiveProperties(prevProps => {
-            const newProps = [...prevProps];
-            const sectionIndex = sections.findIndex(s => s.id === section.id);
 
-            if (showSidebar) {
-              newProps.forEach((prop, index) => {
-                if (index === sectionIndex) {
-                  newProps[index].repeal = true;
-                  newProps[index].dispersion = false;
-                } else {
-                  newProps[index].repeal = false;
-                  newProps[index].dispersion = false;
-                }
-              });
-            } else {
-
-              if (sectionIndex !== -1 && newProps[sectionIndex]) {
-                newProps[sectionIndex].repeal = true;
-                newProps[sectionIndex].dispersion = false;
-              }
-            }
-
-            return newProps;
-          });
-
-        },
-        onReverseComplete: () => {
-          setTimeout(() => {
-            SetActiveProperties(prevProps => {
-              const newProps = [...prevProps];
-              const sectionIndex = sections.findIndex(s => s.id === section.id);
-              if (sectionIndex !== -1 && newProps[sectionIndex]) {
-                newProps[sectionIndex].dispersion = false;
-                newProps[sectionIndex].repeal = false;
-              }
-              return newProps;
-            });
-          }, -150);
-
-        },
         onComplete: () => {
           setTimeout(() => {
             SetActiveProperties(prevProps => {
               const newProps = [...prevProps];
               const sectionIndex = sections.findIndex(s => s.id === section.id);
+              const upcomingIndex = sectionIndex + 1;
               if (sectionIndex !== -1 && newProps[sectionIndex]) {
                 newProps[sectionIndex].dispersion = true;
-                newProps[sectionIndex].repeal = false;
+
               }
               return newProps;
             });
           }, -1000);
         }
+
       });
       tl.to(newPosition, {
         x: section.position.x,
-        y: section.position.y,
+        // y: section.position.y,
         z: section.position.z,
         duration: 2,
         ease: "linear",
@@ -170,6 +141,7 @@ export default function Home() {
     });
   }, [showIntroBox]);
 
+  
   return (
     <>
       <WholeExperience
@@ -198,18 +170,17 @@ export default function Home() {
       {/* SCROLLABLE SECTIONS */}
       {
         !showIntroBox && <>
-          <div className="h-screen w-full earthSection ">
+
+          <div className="h-[200vh] w-full earthSection ">
             <InitialCursor />
           </div>
-          <div className="h-screen w-full circleSection" />
-          <div className="h-screen w-full bulbSection" />
-          <div className="h-screen w-full pinSection" />
-          <div className="h-screen w-full bottleSection" />
-          <div className="h-screen w-full flaskSection" />
-          <div className="h-screen w-full flask1Section" />
-          <div className="h-screen w-full flask2Section" />
-
-
+          <div className="h-[200vh] w-full circleSection" />
+          <div className="h-[200vh] w-full bulbSection" />
+          <div className="h-[200vh] w-full pinSection" />
+          <div className="h-[200vh] w-full bottleSection" />
+          <div className="h-[200vh] w-full flaskSection" />
+          <div className="h-[200vh] w-full flask1Section" />
+          <div className="h-[0vh] w-full flask2Section" />
         </>
       }
 

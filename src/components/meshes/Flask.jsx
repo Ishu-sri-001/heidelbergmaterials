@@ -25,16 +25,16 @@ export default function Flask({
   const ref = useRef();
 
   const angle = (index / total) * Math.PI * 2;
-  const radiusX = 8;
-  const radiusY = 5;
+  const radiusX = isZoomed ? 100 : -9;
+  const radiusY = isZoomed? 110 : 2.2;
   const yOffset = -2;
 
-  let x = Math.cos(angle) * radiusX;
-  let y = Math.sin(angle) * radiusY + yOffset;
+  // let x = Math.cos(angle) * radiusX;
+  // let y = Math.sin(angle) * radiusY + yOffset;
 
-  const rotation = -Math.PI / 6;
-  const rotatedX = x * Math.cos(rotation) - y * Math.sin(rotation) + 1;
-  const rotatedY = x * Math.sin(rotation) + y * Math.cos(rotation) - 1;
+  // const rotation = -Math.PI / 6;
+  // const rotatedX = x * Math.cos(rotation) - y * Math.sin(rotation) + 1;
+  // const rotatedY = x * Math.sin(rotation) + y * Math.cos(rotation) - 1;
 
   const { pointsGeo, targetPositions } = useMemo(() => {
     if (!geometry) return { pointsGeo: null, targetPositions: null };
@@ -122,7 +122,7 @@ let tiltDirZ = 1;
     <points
       ref={ref}
       geometry={pointsGeo}
-      position={[rotatedX, rotatedY, 0]}
+      position={[radiusX, radiusY, isZoomed ? -1 :0]}
       scale={[2.7, 2.7, 2.7]}
       // rotation={[0,0,-55]}
     >
