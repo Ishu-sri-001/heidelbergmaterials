@@ -20,6 +20,7 @@ export default function Chain({
   ActiveProperties,
   SetActiveProperties,
   isZoomed,
+  points,
 }) {
   const { repeal, dispersion } = ActiveProperties[3];
   const ref = useRef();
@@ -45,7 +46,7 @@ export default function Chain({
     const mesh = new THREE.Mesh(geometry);
     const sampler = new MeshSurfaceSampler(mesh).build();
 
-    const numPoints = 8000;
+    const numPoints = points;
     const positions = new Float32Array(numPoints * 3);
     const tempPosition = new THREE.Vector3();
 

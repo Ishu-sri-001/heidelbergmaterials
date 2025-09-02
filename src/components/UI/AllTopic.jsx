@@ -1,12 +1,25 @@
-import React, { useState } from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import gsap from "gsap";
 import Image from "next/image";
 import { subsectionData } from "@/app/Utils/data";
 import PlayTickSound, { PlayHoverSound } from "../Audio/SFX";
+import Lenis from "lenis";
 
 export default function AllTopic() {
   const [hasOpened, setHasOpened] = useState(false);
-  const [hasOpenedInternal, setHasOpenedInternal] = useState(false);
+  const lenis = new Lenis();
+
+  useEffect(() => {
+    if (hasOpened) {
+      lenis.stop();
+      console.log("STOP")
+    }else{
+      lenis.start();
+      console.log('START')
+    }
+  }, [hasOpened]);
+
   const [InternalData, setInternalData] = useState(null);
   const { playSoundTick } = PlayTickSound();
   const { playSoundHover } = PlayHoverSound();
@@ -95,7 +108,7 @@ export default function AllTopic() {
         data-hide-cursor
         onClick={handleOpenButton}
         onMouseEnter={playSoundHover}
-        className={`hover:scale-105 duration-500 transition-all rounded-tr-[1.5vw] max-sm:rounded-tr-[8px] cursor-pointer rounded-bl-[1.5vw] max-sm:rounded-bl-[8px] p-[1.5vw] max-sm:p-3 z-[100] absolute top-[1vw] max-sm:top-4 right-[1vw] max-sm:right-4 maz bg-teal-600/20 backdrop-blur-[10px] flex items-center gap-[.8vw] max-sm:gap-2 border-white/40 border ${
+        className={`hover:scale-105 overflow-hidden duration-500 transition-all rounded-tr-[1.5vw] max-sm:rounded-tr-[8px] cursor-pointer rounded-bl-[1.5vw] max-sm:rounded-bl-[8px] p-[1.5vw] max-sm:p-3 z-[100] absolute top-[1vw] max-sm:top-4 right-[1vw] max-sm:right-4 maz bg-teal-600/20 backdrop-blur-[10px] flex items-center gap-[.8vw] max-sm:gap-2 border-white/40 border ${
           hasOpened ? "opacity-50 cursor-not-allowed" : ""
         }`}
       >
@@ -134,7 +147,9 @@ export default function AllTopic() {
             ></circle>
           </svg>
         </span>
-        <p className="text-white text-[.8vw] max-sm:text-[12px] tracking-wide">All Topics</p>
+        <p className="text-white text-[.8vw] max-sm:text-[12px] tracking-wide">
+          All Topics
+        </p>
       </div>
 
       <div

@@ -7,28 +7,28 @@ export const activePropertiesArray = [
   {
     name: "circle",
     repeal: true,
-    dispersion: true, 
+    dispersion: false, 
 
   },
   {
     name: "bulb",
     repeal: true,
-    dispersion: true,
+    dispersion: false,
   },
   {
     name: "pin",
     repeal: true,
-    dispersion: true,
+    dispersion: false,
   },
   {
     name: "bottle",
     repeal: true,
-    dispersion: true,
+    dispersion: false,
   },
   {
     name: "flask",
     repeal: true,
-    dispersion: true,
+    dispersion: false,
   },
 ]
 

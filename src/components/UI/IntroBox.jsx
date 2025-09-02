@@ -102,19 +102,15 @@ export default function IntroBox({
 
       tl.to(".enter-container", {
         opacity: 0,
-        duration: 1,
+        duration: 2,
         onStart: () => {
-        
           SetActiveProperties((prev) =>
             prev.map((item, i) =>
               i === 0
-                ? { ...item, dispersion: false }
-                : { ...item, dispersion: false }
+                ? { ...item, dispersion: true }
+                : { ...item, dispersion: true }
             )
           );
-          document.querySelector(".enter-container").style.display = "none";
-          setShowIntroBox(false);
-          setShowSidebar(true);
         },
       });
       const position = { x: -1.0, y: -0.1, z: 2.3 };
@@ -136,17 +132,13 @@ export default function IntroBox({
           onUpdate: () => {
             setCameraRotation({ ...rotationProxy });
           },
-          onComplete: () => {
-            SetActiveProperties([
-              {
-                name: "Earth",
-                dispersion: false,
-                repeal:true,
-              },
-              ...ActiveProperties.slice(1),
-            ]);
-            // console.log(ActiveProperties)
-          },
+          // onComplete: () => {
+          //   SetActiveProperties(prevProps => {
+          //     return prevProps.map(prop =>
+          //       prop.name === "earth" ? {...prop, dispersion: true} : {...prop, dispersion:false}
+          //     );
+          //   });
+          // },
         },
         "<"
       );
@@ -162,15 +154,31 @@ export default function IntroBox({
         },
         "<"
       );
+      gsap.to(".enter-container", {
+        opacity: 0,
+        duration: 2,
+        ease:'power2.inOut',
+        onComplete: () => {
+          document.querySelector(".enter-container").style.display = "none";
+          setShowIntroBox(false);
+          setShowSidebar(true);
+          SetActiveProperties((prev) =>
+            prev.map((item, i) =>
+             item.name == 'earth'
+                ? { ...item, dispersion: true }
+                : { ...item, dispersion: true }
+            )
+          );
+        },
+
+      });
       PlaySoundBackground(setPlaySound((prev) => !prev));
     }
   };
 
-  
-
   return (
-    <>
-      <div className="p-[1vw] max-sm:p-4 enter-container bg-white h-fit absolute inset-1/2 translate-x-[-50%] translate-y-[-50%] w-[27vw] max-sm:w-[90vw] rounded-bl-[5vw] max-sm:rounded-bl-[20px]">
+    <div className="inset-0 h-screen w-full  enter-container bg-black/5 backdrop-blur-[1px] absolute">
+      <div className="p-[1vw] z-[10] max-sm:p-4 bg-white h-fit absolute inset-1/2 translate-x-[-50%] translate-y-[-50%] w-[27vw] max-sm:w-[90vw] rounded-bl-[5vw] max-sm:rounded-bl-[20px]">
         <div className="h-full flex flex-col items-center justify-center text-center gap-[.5vw] max-sm:gap-2 w-full pb-[2vw] max-sm:pb-4 text-green-800 border-zinc-200 border rounded-bl-[5vw] max-sm:rounded-bl-[20px]">
           <div className="h-[10vw] max-sm:h-[100px] min-h-[10vw] max-sm:min-h-[100px] flex border-b border-zinc-200 w-full">
             <div className="w-1/2 flex items-center justify-center h-full border-r border-zinc-200">
@@ -469,6 +477,6 @@ export default function IntroBox({
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -15,7 +15,7 @@ if (typeof window !== 'undefined') {
 }
 
 
-export default function GlobeHigh({ geometry, index, total, ActiveProperties, SetActiveProperties, isZoomed}) {
+export default function GlobeHigh({ geometry, index, total, ActiveProperties, SetActiveProperties, isZoomed, points }) {
   const {repeal, dispersion} = ActiveProperties[0]
   const ref = useRef();
   // const [animationFunctions, setAnimationFunctions] = useState(null);
@@ -43,7 +43,7 @@ export default function GlobeHigh({ geometry, index, total, ActiveProperties, Se
     const mesh = new THREE.Mesh(geometry);
     const sampler = new MeshSurfaceSampler(mesh).build();
 
-    const numPoints = 8000;
+    const numPoints = points;
     const positions = new Float32Array(numPoints * 3);
     const tempPosition = new THREE.Vector3();
 

@@ -4,7 +4,6 @@ import gsap from 'gsap'
 import WholeExperience from "@/components/WholeExperience";
 import { activePropertiesArray } from "./Utils/data";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
-import { OnReloadScrollTop } from "@/components/UI/OnReloadScrollTop";
 import InitialCursor from "@/components/UI/InitialCursor";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -13,7 +12,7 @@ export default function Home() {
 
   const [showIntroBox, setShowIntroBox] = useState(true);
   const [showSidebar, setShowSidebar] = useState(false);
-  OnReloadScrollTop()
+  const [ModelFade, SetModelFade] = useState(false)
   const [cameraPos, setCameraPos] = useState({
     x: 0,
     y: -0.1, 
@@ -40,21 +39,21 @@ export default function Home() {
 
   const [ActiveProperties, SetActiveProperties] = useState(activePropertiesArray)
 
-  const [activeSectionId, setActiveSectionId] = useState(null);
+  const [activeSectionId, setActiveSectionId] = useState('earth');
 
   useEffect(() => {
+    
     const sections = [
-      { id: 'earth', rotation: 98, position: { x: 0, y: 0, z: 1.4 } },
+      { id: 'earth', rotation: 98, position: { x: 0, y: 0, z: 1.35 } },
       { id: 'circle', rotation: 98, position: { x: -.0, y: 0, z: 4.2 } },
       { id: 'bulb', rotation: 208, position: { x: -0, y: 0, z: 8.4 } },
       { id: 'pin', rotation: 290, position: { x: -0.2, y: -0.1, z: 12.4 } },
       { id: 'bottle', rotation: 340, position: { x: -0.5, y: -0.1, z: 17.6 } },
-      { id: 'flask', rotation: 380, position: { x: -0.6, y: 0, z: 22.8 } },
+      { id: 'flask', rotation: 380, position: { x: -0.6, y: 0, z: 22.1 } },
     ];
 
     let newRotation = { ...cameraRotation, x: -90, y: 0, z: 45 };
     let newPosition = { ...groupPosn };
-
 
     ScrollTrigger.create({
       trigger: ".flask2Section",
@@ -117,7 +116,6 @@ export default function Home() {
             SetActiveProperties(prevProps => {
               const newProps = [...prevProps];
               const sectionIndex = sections.findIndex(s => s.id === section.id);
-              const upcomingIndex = sectionIndex + 1;
               if (sectionIndex !== -1 && newProps[sectionIndex]) {
                 newProps[sectionIndex].dispersion = true;
 
@@ -141,10 +139,26 @@ export default function Home() {
     });
   }, [showIntroBox]);
 
+  useEffect(() => {
+    if(!showIntroBox){
+      setTimeout(() => {
+        SetActiveProperties(prev => {
+          return prev.map(item => 
+            item.name === 'earth' ? {...item, dispersion: false} : item
+          )
+        })
+      },800)
+    }
+  
+  }, [showIntroBox])
+  
+
   
   return (
     <>
       <WholeExperience
+      ModelFade = {ModelFade}
+      SetModelFade={SetModelFade}
         cameraPos={cameraPos}
         setCameraPos={setCameraPos}
         cameraRotation={cameraRotation}

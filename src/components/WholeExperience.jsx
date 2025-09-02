@@ -6,6 +6,8 @@ import AllTopic from "./UI/AllTopic";
 
 export default function WholeExperience(props) {
   const {
+    ModelFade,
+    SetModelFade,
     cameraPos,
     setCameraPos,
     cameraRotation,
@@ -45,6 +47,8 @@ export default function WholeExperience(props) {
 
       {showIntroBox && (
         <IntroBox
+          ModelFade={ModelFade}
+          SetModelFade={SetModelFade}
           groupRotation={groupRotation}
           setGroupRotation={setGroupRotation}
           setCameraRotation={setCameraRotation}

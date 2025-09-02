@@ -13,7 +13,7 @@ if (typeof window !== 'undefined') {
   circleTexture = new THREE.TextureLoader().load("/assets/circlee.jpg");
 }
 
-export default function LightTube({ geometry, index, total, ActiveProperties, SetActiveProperties, isZoomed }) {
+export default function LightTube({ geometry, index, total, ActiveProperties, SetActiveProperties, isZoomed, points }) {
 
    const {repeal, dispersion} = ActiveProperties[2] || { repeal: false, dispersion: false };
   const ref = useRef();
@@ -39,7 +39,7 @@ export default function LightTube({ geometry, index, total, ActiveProperties, Se
         const mesh = new THREE.Mesh(geometry);
         const sampler = new MeshSurfaceSampler(mesh).build();
     
-        const numPoints = 8000;
+        const numPoints = points;
         const positions = new Float32Array(numPoints * 3);
         const tempPosition = new THREE.Vector3();
     
