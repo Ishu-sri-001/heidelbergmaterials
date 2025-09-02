@@ -177,7 +177,7 @@ export default function IntroBox({
   };
 
   return (
-    <div className="inset-0 h-screen w-full  enter-container bg-black/5 backdrop-blur-[1px] absolute">
+    <div className="inset-0 h-screen w-full  enter-container absolute">
       <div className="p-[1vw] z-[10] max-sm:p-4 bg-white h-fit absolute inset-1/2 translate-x-[-50%] translate-y-[-50%] w-[27vw] max-sm:w-[90vw] rounded-bl-[5vw] max-sm:rounded-bl-[20px]">
         <div className="h-full flex flex-col items-center justify-center text-center gap-[.5vw] max-sm:gap-2 w-full pb-[2vw] max-sm:pb-4 text-green-800 border-zinc-200 border rounded-bl-[5vw] max-sm:rounded-bl-[20px]">
           <div className="h-[10vw] max-sm:h-[100px] min-h-[10vw] max-sm:min-h-[100px] flex border-b border-zinc-200 w-full">

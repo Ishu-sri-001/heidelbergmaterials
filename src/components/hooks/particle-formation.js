@@ -1,10 +1,11 @@
 import { gsap } from "gsap";
 import * as THREE from "three";
 import { useEffect, useRef, useCallback } from "react";
+import { useLenis } from 'lenis/react'
 
 export function useParticleFormation(pointsRef, targetPositions, options = {}, dispersion) {
 
- 
+  const lenis = useLenis()
   // Store the previous dispersion state and animation state
   const prevDispersionRef = useRef(dispersion);
   const isAnimatingRef = useRef(false);
@@ -21,6 +22,7 @@ export function useParticleFormation(pointsRef, targetPositions, options = {}, d
     gsap.killTweensOf(pointsRef.current.material);
     
     isAnimatingRef.current = true;
+    lenis?.stop()
     const positions = pointsRef.current.geometry.attributes.position.array;
     const material = pointsRef.current.material;
 
@@ -55,6 +57,7 @@ export function useParticleFormation(pointsRef, targetPositions, options = {}, d
       onComplete: () => {
         isAnimatingRef.current = false;
         timelineRef.current = null;
+        lenis?.start()
       }
     });
 
@@ -87,7 +90,7 @@ export function useParticleFormation(pointsRef, targetPositions, options = {}, d
     }, 0); // Start at the same time as position animation
 
     timelineRef.current = tl;
-  }, [targetPositions]);
+  }, [targetPositions, lenis]);
 
   const disperseParticles = useCallback(() => {
     if (!pointsRef.current) return;
@@ -100,6 +103,7 @@ export function useParticleFormation(pointsRef, targetPositions, options = {}, d
     gsap.killTweensOf(pointsRef.current.material);
     
     isAnimatingRef.current = true;
+    lenis?.stop()
     const positions = pointsRef.current.geometry.attributes.position.array;
     const material = pointsRef.current.material;
 
@@ -131,7 +135,7 @@ export function useParticleFormation(pointsRef, targetPositions, options = {}, d
       onComplete: () => {
         isAnimatingRef.current = false;
         timelineRef.current = null;
-       
+        lenis?.start()
       }
     });
 
@@ -163,7 +167,7 @@ export function useParticleFormation(pointsRef, targetPositions, options = {}, d
     }, 0); // Start at the same time as position animation
 
     timelineRef.current = tl;
-  }, []);
+  }, [lenis]);
 
   useEffect(() => {
 

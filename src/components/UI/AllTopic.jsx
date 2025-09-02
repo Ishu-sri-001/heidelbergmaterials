@@ -4,11 +4,11 @@ import gsap from "gsap";
 import Image from "next/image";
 import { subsectionData } from "@/app/Utils/data";
 import PlayTickSound, { PlayHoverSound } from "../Audio/SFX";
-import Lenis from "lenis";
+import { useLenis } from "lenis/react";
 
 export default function AllTopic() {
   const [hasOpened, setHasOpened] = useState(false);
-  const lenis = new Lenis();
+  const lenis = useLenis()
 
   useEffect(() => {
     if (hasOpened) {
@@ -18,7 +18,7 @@ export default function AllTopic() {
       lenis.start();
       console.log('START')
     }
-  }, [hasOpened]);
+  }, [hasOpened, lenis]);
 
   const [InternalData, setInternalData] = useState(null);
   const { playSoundTick } = PlayTickSound();

@@ -49,7 +49,6 @@ function Scene({
       >
         <planeGeometry args={[2.5, 35, 100]} />
         <meshBasicMaterial
-          side={DoubleSide}
           color={"#fff"}
           opacity={0.0005}
           transparent={true}
@@ -94,10 +93,11 @@ export default function ModelViewer({
             groupPosn={groupPosn}
             setGroupPosn={setGroupPosn}
           />
-          <EffectComposer>
+          <EffectComposer multisampling={0}>
             {/* {
               lightRef.current &&
               <GodRays
+
                 sun={lightRef.current}
                 blendFunction={BlendFunction.LINEAR_DODGE}
                 samples={50}
@@ -118,8 +118,8 @@ export default function ModelViewer({
               focalLength={0.5} // lens focal length
               bokehScale={1} // intensity of blur
               height={480} // resolution
-            />
-            <Bloom /> */}
+            /> */}
+            {/* <Bloom /> */}
           </EffectComposer>
         </Suspense>
       </Canvas>
