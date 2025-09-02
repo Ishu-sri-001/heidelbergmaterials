@@ -119,7 +119,7 @@ export default function Bottle({
       >
         <pointsMaterial
           color="white"
-          size={0.008}
+          size={0.005}
           sizeAttenuation
           transparent
           alphaTest={0.5}
@@ -127,8 +127,8 @@ export default function Bottle({
           alphaMap={circleTexture}
         />
       </points>
-      {/* <mesh geometry={nodes.Icon.geometry} material={nodes.Icon.material} position={[-7, -5, -1.2]} rotation={[ degToRad(90),degToRad(60), 0]} scale={0.02}>
-      </mesh> */}
+     
     </group>
   );
 }
+  

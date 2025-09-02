@@ -3,12 +3,11 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import PlayTickSound, {
   PlayHoverSound,
+  PlayScrollSound,
   useBackgroundAudio,
 } from "../Audio/SFX";
 import gsap from "gsap";
-
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
-
 gsap.registerPlugin(ScrollToPlugin);
 
 const Sidebar = ({
@@ -17,10 +16,6 @@ const Sidebar = ({
   playSound,
   setActiveSectionId,
 }) => {
-  useEffect(() => {
-    console.log(activeSectionId, "LOG");
-  }, [activeSectionId]);
-
   const { PlaySoundBackground } = useBackgroundAudio();
   const { playSoundHover } = PlayHoverSound();
   const { playSoundTick } = PlayTickSound();
@@ -75,7 +70,7 @@ const Sidebar = ({
         ease: "power2.out",
         scrollTo: {
           y: target,
-          offsetY:-800,
+          offsetY: -800,
         },
       });
 
@@ -90,6 +85,13 @@ const Sidebar = ({
       PlaySoundBackground(false);
     }
   }, [playSound]);
+
+  const { PlayScroll } = PlayScrollSound();
+
+  useEffect(() => {
+    // PlayScroll();
+    playSoundTick();
+  }, [activeSectionId]);
 
   return (
     <>
@@ -171,6 +173,7 @@ const Sidebar = ({
 export default Sidebar;
 
 const NavBar = ({ playSound, activeSectionId }) => {
+  const [navData, setNavData] = useState("Capture Techlologies Labs");
   const [navLimit, setNavLimit] = useState(false);
   const OpenNavBarAnimation = () => {
     if (navLimit) return;
@@ -218,8 +221,9 @@ const NavBar = ({ playSound, activeSectionId }) => {
   };
 
   useEffect(() => {
+    OpenNavBarAnimation();
+    setNavData(activeSectionId);
     setNavLimit(true);
-      OpenNavBarAnimation();
   }, [activeSectionId]);
 
   return (
@@ -235,7 +239,13 @@ const NavBar = ({ playSound, activeSectionId }) => {
         </div>
         <p className="text-[.9vw] max-sm:text-sm NavBar-text w-fit text-zinc-700 font-display">
           <span className="pr-[1vw] max-sm:pr-[1vw]">
-            Capture Techlologies Labs
+            {navData ? (
+              <>  
+              This is {navData} section
+              </>
+            ) : (
+              "KEEP SCROLLING"
+            )}
           </span>
         </p>
       </div>

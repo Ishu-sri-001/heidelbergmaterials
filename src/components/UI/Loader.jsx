@@ -83,11 +83,10 @@ export default function Loader() {
       });
 
     //Animation Sequence for box border coloros
-
     tl.to(
       boxRefs.box3.current,
       {
-        borderColor: "rgba(144, 238, 144, 0.6)", // rgba(144, 238, 144, 0.7) with opacity
+        borderColor: "rgba(144, 238, 144, 0.6)",
         borderWidth: "1px",
         duration: 0.5,
         delay: -0.5,
@@ -150,25 +149,23 @@ export default function Loader() {
 
   // Common CSS classes
   const boxCommonClasses =
-    "h-[60vh] max-sm:h-[40vh] w-[30vw] max-sm:w-[80vw] aspect-square rounded-bl-[20%] rounded-tr-[20%] border-zinc-200 border";
-  const imageCommonClasses =
-    "absolute inset-1/2 translate-y-[-50%] object-contain";
+    "h-[60vh] sm:h-[60vh] w-[80vw] sm:w-[30vw] aspect-square rounded-bl-[10%] sm:rounded-bl-[20%] rounded-tr-[10%] sm:rounded-tr-[20%] border-zinc-200 border";
 
   return (
-    <div className="h-screen loaderContainer w-full fixed flex items-center justify-center z-[999]  bg-[#F1F1F1]">
+    <div className="h-screen loaderContainer w-full fixed flex items-center justify-center z-[999] bg-[#F1F1F1]">
       <div
         ref={boxRefs.box1}
-        className={`${boxCommonClasses} scale-280 flex items-center justify-center`}
+        className={`${boxCommonClasses} scale-150 sm:scale-280 flex items-center justify-center`}
       >
         <div ref={boxRefs.box2} className={`${boxCommonClasses} scale-70`}>
           <div ref={boxRefs.box3} className={`${boxCommonClasses} scale-60`}>
             <div
               ref={boxRefs.box4}
-              className={`${boxCommonClasses} scale-50 flex items-center justify-center relative gap-[1vw] max-sm:gap-[3vw] border-[2px]`}
+              className={`${boxCommonClasses} scale-50 flex items-center justify-center relative gap-[3vw] sm:gap-[1vw] border-[2px]`}
             >
               <div
                 ref={logoRefs.logo}
-                className="absolute  z-[100] rounded-tr-[1vw] rounded-bl-[1vw] translate-x-[-100%]  opacity-0 h-[5vw] w-[5vw]"
+                className="absolute z-[100] rounded-tr-[3vw] sm:rounded-tr-[1vw] rounded-bl-[3vw] sm:rounded-bl-[1vw] translate-x-[-100%] opacity-0 h-[15vw] sm:h-[5vw] w-[15vw] sm:w-[5vw]"
               >
                 <svg
                   id="logo"
@@ -176,7 +173,7 @@ export default function Loader() {
                   height="57"
                   fill="none"
                   viewBox="0 0 59 57"
-                  className="h-[5vw] p-[.5vw] w-[5vw] "
+                  className="h-[15vw] sm:h-[5vw] p-[1.5vw] sm:p-[.5vw] w-[15vw] sm:w-[5vw]"
                 >
                   <defs>
                     <mask id="logoMask">
@@ -209,14 +206,14 @@ export default function Loader() {
                   </g>
                 </svg>
               </div>
-              <div className="w-[10vw] max-sm:w-[25vw] relative h-full">
+              <div className="w-[25vw] sm:w-[10vw] relative h-full">
                 <Image
                   ref={logoRefs.text}
                   src="/assets/svg/textLogo.svg"
                   height={100}
                   width={150}
                   alt="Logo Text"
-                  className={`${imageCommonClasses} h-auto w-full translate-x-[-20%] opacity-0`}
+                  className="absolute inset-1/2 translate-y-[-50%] object-contain h-auto w-full translate-x-[-20%] opacity-0"
                   priority
                 />
               </div>

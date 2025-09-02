@@ -90,3 +90,31 @@ export default function PlayTickSound() {
 
     return { playSoundTick };
 }
+export function PlayScrollSound() {
+    const audioRef = useRef(null);
+
+    useEffect(() => {
+        audioRef.current = new Audio("/sound/scroll.mp3");
+    }, []);
+
+
+
+    const PlayScroll = () => {
+        try {
+            if (audioRef.current) {
+                audioRef.current.currentTime = 0;
+                const playPromise = audioRef.current.play();
+                audioRef.current.volume = .2;
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log("Audio playback failed:", error);
+                    });
+                }
+            }
+        } catch (err) {
+            console.log("Error playing audio:", err);
+        }
+    };
+
+    return { PlayScroll };
+}

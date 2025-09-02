@@ -8,7 +8,15 @@ import { useLenis } from "lenis/react";
 
 export default function AllTopic() {
   const [hasOpened, setHasOpened] = useState(false);
+  const [hasOpenedInternal, setHasOpenedInternal] = useState(false);
   const lenis = useLenis()
+
+ 
+
+  const [InternalData, setInternalData] = useState(null);
+  const { playSoundTick } = PlayTickSound();
+  const { playSoundHover } = PlayHoverSound();
+  
 
   useEffect(() => {
     if (hasOpened) {
@@ -19,10 +27,6 @@ export default function AllTopic() {
       console.log('START')
     }
   }, [hasOpened, lenis]);
-
-  const [InternalData, setInternalData] = useState(null);
-  const { playSoundTick } = PlayTickSound();
-  const { playSoundHover } = PlayHoverSound();
 
   const handleOpenButton = () => {
     if (hasOpened) return;
@@ -227,6 +231,7 @@ export default function AllTopic() {
       </div>
       <MenuSubSection
         InternalData={InternalData}
+        playSoundHover={playSoundHover}
         subsectionData={subsectionData}
         handleCloseButton={handleInternalCloseButton}
       />
@@ -234,7 +239,7 @@ export default function AllTopic() {
   );
 }
 
-function MenuSubSection({ handleCloseButton, InternalData, subsectionData }) {
+function MenuSubSection({ handleCloseButton, playSoundHover, InternalData, subsectionData }) {
   return (
     <>
       <div

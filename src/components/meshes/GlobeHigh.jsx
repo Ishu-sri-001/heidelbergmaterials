@@ -112,7 +112,7 @@ useFrame(() => {
     >
       <pointsMaterial
         color="white"
-        size={0.008}
+        size={0.005}
         sizeAttenuation
         transparent
         alphaTest={0.5}
