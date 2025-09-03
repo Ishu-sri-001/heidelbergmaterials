@@ -15,7 +15,7 @@ if (typeof window !== 'undefined') {
 
 export default function LightTube({ geometry, index, total, ActiveProperties, SetActiveProperties, isZoomed, points }) {
 
-   const {repeal, dispersion} = ActiveProperties[2] || { repeal: false, dispersion: false };
+   const {repeal, dispersion} = ActiveProperties[2];
   const ref = useRef();
   
   const angle = (index / total) * Math.PI * 2;

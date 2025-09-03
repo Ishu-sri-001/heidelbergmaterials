@@ -128,7 +128,6 @@ export default function Home() {
       });
       tl.to(newPosition, {
         x: section.position.x,
-        // y: section.position.y,
         z: section.position.z,
         duration: 2,
         ease: "linear",

@@ -70,6 +70,8 @@ export default function WholeExperience(props) {
           setPlaySound={setPlaySound}
           activeSectionId={activeSectionId}
           setActiveSectionId={setActiveSectionId}
+          ActiveProperties={ActiveProperties}
+          SetActiveProperties={SetActiveProperties}
         />
       )}
       {showSidebar && <AllTopic />}

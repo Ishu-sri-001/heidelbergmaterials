@@ -15,6 +15,9 @@ const Sidebar = ({
   setPlaySound,
   playSound,
   setActiveSectionId,
+  SetActiveProperties,
+  ActiveProperties,
+  set
 }) => {
   const { PlaySoundBackground } = useBackgroundAudio();
   const { playSoundHover } = PlayHoverSound();
@@ -66,12 +69,17 @@ const Sidebar = ({
       const isScrollingDown = targetY > currentY;
 
       gsap.to(window, {
-        duration: 1.5,
-        ease: "power2.out",
+        duration: 3,
+        ease: "linear",
         scrollTo: {
           y: target,
           offsetY: -800,
         },
+        onComplete: () => {
+          SetActiveProperties(prev => {
+           console.log(prev)
+          });
+        }
       });
 
       setActiveSectionId(id);
