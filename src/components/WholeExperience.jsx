@@ -31,6 +31,7 @@ export default function WholeExperience(props) {
   return (
     <div className="fixed inset-0 z-[100]">
       <ModelViewer
+      
         cameraPos={cameraPos}
         setCameraPos={setCameraPos}
         cameraRotation={cameraRotation}

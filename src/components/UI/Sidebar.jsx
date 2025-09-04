@@ -69,17 +69,17 @@ const Sidebar = ({
       const isScrollingDown = targetY > currentY;
 
       gsap.to(window, {
-        duration: 3,
+        duration: 5,
         ease: "linear",
         scrollTo: {
           y: target,
           offsetY: -800,
         },
-        onComplete: () => {
-          SetActiveProperties(prev => {
-           console.log(prev)
-          });
-        }
+        // onComplete: () => {
+        //   SetActiveProperties(prev => {
+        //    console.log(prev)
+        //   });
+        // }
       });
 
       setActiveSectionId(id);

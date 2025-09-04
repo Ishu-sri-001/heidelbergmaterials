@@ -16,7 +16,7 @@ if (typeof window !== 'undefined') {
 
 
 export default function GlobeHigh({ geometry, index, total, ActiveProperties, SetActiveProperties, isZoomed, points }) {
-  const {repeal, dispersion} = ActiveProperties[0]
+  const {repeal, dispersion} = ActiveProperties?.[0];
   const ref = useRef();
   // const [animationFunctions, setAnimationFunctions] = useState(null);
   

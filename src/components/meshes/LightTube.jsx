@@ -15,14 +15,15 @@ if (typeof window !== 'undefined') {
 
 export default function LightTube({ geometry, index, total, ActiveProperties, SetActiveProperties, isZoomed, points }) {
 
-   const {repeal, dispersion} = ActiveProperties[2];
+
+   const {repeal, dispersion} = ActiveProperties?.[2];
   const ref = useRef();
   
   const angle = (index / total) * Math.PI * 2;
   const radiusX = isZoomed ? 35 : 7; 
   const radiusY = isZoomed  ?  50 : -5; 
 
-    const yOffset = -2;   // move oval down a bit
+    const yOffset = -2;
 
   // // base oval position
   // let x = Math.cos(angle) * radiusX;

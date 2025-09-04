@@ -30,7 +30,7 @@ function Scene({
 
   return (
     <>
-      <BGParticles />
+      <BGParticles isZoomed={isZoomed} />
       <ambientLight intensity={0.8} />
       <directionalLight position={[5, 10, 5]} />
       <ModelsCircle

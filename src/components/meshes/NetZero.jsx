@@ -15,7 +15,7 @@ if (typeof window !== 'undefined') {
 
 export default function NetZero({ geometry, index, total, ActiveProperties, SetActiveProperties, isZoomed, points }) {
 
-   const {repeal, dispersion} = ActiveProperties[1]
+   const {repeal, dispersion} = ActiveProperties?.[1];
   const ref = useRef();
 
   const angle = (index / total) * Math.PI * 2;

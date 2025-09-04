@@ -44,7 +44,7 @@ export default function Home() {
   useEffect(() => {
     
     const sections = [
-      { id: 'earth', rotation: 98, position: { x: 0, y: 0, z: 1.35 } },
+      { id: 'earth', rotation: 98, position: { x: 0, y: 0, z: 1. } },
       { id: 'circle', rotation: 98, position: { x: -.0, y: 0, z: 4.2 } },
       { id: 'bulb', rotation: 208, position: { x: -0, y: 0, z: 8.4 } },
       { id: 'pin', rotation: 290, position: { x: -0.2, y: -0.1, z: 12.4 } },
@@ -110,7 +110,7 @@ export default function Home() {
         onUpdate: () => {
           setCameraRotation({ ...newRotation });
         },
-
+        
         onComplete: () => {
           setTimeout(() => {
             SetActiveProperties(prevProps => {

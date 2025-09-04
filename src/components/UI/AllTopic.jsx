@@ -45,6 +45,9 @@ export default function AllTopic() {
       duration: 1,
       delay: -1,
       ease: "power2.inOut",
+      onUpdate:()=>{
+        document.querySelector('.buttondiv').style.visibility = 'visible';
+      }
     });
   };
 
@@ -56,6 +59,9 @@ export default function AllTopic() {
       opacity: 0,
       duration: 1,
       ease: "power2.inOut",
+      onComplete:()=>{
+        document.querySelector('.buttondiv').style.visibility = 'hidden';
+      }
     });
     tl.to(".sliderAllTopic", {
       x: "115%",
@@ -84,6 +90,9 @@ export default function AllTopic() {
       duration: 1,
       delay: -1,
       ease: "power2.inOut",
+      onUpdate:()=>{
+        document.querySelector('.buttondivInternal').style.visibility = 'visible';
+      }
     });
   };
 
@@ -97,6 +106,9 @@ export default function AllTopic() {
       opacity: 0,
       duration: 1,
       ease: "power2.inOut",
+      onComplete:()=>{
+        document.querySelector('.buttondivInternal').style.visibility = 'hidden';
+      }
     });
     tl.to(".sliderAllTopicInternal", {
       x: "115%",
